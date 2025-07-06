@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Bigfoot Challenge</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .result { margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Test Bigfoot Challenge</h1>
+    
+    <form id="testForm">
+      <div class="form-group">
+        <label for="teamName">Nom de l'Equip:</label>
+        <input type="text" id="teamName" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="teamCategory">Categoria:</label>
+        <select id="teamCategory" required>
+          <option value="">Selecciona categoria</option>
+          <option>1 pax (Run + Bike)</option>
+          <option>2 pax (Run + Bike)</option>
+          <option>3 pax (Run)</option>
+          <option>4 pax (Run)</option>
+          <option>5 pax (Run)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Telèfon:</label>
+        <input type="tel" id="phone" required placeholder="+34...">
+      </div>
+      
+      <button type="submit">Registrar Equip</button>
+    </form>
+    
+    <div class="result">
+      <h3>Equips Registrats:</h3>
+      <div id="teamsList"></div>
+    </div>
+    
+    <div class="result">
+      <h3>LocalStorage:</h3>
+      <pre id="localStorageContent"></pre>
+    </div>
+  </div>
+
+  <script>
+    const TEAMS_KEY = 'bigfoot_teams';
+    
+    document.getElementById('testForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const teamName = document.getElementById('teamName').value.trim();
+      const teamCategory = document.getElementById('teamCategory').value;
+      const phone = document.getElementById('phone').value.trim();
+      
+      if (!teamName || !teamCategory || !phone) {
+        alert('Si us plau completa tots els camps');
+        return;
+      }
+      
+      // Crear nuevo equipo
+      const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
+      const newTeam = {
+        id: Date.now(),
+        name: teamName,
+        category: teamCategory,
+        phones: [phone]
+      };
+      
+      teams.push(newTeam);
+      localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));
+      
+      console.log('Equipo guardado:', newTeam);
+      alert('Equip registrat amb èxit!');
+      
+      // Limpiar formulario
+      document.getElementById('testForm').reset();
+      
+      // Actualizar vista
+      updateTeamsList();
+      updateLocalStorageView();
+    });
+    
+    function updateTeamsList() {
+      const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
+      const container = document.getElementById('teamsList');
+      
+      if (teams.length === 0) {
+        container.innerHTML = '<p>No hi ha equips registrats</p>';
+      } else {
+        container.innerHTML = teams.map(team => 
+          `<div><strong>${team.name}</strong> - ${team.category} - ${team.phones.join(', ')}</div>`
+        ).join('');
+      }
+    }
+    
+    function updateLocalStorageView() {
+      const content = localStorage.getItem(TEAMS_KEY);
+      document.getElementById('localStorageContent').textContent = content || 'No hay datos';
+    }
+    
+    // Inicializar vista
+    updateTeamsList();
+    updateLocalStorageView();
+  </script>
+</body>
+</html> 
