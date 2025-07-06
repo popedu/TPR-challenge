@@ -10,6 +10,9 @@ const TARGET_KM = 200 * 1.60934; // 321.868 km
 let charts = {};
 let currentLanguage = 'ca';
 
+// Variable global per controlar si l'admin està loguejat
+let isAdminLogged = false;
+
 // Datos de ejemplo para empezar
 const initialTeams = [
   { id: 1, name: 'Equip Alpha', category: '1 pax (Run + Bike)', phones: ['+34 600 123 456'] },
@@ -44,7 +47,7 @@ const translations = {
     distance: 'Distància',
     kilometers: 'Km',
     miles: 'Milles',
-    registerTeamAndJoin: 'Registrar Equip i Unir-se al Grup',
+    registerTeamAndJoin: 'Registrar Equip',
     registerDistance: 'Registrar Distància',
     challengeResults: 'Resultats del Repte',
     teams: 'Equips',
@@ -64,7 +67,7 @@ const translations = {
     joinChallenge: 'Uneix-te al repte Bigfoot 200 Challenge registrant el teu equip',
     registerProgress: 'Registra el teu progrés diari al Bigfoot 200 Challenge',
     viewProgress: 'Visualitza el progrés de tots els equips al Bigfoot 200 Challenge',
-    teamRegisteredSuccess: 'Equip registrat amb èxit! Rebràs l\'enllaç del grup de WhatsApp.',
+    teamRegisteredSuccess: 'Equip registrat amb èxit!',
     distanceRegisteredSuccess: 'Distància registrada amb èxit!',
     whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del Bigfoot 200 Challenge on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
@@ -89,7 +92,7 @@ const translations = {
     whatsappGroupBenefit2: "Veure les actualitzacions d'altres participants",
     whatsappGroupBenefit3: "Rebre motivació i consells",
     whatsappGroupBenefit4: "Participar en la comunitat del repte",
-    registerTeamButton: "Registrar Equip i Unir-se al Grup",
+    registerTeamButton: "Registrar Equip",
     totalTeamsLabel: "Equips",
     totalDistanceLabel: "km totals",
     totalDistanceMiLabel: "milles totals",
@@ -97,7 +100,28 @@ const translations = {
     registerProgressText: "Registra el teu progrés diari al Bigfoot 200 Challenge",
     viewProgressText: "Visualitza el progrés de tots els equips al Bigfoot 200 Challenge",
     resultsTitle: "Resultats del Repte",
-    registerDistanceTitle: "Registrar Distància"
+    registerDistanceTitle: "Registrar Distància",
+    adminTitle: "Administració",
+    adminSubtitle: "Gestió d'equips i dades del repte",
+    adminLoginTitle: "Accés d'Administrador",
+    adminPasswordPlaceholder: "Contrasenya d'administrador",
+    adminLoginButton: "Entrar",
+    adminPanelTitle: "Panel d'Administració",
+    adminLogoutButton: "Sortir",
+    adminTotalTeams: "Total Equips",
+    adminTotalRegistrations: "Total Registres",
+    adminTotalDistance: "Total Distància",
+    adminTeamsListTitle: "Equips Registrats",
+    adminDeleteButton: "Eliminar",
+    adminExportButton: "Exportar Dades",
+    adminResetButton: "Resetejar Tot",
+    adminWrongPassword: "Contrasenya incorrecta",
+    adminTeamDeleted: "Equip eliminat correctament",
+    adminDataExported: "Dades exportades correctament",
+    adminDataReset: "Totes les dades han estat eliminades",
+    adminConfirmDelete: "Estàs segur que vols eliminar aquest equip? Això també eliminarà tots els seus registres.",
+    adminConfirmReset: "ATENCIÓ: Això eliminarà TOTS els equips i registres. No es pot desfer. Estàs segur?",
+    teamNameExists: "Ja existeix un equip amb aquest nom. Si us plau, tria un altre nom."
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -111,7 +135,7 @@ const translations = {
     distance: 'Distancia',
     kilometers: 'Km',
     miles: 'Millas',
-    registerTeamAndJoin: 'Registrar Equipo y Unirse al Grupo',
+    registerTeamAndJoin: 'Registrar Equipo',
     registerDistance: 'Registrar Distancia',
     challengeResults: 'Resultados del Reto',
     teams: 'Equipos',
@@ -131,7 +155,7 @@ const translations = {
     joinChallenge: 'Únete al reto Bigfoot 200 Challenge registrando tu equipo',
     registerProgress: 'Registra tu progreso diario al Bigfoot 200 Challenge',
     viewProgress: 'Visualiza el progreso de todos los equipos al Bigfoot 200 Challenge',
-    teamRegisteredSuccess: '¡Equipo registrado con éxito! Recibirás el enlace del grupo de WhatsApp.',
+    teamRegisteredSuccess: '¡Equipo registrado con éxito!',
     distanceRegisteredSuccess: '¡Distancia registrada con éxito!',
     whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del Bigfoot 200 Challenge donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
@@ -156,7 +180,7 @@ const translations = {
     whatsappGroupBenefit2: "Ver las actualizaciones de otros participantes",
     whatsappGroupBenefit3: "Recibir motivación y consejos",
     whatsappGroupBenefit4: "Participar en la comunidad del reto",
-    registerTeamButton: "Registrar Equipo y Unirse al Grupo",
+    registerTeamButton: "Registrar Equipo",
     totalTeamsLabel: "Equipos",
     totalDistanceLabel: "km totales",
     totalDistanceMiLabel: "millas totales",
@@ -164,7 +188,28 @@ const translations = {
     registerProgressText: "Registra tu progreso diario al Bigfoot 200 Challenge",
     viewProgressText: "Visualiza el progreso de todos los equipos al Bigfoot 200 Challenge",
     resultsTitle: "Resultados del Reto",
-    registerDistanceTitle: "Registrar Distancia"
+    registerDistanceTitle: "Registrar Distancia",
+    adminTitle: "Administración",
+    adminSubtitle: "Gestión de equipos y datos del reto",
+    adminLoginTitle: "Acceso de Administrador",
+    adminPasswordPlaceholder: "Contraseña de administrador",
+    adminLoginButton: "Entrar",
+    adminPanelTitle: "Panel de Administración",
+    adminLogoutButton: "Salir",
+    adminTotalTeams: "Total Equipos",
+    adminTotalRegistrations: "Total Registros",
+    adminTotalDistance: "Total Distancia",
+    adminTeamsListTitle: "Equipos Registrados",
+    adminDeleteButton: "Eliminar",
+    adminExportButton: "Exportar Datos",
+    adminResetButton: "Resetejar Tot",
+    adminWrongPassword: "Contraseña incorrecta",
+    adminTeamDeleted: "Equipo eliminado correctamente",
+    adminDataExported: "Datos exportados correctamente",
+    adminDataReset: "Todos los datos han sido eliminados",
+    adminConfirmDelete: "¿Estás seguro que quieres eliminar este equipo? Esto también eliminará todos sus registros.",
+    adminConfirmReset: "ATENCIÓN: Esto eliminará TODOS los equipos y registros. No se puede deshacer. ¿Estás seguro?",
+    teamNameExists: "Ya existe un equipo con este nombre. Por favor, elige otro nombre."
   },
   en: {
     registerTeam: 'Register Team',
@@ -178,7 +223,7 @@ const translations = {
     distance: 'Distance',
     kilometers: 'Km',
     miles: 'Miles',
-    registerTeamAndJoin: 'Register Team and Join Group',
+    registerTeamAndJoin: 'Register Team',
     registerDistance: 'Register Distance',
     challengeResults: 'Challenge Results',
     teams: 'Teams',
@@ -198,7 +243,7 @@ const translations = {
     joinChallenge: 'Join the Bigfoot 200 Challenge by registering your team',
     registerProgress: 'Register your daily progress to the Bigfoot 200 Challenge',
     viewProgress: 'View the progress of all teams in the Bigfoot 200 Challenge',
-    teamRegisteredSuccess: 'Team registered successfully! You will receive the WhatsApp group link.',
+    teamRegisteredSuccess: 'Team registered successfully!',
     distanceRegisteredSuccess: 'Distance registered successfully!',
     whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of the Bigfoot 200 Challenge where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
@@ -223,7 +268,7 @@ const translations = {
     whatsappGroupBenefit2: "See updates from other participants",
     whatsappGroupBenefit3: "Get motivation and tips",
     whatsappGroupBenefit4: "Participate in the challenge community",
-    registerTeamButton: "Register Team and Join Group",
+    registerTeamButton: "Register Team",
     totalTeamsLabel: "Teams",
     totalDistanceLabel: "Total km",
     totalDistanceMiLabel: "Total miles",
@@ -231,7 +276,28 @@ const translations = {
     registerProgressText: "Register your daily progress to the Bigfoot 200 Challenge",
     viewProgressText: "View the progress of all teams in the Bigfoot 200 Challenge",
     resultsTitle: "Challenge Results",
-    registerDistanceTitle: "Register Distance"
+    registerDistanceTitle: "Register Distance",
+    adminTitle: "Administration",
+    adminSubtitle: "Team and challenge data management",
+    adminLoginTitle: "Administrator Access",
+    adminPasswordPlaceholder: "Administrator password",
+    adminLoginButton: "Enter",
+    adminPanelTitle: "Administration Panel",
+    adminLogoutButton: "Logout",
+    adminTotalTeams: "Total Teams",
+    adminTotalRegistrations: "Total Registrations",
+    adminTotalDistance: "Total Distance",
+    adminTeamsListTitle: "Registered Teams",
+    adminDeleteButton: "Delete",
+    adminExportButton: "Export Data",
+    adminResetButton: "Reset All",
+    adminWrongPassword: "Incorrect password",
+    adminTeamDeleted: "Team deleted successfully",
+    adminDataExported: "Data exported successfully",
+    adminDataReset: "All data has been deleted",
+    adminConfirmDelete: "Are you sure you want to delete this team? This will also delete all its records.",
+    adminConfirmReset: "WARNING: This will delete ALL teams and records. Cannot be undone. Are you sure?",
+    teamNameExists: "A team with this name already exists. Please choose another name."
   },
   pt: {
     registerTeam: 'Registrar Equipe',
@@ -245,7 +311,7 @@ const translations = {
     distance: 'Distância',
     kilometers: 'Km',
     miles: 'Milhas',
-    registerTeamAndJoin: 'Registrar Equipe e Entrar no Grupo',
+    registerTeamAndJoin: 'Registrar Equipe',
     registerDistance: 'Registrar Distância',
     challengeResults: 'Resultados do Desafio',
     teams: 'Equipes',
@@ -265,7 +331,7 @@ const translations = {
     joinChallenge: 'Junte-se ao desafio Bigfoot 200 Challenge registrando sua equipe',
     registerProgress: 'Registre seu progresso diário no Bigfoot 200 Challenge',
     viewProgress: 'Visualize o progresso de todas as equipes no Bigfoot 200 Challenge',
-    teamRegisteredSuccess: 'Equipe registrada com sucesso! Você receberá o link do grupo do WhatsApp.',
+    teamRegisteredSuccess: 'Equipe registrada com sucesso!',
     distanceRegisteredSuccess: 'Distância registrada com sucesso!',
     whatsappGroupInfo: 'Ao se registrar, você receberá o link para entrar no grupo oficial do WhatsApp do Bigfoot 200 Challenge onde poderá:',
     whatsappGroupBenefit1: 'Compartilhar seu progresso diário',
@@ -290,7 +356,7 @@ const translations = {
     whatsappGroupBenefit2: "Ver as atualizações de outros participantes",
     whatsappGroupBenefit3: "Receber motivação e dicas",
     whatsappGroupBenefit4: "Participar na comunidade do desafio",
-    registerTeamButton: "Registrar Equipa e Entrar no Grupo",
+    registerTeamButton: "Registrar Equipa",
     totalTeamsLabel: "Equipas",
     totalDistanceLabel: "km totais",
     totalDistanceMiLabel: "milhas totais",
@@ -298,7 +364,28 @@ const translations = {
     registerProgressText: "Registre seu progresso diário ao Bigfoot 200 Challenge",
     viewProgressText: "Visualize o progresso de todas as equipas no Bigfoot 200 Challenge",
     resultsTitle: "Resultados do Desafio",
-    registerDistanceTitle: "Registrar Distância"
+    registerDistanceTitle: "Registrar Distância",
+    adminTitle: "Administração",
+    adminSubtitle: "Gestão de equipas e dados do desafio",
+    adminLoginTitle: "Acesso de Administrador",
+    adminPasswordPlaceholder: "Palavra-passe de administrador",
+    adminLoginButton: "Entrar",
+    adminPanelTitle: "Painel de Administração",
+    adminLogoutButton: "Sair",
+    adminTotalTeams: "Total Equipas",
+    adminTotalRegistrations: "Total Registos",
+    adminTotalDistance: "Total Distância",
+    adminTeamsListTitle: "Equipas Registadas",
+    adminDeleteButton: "Eliminar",
+    adminExportButton: "Exportar Dados",
+    adminResetButton: "Resetejar Tudo",
+    adminWrongPassword: "Palavra-passe incorreta",
+    adminTeamDeleted: "Equipa eliminada com sucesso",
+    adminDataExported: "Dados exportados com sucesso",
+    adminDataReset: "Todos os dados foram eliminados",
+    adminConfirmDelete: "Tem a certeza que quer eliminar esta equipa? Isto também eliminará todos os seus registos.",
+    adminConfirmReset: "ATENÇÃO: Isto eliminará TODAS as equipas e registos. Não pode ser desfeito. Tem a certeza?",
+    teamNameExists: "Já existe uma equipa com este nome. Por favor, escolha outro nome."
   }
 };
 
@@ -314,7 +401,7 @@ window.exportData = exportData;
 window.resetAllData = resetAllData;
 
 // Contraseña de administrador (cambiar por seguridad)
-const ADMIN_PASSWORD = 'bigfoot2025';
+const ADMIN_PASSWORD = 'edu.miralles';
 
 // Función para obtener traducciones con fallback
 function getTranslation(key) {
@@ -347,6 +434,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Event listeners
   setupEventListeners();
+  
+  // Ocultar botones de administración al inicio
+  const exportButton = document.getElementById('admin-export-button');
+  const resetButton = document.getElementById('admin-reset-button');
+  if (exportButton) exportButton.classList.add('hidden');
+  if (resetButton) resetButton.classList.add('hidden');
   
   // Debug: verificar formularios
   console.log('Formulario de equipo:', document.getElementById('teamForm'));
@@ -396,6 +489,20 @@ function updateLanguage() {
   // Actualizar labels de formularios
   updateFormLabels();
   
+  // Actualizar textos del panel de administración
+  updateAdminTexts();
+  
+  // Asegurar que los botones de admin estén ocultos si no se ha hecho login
+  const adminPanel = document.getElementById('admin-panel');
+  const exportButton = document.getElementById('admin-export-button');
+  const resetButton = document.getElementById('admin-reset-button');
+  
+  if (adminPanel && adminPanel.classList.contains('hidden')) {
+    // Panel oculto = no login, ocultar botones
+    if (exportButton) exportButton.classList.add('hidden');
+    if (resetButton) resetButton.classList.add('hidden');
+  }
+  
   // Recargar equipos con el nuevo idioma
   loadTeams();
   
@@ -407,33 +514,29 @@ function updateFormLabels() {
   const t = translations[currentLanguage];
   
   // Labels del formulario de equipo
-  const teamLabels = document.querySelectorAll('#register-team-tab label span');
-  if (teamLabels.length >= 3) {
-    teamLabels[0].textContent = t.teamName + ' *';
-    teamLabels[1].textContent = t.category + ' *';
-    teamLabels[2].textContent = t.whatsappGroupLabel;
-  }
+  const teamNameLabel = document.getElementById('teamNameLabel');
+  const teamCategoryLabel = document.getElementById('teamCategoryLabel');
+  const whatsappGroupLabel = document.getElementById('whatsappGroupLabel');
+  const registerTeamButton = document.getElementById('registerTeamButton');
+  
+  if (teamNameLabel) teamNameLabel.textContent = t.teamName + ' *';
+  if (teamCategoryLabel) teamCategoryLabel.textContent = t.category + ' *';
+  if (whatsappGroupLabel) whatsappGroupLabel.textContent = t.whatsappGroupLabel;
+  if (registerTeamButton) registerTeamButton.textContent = t.registerTeamButton;
   
   // Labels del formulario de distancia
-  const distanceLabels = document.querySelectorAll('#register-tab label span');
-  if (distanceLabels.length >= 3) {
-    distanceLabels[0].textContent = t.selectTeam + ' *';
-    distanceLabels[1].textContent = t.date + ' *';
-    distanceLabels[2].textContent = t.distance + ' *';
-  }
-  
-  // Actualizar placeholders
-  const teamNameInput = document.getElementById('teamName');
-  if (teamNameInput) {
-    teamNameInput.placeholder = t.teamName;
-  }
-  
   const teamSelect = document.getElementById('teamSelect');
   if (teamSelect) {
     const firstOption = teamSelect.querySelector('option[value=""]');
     if (firstOption) {
       firstOption.textContent = t.selectTeam;
     }
+  }
+  
+  // Actualizar placeholders
+  const teamNameInput = document.getElementById('teamName');
+  if (teamNameInput) {
+    teamNameInput.placeholder = t.teamName;
   }
 }
 
@@ -494,6 +597,19 @@ function switchTab(tabName) {
   // Recargar datos si es la pestaña de resultados
   if (tabName === 'results') {
     loadResults();
+  }
+  
+  // Si es la pestaña de admin, asegurar que los botones estén ocultos si no se ha hecho login
+  if (tabName === 'admin') {
+    const adminPanel = document.getElementById('admin-panel');
+    const exportButton = document.getElementById('admin-export-button');
+    const resetButton = document.getElementById('admin-reset-button');
+    
+    if (adminPanel && adminPanel.classList.contains('hidden')) {
+      // Panel oculto = no login, ocultar botones
+      if (exportButton) exportButton.classList.add('hidden');
+      if (resetButton) resetButton.classList.add('hidden');
+    }
   }
 }
 
@@ -570,8 +686,16 @@ function handleTeamSubmit(e) {
     return;
   }
   
-  // Crear nuevo equipo
+  // Verificar que no exista un equipo con el mismo nombre
   const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
+  const existingTeam = teams.find(team => team.name.toLowerCase() === teamName.toLowerCase());
+  
+  if (existingTeam) {
+    const t = translations[currentLanguage] || translations['ca'];
+    showNotification(t.teamNameExists, 'error');
+    return;
+  }
+  
   console.log('Equipos existentes:', teams.length);
   
   const newTeam = {
@@ -888,18 +1012,43 @@ function generateCharts(teamStats) {
 
 function showNotification(message, type = 'info') {
   console.log('Mostrando notificación:', message, type);
+  
+  // Remover notificaciones existentes
+  const existingNotifications = document.querySelectorAll('.notification');
+  existingNotifications.forEach(notification => notification.remove());
+  
   const notification = document.createElement('div');
-  notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white z-50 transition-all duration-300 ${
-    type === 'error' ? 'bg-red-500' : 
-    type === 'success' ? 'bg-green-500' : 'bg-blue-500'
-  }`;
+  notification.className = `notification ${type}`;
   notification.textContent = message;
+  
+  // Añadir icono según el tipo
+  let icon = '';
+  switch(type) {
+    case 'success':
+      icon = '✅';
+      break;
+    case 'error':
+      icon = '❌';
+      break;
+    default:
+      icon = 'ℹ️';
+  }
+  
+  notification.innerHTML = `${icon} ${message}`;
   
   document.body.appendChild(notification);
   
+  // Auto-remover después de 4 segundos
   setTimeout(() => {
-    notification.remove();
-  }, 3000);
+    if (notification.parentNode) {
+      notification.style.animation = 'slideOut 0.3s ease-in';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.remove();
+        }
+      }, 300);
+    }
+  }, 4000);
 }
 
 function showTeamHistory(teamId) {
@@ -1105,23 +1254,92 @@ function updateTexts() {
 function loginAdmin() {
   const password = document.getElementById('adminPassword').value;
   if (password === ADMIN_PASSWORD) {
+    isAdminLogged = true;
     document.getElementById('admin-login').classList.add('hidden');
     document.getElementById('admin-panel').classList.remove('hidden');
+    // Mostrar botons després del login
+    const exportButton = document.getElementById('admin-export-button');
+    const resetButton = document.getElementById('admin-reset-button');
+    if (exportButton) exportButton.classList.remove('hidden');
+    if (resetButton) resetButton.classList.remove('hidden');
     loadAdminData();
+    updateAdminTexts();
   } else {
-    showNotification('Contrasenya incorrecta', 'error');
+    isAdminLogged = false;
+    const t = translations[currentLanguage] || translations['ca'];
+    showNotification(t.adminWrongPassword, 'error');
   }
 }
 
 function logoutAdmin() {
+  isAdminLogged = false;
   document.getElementById('admin-panel').classList.add('hidden');
   document.getElementById('admin-login').classList.remove('hidden');
   document.getElementById('adminPassword').value = '';
+  // Ocultar botons al fer logout
+  const exportButton = document.getElementById('admin-export-button');
+  const resetButton = document.getElementById('admin-reset-button');
+  if (exportButton) exportButton.classList.add('hidden');
+  if (resetButton) resetButton.classList.add('hidden');
+}
+
+function updateAdminTexts() {
+  const t = translations[currentLanguage] || translations['ca'];
+  
+  // Actualizar textos del panel de administración
+  const adminElements = {
+    'admin-title': t.adminTitle,
+    'admin-subtitle': t.adminSubtitle,
+    'admin-login-title': t.adminLoginTitle,
+    'admin-panel-title': t.adminPanelTitle,
+    'admin-logout-button': t.adminLogoutButton,
+    'admin-total-teams-label': t.adminTotalTeams,
+    'admin-total-registrations-label': t.adminTotalRegistrations,
+    'admin-total-distance-label': t.adminTotalDistance,
+    'admin-teams-list-title': t.adminTeamsListTitle,
+    'admin-export-button': t.adminExportButton,
+    'admin-reset-button': t.adminResetButton
+  };
+  
+  Object.keys(adminElements).forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = adminElements[id];
+    }
+  });
+  
+  // Actualizar placeholder del input de contraseña
+  const passwordInput = document.getElementById('adminPassword');
+  if (passwordInput) {
+    passwordInput.placeholder = t.adminPasswordPlaceholder;
+  }
+  
+  // Actualizar botón de login
+  const loginButton = document.getElementById('admin-login-button');
+  if (loginButton) {
+    loginButton.textContent = t.adminLoginButton;
+  }
+  
+  // Verificar si el panel de admin está visible para decidir si mostrar los botones
+  const adminPanel = document.getElementById('admin-panel');
+  const exportButton = document.getElementById('admin-export-button');
+  const resetButton = document.getElementById('admin-reset-button');
+  
+  if (adminPanel && !adminPanel.classList.contains('hidden')) {
+    // Panel visible = login hecho, mostrar botones
+    if (exportButton) exportButton.classList.remove('hidden');
+    if (resetButton) resetButton.classList.remove('hidden');
+  } else {
+    // Panel oculto = no login, ocultar botones
+    if (exportButton) exportButton.classList.add('hidden');
+    if (resetButton) resetButton.classList.add('hidden');
+  }
 }
 
 function loadAdminData() {
   const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
   const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
+  const t = translations[currentLanguage] || translations['ca'];
   
   // Actualizar estadísticas
   document.getElementById('admin-total-teams').textContent = teams.length;
@@ -1141,34 +1359,38 @@ function loadAdminData() {
     }, 0);
     
     return `
-      <div class="bg-white border border-gray-200 rounded-lg p-4 flex justify-between items-center">
+      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
         <div>
           <h5 class="font-bold text-gray-800">${team.name}</h5>
           <p class="text-sm text-gray-600">${team.category}</p>
           <p class="text-xs text-gray-500">${teamDistances.length} registres, ${totalDistance.toFixed(1)} km</p>
         </div>
-        <button onclick="deleteTeam(${team.id})" class="btn-secondary bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-sm">
-          Eliminar
-        </button>
+        <div class="flex flex-col md:flex-row gap-2 items-center">
+          <button onclick="showAdminTeamHistory(${team.id})" class="btn-primary px-3 py-1 text-sm">Veure registres</button>
+          <button onclick="deleteTeam(${team.id})" class="btn-secondary bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-sm">${t.adminDeleteButton}</button>
+        </div>
       </div>
     `;
   }).join('');
 }
 
 function deleteTeam(teamId) {
-  if (confirm('Estàs segur que vols eliminar aquest equip? Això també eliminarà tots els seus registres.')) {
+  if (!isAdminLogged) {
+    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+    return;
+  }
+  const t = translations[currentLanguage] || translations['ca'];
+  if (confirm(t.adminConfirmDelete)) {
     const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
     const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-    
     // Eliminar equipo
     const updatedTeams = teams.filter(team => team.id !== teamId);
     localStorage.setItem(TEAMS_KEY, JSON.stringify(updatedTeams));
-    
-    // Eliminar distancias del equipo
+    // Eliminar distàncies de l'equip
     const updatedDistances = distances.filter(distance => distance.teamId !== teamId);
     localStorage.setItem(DISTANCES_KEY, JSON.stringify(updatedDistances));
-    
-    showNotification('Equip eliminat correctament', 'success');
+    clearAllCharts();
+    showNotification(t.adminTeamDeleted, 'success');
     loadAdminData();
     loadTeams();
     loadResults();
@@ -1176,34 +1398,171 @@ function deleteTeam(teamId) {
 }
 
 function exportData() {
+  if (!isAdminLogged) {
+    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+    return;
+  }
   const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
   const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  
   const data = {
     teams: teams,
     distances: distances,
     exportDate: new Date().toISOString()
   };
-  
   const dataStr = JSON.stringify(data, null, 2);
   const dataBlob = new Blob([dataStr], {type: 'application/json'});
-  
   const link = document.createElement('a');
   link.href = URL.createObjectURL(dataBlob);
   link.download = `bigfoot-challenge-data-${new Date().toISOString().split('T')[0]}.json`;
   link.click();
-  
-  showNotification('Dades exportades correctament', 'success');
+  const t = translations[currentLanguage] || translations['ca'];
+  showNotification(t.adminDataExported, 'success');
 }
 
 function resetAllData() {
-  if (confirm('ATENCIÓ: Això eliminarà TOTS els equips i registres. No es pot desfer. Estàs segur?')) {
+  if (!isAdminLogged) {
+    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+    return;
+  }
+  const t = translations[currentLanguage] || translations['ca'];
+  if (confirm(t.adminConfirmReset)) {
     localStorage.removeItem(TEAMS_KEY);
     localStorage.removeItem(DISTANCES_KEY);
-    
-    showNotification('Totes les dades han estat eliminades', 'success');
+    clearAllCharts();
+    showNotification(t.adminDataReset, 'success');
     loadAdminData();
     loadTeams();
+    loadResults();
+  }
+}
+
+// Función para limpiar todas las gráficas
+function clearAllCharts() {
+  if (charts) {
+    Object.keys(charts).forEach(chartId => {
+      if (charts[chartId]) {
+        charts[chartId].destroy();
+      }
+    });
+    charts = {};
+  }
+}
+
+// Modal d'historial editable per admin
+function showAdminTeamHistory(teamId) {
+  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
+  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
+  const t = translations[currentLanguage] || translations['ca'];
+  const team = teams.find(t => t.id === teamId);
+  if (!team) {
+    showNotification('Equip no trobat', 'error');
+    return;
+  }
+  const teamDistances = distances.filter(d => d.teamId === teamId);
+  // Ordenar per data descendent
+  const sortedDistances = teamDistances.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Modal HTML
+  const modalHTML = `
+    <div class="admin-modal-overlay">
+      <div class="admin-modal modern-card p-6 max-w-2xl mx-auto animate-fade-in">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-lg font-bold">${team.name}</h3>
+            <p class="text-sm text-gray-500">${team.category}</p>
+          </div>
+          <button onclick="closeAdminTeamHistory()" class="close-btn" aria-label="Tancar">
+            <svg viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414-1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm mb-4">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="py-2 px-3">${t.date || 'Data'}</th>
+                <th class="py-2 px-3">${t.distance || 'Distància'}</th>
+                <th class="py-2 px-3">${t.units || 'Unitats'}</th>
+                <th class="py-2 px-3">Accions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sortedDistances.length === 0 ? `<tr><td colspan="4" class="text-center py-8 text-gray-500">${t.noRegistrationsForTeam || 'No hi ha registres per aquest equip'}</td></tr>` :
+                sortedDistances.map(distance => {
+                  return `<tr data-id="${distance.id}">
+                    <td class="py-2 px-3"><input type="date" class="modern-input w-32" value="${distance.date}" /></td>
+                    <td class="py-2 px-3"><input type="number" step="0.01" class="modern-input w-20" value="${distance.distance}" /></td>
+                    <td class="py-2 px-3">
+                      <select class="modern-select w-20">
+                        <option value="km" ${distance.unit === 'km' ? 'selected' : ''}>km</option>
+                        <option value="mi" ${distance.unit === 'mi' ? 'selected' : ''}>mi</option>
+                      </select>
+                    </td>
+                    <td class="py-2 px-3 flex gap-2">
+                      <button class="btn-primary px-2 py-1 text-xs" onclick="saveAdminDistanceEdit(${distance.id}, ${teamId}, this)">Desa</button>
+                      <button class="btn-secondary bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs" onclick="confirmDeleteDistance(${distance.id}, ${teamId})">Elimina</button>
+                    </td>
+                  </tr>`;
+                }).join('')
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+  // Eliminar modal existent si n'hi ha
+  closeAdminTeamHistory();
+  // Afegir modal al body
+  const modalDiv = document.createElement('div');
+  modalDiv.id = 'adminTeamHistoryModal';
+  modalDiv.innerHTML = modalHTML;
+  document.body.appendChild(modalDiv);
+}
+
+function closeAdminTeamHistory() {
+  const modal = document.getElementById('adminTeamHistoryModal');
+  if (modal) modal.remove();
+}
+
+// Desa l'edició d'un registre
+function saveAdminDistanceEdit(distanceId, teamId, btn) {
+  const row = btn.closest('tr');
+  const dateInput = row.querySelector('input[type="date"]');
+  const distInput = row.querySelector('input[type="number"]');
+  const unitSelect = row.querySelector('select');
+  const newDate = dateInput.value;
+  const newDist = parseFloat(distInput.value);
+  const newUnit = unitSelect.value;
+  if (!newDate || isNaN(newDist) || newDist <= 0) {
+    showNotification('Dades incorrectes', 'error');
+    return;
+  }
+  let distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
+  const idx = distances.findIndex(d => d.id === distanceId);
+  if (idx === -1) {
+    showNotification('Registre no trobat', 'error');
+    return;
+  }
+  distances[idx].date = newDate;
+  distances[idx].distance = newDist;
+  distances[idx].unit = newUnit;
+  localStorage.setItem(DISTANCES_KEY, JSON.stringify(distances));
+  showNotification('Registre actualitzat!', 'success');
+  // Refresca modal i estadístiques
+  showAdminTeamHistory(teamId);
+  loadAdminData();
+  loadResults();
+}
+
+// Elimina un registre realment
+function confirmDeleteDistance(distanceId, teamId) {
+  if (confirm('Segur que vols eliminar aquest registre?')) {
+    let distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
+    distances = distances.filter(d => d.id !== distanceId);
+    localStorage.setItem(DISTANCES_KEY, JSON.stringify(distances));
+    showNotification('Registre eliminat!', 'success');
+    // Refresca modal i estadístiques
+    showAdminTeamHistory(teamId);
+    loadAdminData();
     loadResults();
   }
 }
