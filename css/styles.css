@@ -1340,3 +1340,24 @@ body, html {
   max-width: 100vw;
   overflow-x: hidden;
 }
+
+/* Mejora de la tabla de historial en móvil */
+@media (max-width: 600px) {
+  #teamHistoryModal .modal-content table th,
+  #teamHistoryModal .modal-content table td {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: 0.85rem !important;
+  }
+  #teamHistoryModal .modal-content {
+    padding: 0.5rem !important;
+  }
+  #teamHistoryModal > div {
+    max-width: 99vw !important;
+    width: 99vw !important;
+    min-width: 0 !important;
+  }
+  #teamHistoryModal .modal-header h3 {
+    font-size: 1.2rem !important;
+  }
+}
