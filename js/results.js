@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   updateMainStats(dailyData);
   
   // Generar gráfico de progreso diario
-  generateProgressChart(dailyData);
+  if (window.generateProgressChart) {
+    window.generateProgressChart(dailyData);
+  }
   
   // Generar mejores días
   generateBestDays(dailyData);
@@ -39,7 +41,49 @@ function updateMainStats(dailyData) {
 }
 
 function generateProgressChart(dailyData) {
-  const ctx = document.getElementById('resultsChart');
+  console.log('[generateProgressChart] llamada', dailyData);
+  // Eliminar canvas anterior si existe
+  const oldCanvas = document.getElementById('resultsChart');
+  if (oldCanvas && oldCanvas.parentNode) {
+    console.log('[generateProgressChart] Eliminando canvas anterior');
+    oldCanvas.parentNode.removeChild(oldCanvas);
+  }
+
+  // Buscar el contenedor donde irá el canvas (debajo de las estadísticas generales)
+  let statsSummary = document.querySelector('.stats-summary');
+  let chartContainer = document.getElementById('resultsChartContainer');
+  if (!chartContainer) {
+    chartContainer = document.createElement('div');
+    chartContainer.id = 'resultsChartContainer';
+    chartContainer.style.width = '100%';
+    chartContainer.style.maxWidth = '600px';
+    chartContainer.style.margin = '0 auto 32px auto';
+    chartContainer.style.minHeight = '300px';
+    if (statsSummary && statsSummary.parentNode) {
+      statsSummary.parentNode.insertBefore(chartContainer, statsSummary.nextSibling);
+      console.log('[generateProgressChart] Contenedor creado e insertado');
+    }
+  } else {
+    chartContainer.innerHTML = '';
+    console.log('[generateProgressChart] Contenedor ya existe, limpiado');
+  }
+
+  // Comprobar si hay datos para graficar
+  const hasData = Object.values(dailyData).some(d => d.distance > 0);
+  console.log('[generateProgressChart] ¿Hay datos?', hasData);
+  if (!hasData) {
+    chartContainer.innerHTML = '';
+    console.log('[generateProgressChart] No hay datos, no se crea canvas');
+    return;
+  }
+
+  // Crear el canvas
+  const canvas = document.createElement('canvas');
+  canvas.id = 'resultsChart';
+  canvas.height = 300;
+  chartContainer.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  console.log('[generateProgressChart] Canvas creado, se va a dibujar la gráfica');
   
   // Generar datos para los 9 días
   const dates = Array.from({ length: 9 }, (_, i) => {
@@ -141,9 +185,11 @@ function generateProgressChart(dailyData) {
           position: 'left',
           title: {
             display: true,
-            text: 'Distancia Diaria (km)',
+            text: 'MILES',
             font: {
-              family: 'Inter'
+              family: 'Inter',
+              weight: 'bold',
+              size: 16
             }
           },
           grid: {
@@ -179,6 +225,7 @@ function generateProgressChart(dailyData) {
     }
   });
 }
+window.generateProgressChart = generateProgressChart;
 
 function generateBestDays(dailyData) {
   const bestDaysContainer = document.getElementById('bestDays');

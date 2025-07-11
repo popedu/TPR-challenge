@@ -806,6 +806,7 @@ window.updateLanguage = function() {
   loadTeams();
   if (document.getElementById('results-tab').classList.contains('active') && lastTeamStats) {
     updateCategoryResults(lastTeamStats);
+    generateCharts(lastTeamStats);
   }
 };
 
@@ -841,7 +842,24 @@ function switchTab(tabName) {
   
   // Recargar datos si es la pestaña de resultados
   if (tabName === 'results') {
-    loadResults();
+    console.log('[switchTab] Entrando en resultados, llamando a loadResults');
+    loadResults().then(() => {
+      setTimeout(() => {
+        // Redibujar solo la gráfica de la categoría activa
+        const activeModal = document.querySelector('.modal-content-tab.active');
+        if (activeModal) {
+          const chartCanvas = activeModal.querySelector('canvas');
+          if (chartCanvas && chartCanvas.chartInstance) {
+            chartCanvas.chartInstance.destroy();
+          }
+          // Volver a crear la gráfica usando lastTeamStats completo
+          if (typeof lastTeamStats !== 'undefined' && lastTeamStats) {
+            generateCharts(lastTeamStats);
+            console.log('[switchTab] Redibujada gráfica de la categoría activa');
+          }
+        }
+      }, 100);
+    });
   }
   
   // Si es la pestaña de admin, asegurar que los botones estén ocultos si no se ha hecho login
@@ -891,6 +909,22 @@ function switchModalTab(modalNumber) {
     selectedButton.classList.add('active');
     selectedButton.classList.remove('text-white/70');
   }
+  
+  setTimeout(() => {
+    // Redibujar solo la gráfica de la categoría activa
+    const activeModal = document.querySelector('.modal-content-tab.active');
+    if (activeModal) {
+      const chartCanvas = activeModal.querySelector('canvas');
+      if (chartCanvas && chartCanvas.chartInstance) {
+        chartCanvas.chartInstance.destroy();
+      }
+      // Volver a crear la gráfica usando lastTeamStats completo
+      if (typeof lastTeamStats !== 'undefined' && lastTeamStats) {
+        generateCharts(lastTeamStats);
+        console.log('[switchModalTab] Redibujada gráfica de la categoría activa');
+      }
+    }
+  }, 100);
 }
 window.switchModalTab = switchModalTab;
 
@@ -1003,8 +1037,11 @@ async function handleDistanceSubmit(e) {
 window.handleDistanceSubmit = handleDistanceSubmit;
 
 async function loadResults() {
+  console.log('[loadResults] llamada');
   const { data: teams } = await window.supabase.from('registrations').select('*');
   const { data: distances } = await window.supabase.from('distance').select('*');
+  console.log('[loadResults] equipos:', teams);
+  console.log('[loadResults] distancias:', distances);
   // Calcular estadísticas por equipo
   const teamStats = {};
   teams.forEach(team => {
@@ -1030,7 +1067,19 @@ async function loadResults() {
   lastTeamStats = teamStats;
   updateGeneralStats(teams, distances);
   updateCategoryResults(teamStats);
+  console.log('[loadResults] Llamando a generateCharts con teamStats:', teamStats);
   generateCharts(teamStats);
+  // Forzar redibujo de la categoría activa
+  setTimeout(() => {
+    const activeModal = document.querySelector('.modal-content-tab.active');
+    if (activeModal) {
+      const chartCanvas = activeModal.querySelector('canvas');
+      if (chartCanvas && chartCanvas.chartInstance) {
+        chartCanvas.chartInstance.update();
+        console.log('[loadResults] Redibujando gráfica de la categoría activa');
+      }
+    }
+  }, 100);
 }
 
 function updateGeneralStats(teams, distances) {
@@ -1172,6 +1221,7 @@ window.showTeamHistory = showTeamHistory;
 
 // --- INICIO: generateCharts ---
 function generateCharts(teamStats) {
+  console.log('[generateCharts] llamada con teamStats:', teamStats);
   // Por cada categoría, genera una gráfica de barras con los equipos y su distancia total en millas
   const categories = {
     '1 pax (Run + Bike)': 'chart-1',
@@ -1182,6 +1232,7 @@ function generateCharts(teamStats) {
   };
   Object.entries(categories).forEach(([cat, canvasId]) => {
     const canvas = document.getElementById(canvasId);
+    console.log(`[generateCharts] canvasId: ${canvasId}, encontrado:`, !!canvas);
     if (!canvas) return;
     // Ajustar tamaño del canvas (solo CSS, no JS)
     canvas.style.width = '100%';
@@ -1192,6 +1243,7 @@ function generateCharts(teamStats) {
     }
     // Filtrar equipos de la categoría
     const teams = Object.values(teamStats).filter(stat => stat.team.category === cat);
+    console.log(`[generateCharts] equipos en categoría ${cat}:`, teams);
     if (teams.length === 0) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       return;
@@ -1222,10 +1274,27 @@ function generateCharts(teamStats) {
           tooltip: { enabled: true }
         },
         scales: {
-          x: { title: { display: false } },
+          x: {
+            title: { display: false },
+            ticks: {
+              font: {
+                family: 'Inter',
+                weight: 'bold',
+                size: 14
+              }
+            }
+          },
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Millas' }
+            title: {
+              display: true,
+              text: 'MILES',
+              font: {
+                family: 'Inter',
+                weight: 'bold',
+                size: 16
+              }
+            }
           }
         }
       }
