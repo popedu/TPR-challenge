@@ -13,6 +13,50 @@ let currentLanguage = 'ca';
 // Variable global per controlar si l'admin està loguejat
 let isAdminLogged = false;
 
+// ... existing code ...
+let lastTeamStats = null;
+
+// --- REPARACIÓN: Notificación tipo toast visual ---
+function showNotification(message, type = 'info') {
+  // Eliminar notificaciones previas
+  const oldToast = document.getElementById('custom-toast');
+  if (oldToast) oldToast.remove();
+
+  // Crear el contenedor del toast
+  const toast = document.createElement('div');
+  toast.id = 'custom-toast';
+  toast.textContent = message;
+  toast.style.position = 'fixed';
+  toast.style.top = '32px';
+  toast.style.right = '32px';
+  toast.style.zIndex = '9999';
+  toast.style.padding = '16px 28px';
+  toast.style.borderRadius = '8px';
+  toast.style.fontSize = '1.1em';
+  toast.style.fontWeight = 'bold';
+  toast.style.boxShadow = '0 2px 16px rgba(0,0,0,0.12)';
+  toast.style.color = '#fff';
+  toast.style.opacity = '0.98';
+  toast.style.transition = 'opacity 0.3s';
+  if (type === 'success') {
+    toast.style.background = 'linear-gradient(90deg, #22c55e 60%, #16a34a 100%)'; // verde
+  } else if (type === 'error') {
+    toast.style.background = 'linear-gradient(90deg, #ef4444 60%, #b91c1c 100%)'; // rojo
+  } else {
+    toast.style.background = 'linear-gradient(90deg, #3b82f6 60%, #1e40af 100%)'; // azul/info
+  }
+
+  document.body.appendChild(toast);
+
+  // Desaparecer tras 2.5 segundos
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 400);
+  }, 2500);
+}
+window.showNotification = showNotification;
+// --- FIN DE REPARACIÓN ---
+
 // Datos de ejemplo para empezar
 const initialTeams = [
   { id: 1, name: 'Equip Alpha', category: '1 pax (Run + Bike)', phones: ['+34 600 123 456'] },
@@ -121,7 +165,50 @@ const translations = {
     adminDataReset: "Totes les dades han estat eliminades",
     adminConfirmDelete: "Estàs segur que vols eliminar aquest equip? Això també eliminarà tots els seus registres.",
     adminConfirmReset: "ATENCIÓ: Això eliminarà TOTS els equips i registres. No es pot desfer. Estàs segur?",
-    teamNameExists: "Ja existeix un equip amb aquest nom. Si us plau, tria un altre nom."
+    teamNameExists: "Ja existeix un equip amb aquest nom. Si us plau, tria un altre nom.",
+    viewRecords: 'Veure registres',
+    save: 'Desa',
+    cancel: 'Cancel·la',
+    actions: 'Accions',
+    editTeam: 'Editar equip',
+    saveTeam: 'Desar equip',
+    deleteRecord: 'Eliminar registre',
+    saveRecord: 'Desar registre',
+    tabRegisterTeam: 'Registrar Equip',
+    tabRegister: 'Registrar Distància',
+    tabResults: 'Veure Resultats',
+    tabAdmin: 'Admin',
+    cat1: '1 pax (Run + Bike)',
+    cat2: '2 pax (Run + Bike)',
+    cat3: '3 pax (Run)',
+    cat4: '4 pax (Run)',
+    cat5: '5 pax (Run)',
+    selectYourTeam: 'Selecciona el teu equip',
+    distanceLabel: 'Distància *',
+    distancePlaceholder: 'Ex: 10.5',
+    unitKm: 'km',
+    unitMi: 'Milles',
+    registerDistanceButton: 'Registrar Distància',
+    selectTeamLabel: 'Seleccionar Equip *',
+    dateLabel: 'Data *',
+    distanceErrorFields: 'Si us plau completa tots els camps correctament.',
+    distanceErrorDate: 'La data ha d\'estar entre el 4 i 12 d\'agost de 2025.',
+    adminAccessGranted: 'Accés d\'administrador concedit',
+    adminTeamUpdateError: 'Error en actualitzar l\'equip',
+    adminTeamUpdated: 'Equip actualitzat correctament',
+    adminTeamDeleteError: 'Error en eliminar l\'equip',
+    adminTeamDeleted: 'Equip eliminat correctament',
+    adminRegUpdateError: 'Error en actualitzar el registre',
+    adminRegUpdated: 'Registre actualitzat correctament',
+    adminRegDeleteError: 'Error en eliminar el registre',
+    adminRegDeleted: 'Registre eliminat correctament',
+    adminDataResetError: 'Error en resetejar les dades',
+    adminDataReset: 'Totes les dades han estat eliminades',
+    adminDataExportError: 'Error en exportar les dades',
+    adminDataExported: 'Dades exportades correctament',
+    adminRestricted: 'Accés restringit només per a administradors.',
+    adminConfirmDeleteReg: 'Segur que vols eliminar aquest registre?',
+    viewHistoryButton: 'Veure historial'
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -209,7 +296,50 @@ const translations = {
     adminDataReset: "Todos los datos han sido eliminados",
     adminConfirmDelete: "¿Estás seguro que quieres eliminar este equipo? Esto también eliminará todos sus registros.",
     adminConfirmReset: "ATENCIÓN: Esto eliminará TODOS los equipos y registros. No se puede deshacer. ¿Estás seguro?",
-    teamNameExists: "Ya existe un equipo con este nombre. Por favor, elige otro nombre."
+    teamNameExists: "Ya existe un equipo con este nombre. Por favor, elige otro nombre.",
+    viewRecords: 'Ver registros',
+    save: 'Guardar',
+    cancel: 'Cancelar',
+    actions: 'Acciones',
+    editTeam: 'Editar equipo',
+    saveTeam: 'Guardar equipo',
+    deleteRecord: 'Eliminar registro',
+    saveRecord: 'Guardar registro',
+    tabRegisterTeam: 'Registrar Equipo',
+    tabRegister: 'Registrar Distancia',
+    tabResults: 'Ver Resultados',
+    tabAdmin: 'Admin',
+    cat1: '1 pax (Run + Bike)',
+    cat2: '2 pax (Run + Bike)',
+    cat3: '3 pax (Run)',
+    cat4: '4 pax (Run)',
+    cat5: '5 pax (Run)',
+    selectYourTeam: 'Selecciona tu equipo',
+    distanceLabel: 'Distancia *',
+    distancePlaceholder: 'Ej: 10.5',
+    unitKm: 'km',
+    unitMi: 'Millas',
+    registerDistanceButton: 'Registrar Distancia',
+    selectTeamLabel: 'Seleccionar Equipo *',
+    dateLabel: 'Fecha *',
+    distanceErrorFields: 'Por favor completa todos los campos correctamente.',
+    distanceErrorDate: 'La fecha debe estar entre el 4 y 12 de agosto de 2025.',
+    adminAccessGranted: 'Admin access granted',
+    adminTeamUpdateError: 'Error updating team',
+    adminTeamUpdated: 'Team updated successfully',
+    adminTeamDeleteError: 'Error deleting team',
+    adminTeamDeleted: 'Team deleted successfully',
+    adminRegUpdateError: 'Error updating record',
+    adminRegUpdated: 'Record updated successfully',
+    adminRegDeleteError: 'Error deleting record',
+    adminRegDeleted: 'Record deleted successfully',
+    adminDataResetError: 'Error resetting data',
+    adminDataReset: 'All data has been deleted',
+    adminDataExportError: 'Error exporting data',
+    adminDataExported: 'Data exported successfully',
+    adminRestricted: 'Access restricted to administrators only.',
+    adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
+    viewHistoryButton: 'Ver historial'
   },
   en: {
     registerTeam: 'Register Team',
@@ -297,7 +427,50 @@ const translations = {
     adminDataReset: "All data has been deleted",
     adminConfirmDelete: "Are you sure you want to delete this team? This will also delete all its records.",
     adminConfirmReset: "WARNING: This will delete ALL teams and records. Cannot be undone. Are you sure?",
-    teamNameExists: "A team with this name already exists. Please choose another name."
+    teamNameExists: "A team with this name already exists. Please choose another name.",
+    viewRecords: 'View records',
+    save: 'Save',
+    cancel: 'Cancel',
+    actions: 'Actions',
+    editTeam: 'Edit team',
+    saveTeam: 'Save team',
+    deleteRecord: 'Delete record',
+    saveRecord: 'Save record',
+    tabRegisterTeam: 'Register Team',
+    tabRegister: 'Register Distance',
+    tabResults: 'View Results',
+    tabAdmin: 'Admin',
+    cat1: '1 pax (Run + Bike)',
+    cat2: '2 pax (Run + Bike)',
+    cat3: '3 pax (Run)',
+    cat4: '4 pax (Run)',
+    cat5: '5 pax (Run)',
+    selectYourTeam: 'Select your team',
+    distanceLabel: 'Distance *',
+    distancePlaceholder: 'Ex: 10.5',
+    unitKm: 'km',
+    unitMi: 'Miles',
+    registerDistanceButton: 'Register Distance',
+    selectTeamLabel: 'Select Team *',
+    dateLabel: 'Date *',
+    distanceErrorFields: 'Please complete all fields correctly.',
+    distanceErrorDate: 'The date must be between August 4 and 12, 2025.',
+    adminAccessGranted: 'Admin access granted',
+    adminTeamUpdateError: 'Error updating team',
+    adminTeamUpdated: 'Team updated successfully',
+    adminTeamDeleteError: 'Error deleting team',
+    adminTeamDeleted: 'Team deleted successfully',
+    adminRegUpdateError: 'Error updating record',
+    adminRegUpdated: 'Record updated successfully',
+    adminRegDeleteError: 'Error deleting record',
+    adminRegDeleted: 'Record deleted successfully',
+    adminDataResetError: 'Error resetting data',
+    adminDataReset: 'All data has been deleted',
+    adminDataExportError: 'Error exporting data',
+    adminDataExported: 'Data exported successfully',
+    adminRestricted: 'Access restricted to administrators only.',
+    adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
+    viewHistoryButton: 'View history'
   },
   pt: {
     registerTeam: 'Registrar Equipe',
@@ -361,7 +534,7 @@ const translations = {
     totalDistanceLabel: "km totais",
     totalDistanceMiLabel: "milhas totais",
     totalRegistrationsLabel: "Registos",
-    registerProgressText: "Registre seu progresso diário ao Bigfoot 200 Challenge",
+    registerProgressText: "Registra o teu progresso diário no Bigfoot 200 Challenge",
     viewProgressText: "Visualize o progresso de todas as equipas no Bigfoot 200 Challenge",
     resultsTitle: "Resultados do Desafio",
     registerDistanceTitle: "Registrar Distância",
@@ -385,184 +558,256 @@ const translations = {
     adminDataReset: "Todos os dados foram eliminados",
     adminConfirmDelete: "Tem a certeza que quer eliminar esta equipa? Isto também eliminará todos os seus registos.",
     adminConfirmReset: "ATENÇÃO: Isto eliminará TODAS as equipas e registos. Não pode ser desfeito. Tem a certeza?",
-    teamNameExists: "Já existe uma equipa com este nome. Por favor, escolha outro nome."
+    teamNameExists: "Já existe uma equipa com este nome. Por favor, escolha outro nome.",
+    viewRecords: 'Ver registos',
+    save: 'Guardar',
+    cancel: 'Cancelar',
+    actions: 'Ações',
+    editTeam: 'Editar equipa',
+    saveTeam: 'Guardar equipa',
+    deleteRecord: 'Eliminar registo',
+    saveRecord: 'Guardar registo',
+    tabRegisterTeam: 'Registrar Equipa',
+    tabRegister: 'Registrar Distância',
+    tabResults: 'Ver Resultados',
+    tabAdmin: 'Admin',
+    cat1: '1 pax (Run + Bike)',
+    cat2: '2 pax (Run + Bike)',
+    cat3: '3 pax (Run)',
+    cat4: '4 pax (Run)',
+    cat5: '5 pax (Run)',
+    selectYourTeam: 'Seleciona a tua equipa',
+    distanceLabel: 'Distância *',
+    distancePlaceholder: 'Ex: 10.5',
+    unitKm: 'km',
+    unitMi: 'Milhas',
+    registerDistanceButton: 'Registrar Distância',
+    selectTeamLabel: 'Selecionar Equipa *',
+    dateLabel: 'Data *',
+    distanceErrorFields: 'Por favor preencha todos os campos corretamente.',
+    distanceErrorDate: 'A data deve estar entre 4 e 12 de agosto de 2025.',
+    adminAccessGranted: 'Acesso de administrador concedido',
+    adminTeamUpdateError: 'Erro ao atualizar a equipa',
+    adminTeamUpdated: 'Equipa atualizada com sucesso',
+    adminTeamDeleteError: 'Erro ao eliminar a equipa',
+    adminTeamDeleted: 'Equipa eliminada com sucesso',
+    adminRegUpdateError: 'Erro ao atualizar o registo',
+    adminRegUpdated: 'Registo atualizado com sucesso',
+    adminRegDeleteError: 'Erro ao eliminar o registo',
+    adminRegDeleted: 'Registo eliminado com sucesso',
+    adminDataResetError: 'Erro ao resetar os dados',
+    adminDataReset: 'Todos os dados foram eliminados',
+    adminDataExportError: 'Erro ao exportar os dados',
+    adminDataExported: 'Dados exportados com sucesso',
+    adminRestricted: 'Acesso restrito apenas para administradores.',
+    adminConfirmDeleteReg: 'Tem a certeza que quer eliminar este registo?',
+    viewHistoryButton: 'Ver histórico'
   }
 };
 
-// Hacer las funciones disponibles globalmente
-window.switchTab = switchTab;
-window.switchModalTab = switchModalTab;
-window.showTeamHistory = showTeamHistory;
-window.closeTeamHistory = closeTeamHistory;
-window.loginAdmin = loginAdmin;
-window.logoutAdmin = logoutAdmin;
-window.deleteTeam = deleteTeam;
-window.exportData = exportData;
-window.resetAllData = resetAllData;
+// Corrección de traducción en portugués para la pestaña de registro de distancia
+ttranslations = translations;
+translations.pt.registerDistanceTitle = 'Registrar Distância';
+translations.pt.registerProgressText = 'Registra o teu progresso diário no Bigfoot 200 Challenge';
 
-// Contraseña de administrador (cambiar por seguridad)
-const ADMIN_PASSWORD = 'edu.miralles';
-
-// Función para obtener traducciones con fallback
-function getTranslation(key) {
-  const t = translations[currentLanguage] || translations['ca'];
-  return t[key] || key;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM cargado, inicializando aplicación...');
-  
-  // Verificar que Chart.js esté disponible
-  if (typeof Chart === 'undefined') {
-    console.error('Chart.js no está cargado!');
-    showNotification('Error: Chart.js no se cargó correctamente', 'error');
-  } else {
-    console.log('Chart.js cargado correctamente');
-  }
-  
-  // Inicializar datos si no existen
-  initializeData();
-  
-  // Configurar selector de idioma
-  setupLanguageSelector();
-  
-  // Cargar equipos en el selector
-  loadTeams();
-  
-  // Cargar resultados
-  loadResults();
-  
-  // Event listeners
-  setupEventListeners();
-  
-  // Ocultar botones de administración al inicio
-  const exportButton = document.getElementById('admin-export-button');
-  const resetButton = document.getElementById('admin-reset-button');
-  if (exportButton) exportButton.classList.add('hidden');
-  if (resetButton) resetButton.classList.add('hidden');
-  
-  // Debug: verificar formularios
-  console.log('Formulario de equipo:', document.getElementById('teamForm'));
-  console.log('Formulario de distancia:', document.getElementById('distanceForm'));
+// Añadir claves de traducción si faltan
+Object.keys(translations).forEach(lang => {
+  translations[lang].viewRecords = translations[lang].viewRecords || {
+    ca: 'Veure registres', es: 'Ver registros', en: 'View records', pt: 'Ver registos'
+  }[lang];
+  translations[lang].save = translations[lang].save || {
+    ca: 'Desa', es: 'Guardar', en: 'Save', pt: 'Guardar'
+  }[lang];
+  translations[lang].cancel = translations[lang].cancel || {
+    ca: 'Cancel·la', es: 'Cancelar', en: 'Cancel', pt: 'Cancelar'
+  }[lang];
+  translations[lang].actions = translations[lang].actions || {
+    ca: 'Accions', es: 'Acciones', en: 'Actions', pt: 'Ações'
+  }[lang];
+  translations[lang].editTeam = translations[lang].editTeam || {
+    ca: 'Editar equip', es: 'Editar equipo', en: 'Edit team', pt: 'Editar equipa'
+  }[lang];
+  translations[lang].saveTeam = translations[lang].saveTeam || {
+    ca: 'Desar equip', es: 'Guardar equipo', en: 'Save team', pt: 'Guardar equipa'
+  }[lang];
+  translations[lang].deleteRecord = translations[lang].deleteRecord || {
+    ca: 'Eliminar registre', es: 'Eliminar registro', en: 'Delete record', pt: 'Eliminar registo'
+  }[lang];
+  translations[lang].saveRecord = translations[lang].saveRecord || {
+    ca: 'Desar registre', es: 'Guardar registro', en: 'Save record', pt: 'Guardar registo'
+  }[lang];
 });
 
-function initializeData() {
-  console.log('Inicializando datos...');
-  
-  // Inicializar equipos si no existen
-  if (!localStorage.getItem(TEAMS_KEY)) {
-    localStorage.setItem(TEAMS_KEY, JSON.stringify(initialTeams));
-    console.log('Equipos iniciales creados');
-  }
-  
-  // Inicializar distancias si no existen
-  if (!localStorage.getItem(DISTANCES_KEY)) {
-    localStorage.setItem(DISTANCES_KEY, JSON.stringify(initialDistances));
-    console.log('Distancias inicializadas');
-  }
-}
+// Añadir claves de traducción para categorías/modalidades y pestañas principales
+Object.keys(translations).forEach(lang => {
+  translations[lang].tabRegisterTeam = translations[lang].tabRegisterTeam || {
+    ca: 'Registrar Equip', es: 'Registrar Equipo', en: 'Register Team', pt: 'Registrar Equipa'
+  }[lang];
+  translations[lang].tabRegister = translations[lang].tabRegister || {
+    ca: 'Registrar Distància', es: 'Registrar Distancia', en: 'Register Distance', pt: 'Registrar Distância'
+  }[lang];
+  translations[lang].tabResults = translations[lang].tabResults || {
+    ca: 'Veure Resultats', es: 'Ver Resultados', en: 'View Results', pt: 'Ver Resultados'
+  }[lang];
+  translations[lang].tabAdmin = translations[lang].tabAdmin || {
+    ca: 'Admin', es: 'Admin', en: 'Admin', pt: 'Admin'
+  }[lang];
+  translations[lang].cat1 = translations[lang].cat1 || {
+    ca: '1 pax (Run + Bike)', es: '1 pax (Run + Bike)', en: '1 pax (Run + Bike)', pt: '1 pax (Run + Bike)'
+  }[lang];
+  translations[lang].cat2 = translations[lang].cat2 || {
+    ca: '2 pax (Run + Bike)', es: '2 pax (Run + Bike)', en: '2 pax (Run + Bike)', pt: '2 pax (Run + Bike)'
+  }[lang];
+  translations[lang].cat3 = translations[lang].cat3 || {
+    ca: '3 pax (Run)', es: '3 pax (Run)', en: '3 pax (Run)', pt: '3 pax (Run)'
+  }[lang];
+  translations[lang].cat4 = translations[lang].cat4 || {
+    ca: '4 pax (Run)', es: '4 pax (Run)', en: '4 pax (Run)', pt: '4 pax (Run)'
+  }[lang];
+  translations[lang].cat5 = translations[lang].cat5 || {
+    ca: '5 pax (Run)', es: '5 pax (Run)', en: '5 pax (Run)', pt: '5 pax (Run)'
+  }[lang];
+});
 
-function setupLanguageSelector() {
-  const languageSelect = document.getElementById('languageSelect');
-  if (languageSelect) {
-    // Establecer catalán como predeterminado
-    languageSelect.value = 'ca';
-    currentLanguage = 'ca';
-    
-    languageSelect.addEventListener('change', (e) => {
-      currentLanguage = e.target.value;
-      console.log('Idioma cambiado a:', currentLanguage);
-      updateLanguage();
-    });
-    
-    // Actualizar idioma inicial
-    updateLanguage();
-  }
-}
+// Añadir claves de traducción para la pestaña de distancia
+Object.keys(translations).forEach(lang => {
+  translations[lang].selectYourTeam = translations[lang].selectYourTeam || {
+    ca: 'Selecciona el teu equip', es: 'Selecciona tu equipo', en: 'Select your team', pt: 'Seleciona a tua equipa'
+  }[lang];
+  translations[lang].distanceLabel = translations[lang].distanceLabel || {
+    ca: 'Distància *', es: 'Distancia *', en: 'Distance *', pt: 'Distância *'
+  }[lang];
+  translations[lang].distancePlaceholder = translations[lang].distancePlaceholder || {
+    ca: 'Ex: 10.5', es: 'Ej: 10.5', en: 'Ex: 10.5', pt: 'Ex: 10.5'
+  }[lang];
+  translations[lang].unitKm = translations[lang].unitKm || {
+    ca: 'km', es: 'km', en: 'km', pt: 'km'
+  }[lang];
+  translations[lang].unitMi = translations[lang].unitMi || {
+    ca: 'Milles', es: 'Millas', en: 'Miles', pt: 'Milhas'
+  }[lang];
+  translations[lang].registerDistanceButton = translations[lang].registerDistanceButton || {
+    ca: 'Registrar Distància', es: 'Registrar Distancia', en: 'Register Distance', pt: 'Registrar Distância'
+  }[lang];
+});
 
-function updateLanguage() {
-  console.log('Actualizando idioma a:', currentLanguage);
-  
-  // Usar la función updateTexts() que maneja todos los textos
-  updateTexts();
-  
-  // Actualizar labels de formularios
-  updateFormLabels();
-  
-  // Actualizar textos del panel de administración
-  updateAdminTexts();
-  
-  // Asegurar que los botones de admin estén ocultos si no se ha hecho login
-  const adminPanel = document.getElementById('admin-panel');
-  const exportButton = document.getElementById('admin-export-button');
-  const resetButton = document.getElementById('admin-reset-button');
-  
-  if (adminPanel && adminPanel.classList.contains('hidden')) {
-    // Panel oculto = no login, ocultar botones
-    if (exportButton) exportButton.classList.add('hidden');
-    if (resetButton) resetButton.classList.add('hidden');
-  }
-  
-  // Recargar equipos con el nuevo idioma
-  loadTeams();
-  
-  // Recargar resultados para actualizar gráficos
-  loadResults();
-}
+// Añadir claves de traducción para labels y mensajes de la pestaña de distancia
+Object.keys(translations).forEach(lang => {
+  translations[lang].selectTeamLabel = translations[lang].selectTeamLabel || {
+    ca: 'Seleccionar Equip *', es: 'Seleccionar Equipo *', en: 'Select Team *', pt: 'Selecionar Equipa *'
+  }[lang];
+  translations[lang].dateLabel = translations[lang].dateLabel || {
+    ca: 'Data *', es: 'Fecha *', en: 'Date *', pt: 'Data *'
+  }[lang];
+  translations[lang].distanceLabel = translations[lang].distanceLabel || {
+    ca: 'Distància *', es: 'Distancia *', en: 'Distance *', pt: 'Distância *'
+  }[lang];
+  translations[lang].distanceErrorFields = translations[lang].distanceErrorFields || {
+    ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
+  }[lang];
+  translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
+    ca: 'La data ha d\'estar entre el 4 i 12 d\'agost de 2025.', es: 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', en: 'The date must be between August 4 and 12, 2025.', pt: 'A data deve estar entre 4 e 12 de agosto de 2025.'
+  }[lang];
+});
 
-function updateFormLabels() {
-  const t = translations[currentLanguage];
-  
-  // Labels del formulario de equipo
-  const teamNameLabel = document.getElementById('teamNameLabel');
-  const teamCategoryLabel = document.getElementById('teamCategoryLabel');
-  const whatsappGroupLabel = document.getElementById('whatsappGroupLabel');
-  const registerTeamButton = document.getElementById('registerTeamButton');
-  
-  if (teamNameLabel) teamNameLabel.textContent = t.teamName + ' *';
-  if (teamCategoryLabel) teamCategoryLabel.textContent = t.category + ' *';
-  if (whatsappGroupLabel) whatsappGroupLabel.textContent = t.whatsappGroupLabel;
-  if (registerTeamButton) registerTeamButton.textContent = t.registerTeamButton;
-  
-  // Labels del formulario de distancia
+function updateDistanceTabTexts() {
+  const t = translations[currentLanguage] || translations['ca'];
+  // Label de equipo
+  const teamLabel = document.getElementById('distanceTeamLabel');
+  if (teamLabel) teamLabel.textContent = t.selectTeamLabel;
+  // Select de equipo
+  const teamSelectOption = document.getElementById('distanceTeamSelectOption');
+  if (teamSelectOption) teamSelectOption.textContent = t.selectYourTeam;
+  // Label de fecha
+  const dateLabel = document.getElementById('distanceDateLabel');
+  if (dateLabel) dateLabel.textContent = t.dateLabel;
+  // Label y placeholder de distancia
+  const distanceLabel = document.getElementById('distanceLabel');
+  if (distanceLabel) distanceLabel.textContent = t.distanceLabel;
+  const distanceInput = document.getElementById('distanceInput');
+  if (distanceInput) distanceInput.placeholder = t.distancePlaceholder;
+  // Opciones de unidad (forzar actualización del texto y valor)
+  const unitKmOption = document.getElementById('distanceUnitKmOption');
+  if (unitKmOption) {
+    unitKmOption.textContent = t.unitKm;
+    unitKmOption.value = 'km';
+  }
+  const unitMiOption = document.getElementById('distanceUnitMiOption');
+  if (unitMiOption) {
+    unitMiOption.textContent = t.unitMi;
+    unitMiOption.value = 'mi';
+  }
+  // Botón de registrar distancia
+  const btn = document.getElementById('distanceRegisterButton');
+  if (btn) btn.textContent = t.registerDistanceButton;
+  // Forzar actualización del select de equipos si existe
   const teamSelect = document.getElementById('teamSelect');
-  if (teamSelect) {
-    const firstOption = teamSelect.querySelector('option[value=""]');
-    if (firstOption) {
-      firstOption.textContent = t.selectTeam;
-    }
-  }
-  
-  // Actualizar placeholders
-  const teamNameInput = document.getElementById('teamName');
-  if (teamNameInput) {
-    teamNameInput.placeholder = t.teamName;
+  if (teamSelect && teamSelect.options.length > 0) {
+    teamSelect.options[0].text = t.selectYourTeam;
   }
 }
 
-function setupEventListeners() {
-  console.log('Configurando event listeners...');
-  
-  // Formulario de equipo
-  const teamForm = document.getElementById('teamForm');
-  if (teamForm) {
-    teamForm.addEventListener('submit', handleTeamSubmit);
-    console.log('Event listener para formulario de equipo añadido');
-  } else {
-    console.error('No se encontró el formulario de equipo');
+// Modificar los mensajes de error/éxito en handleDistanceSubmit
+const originalHandleDistanceSubmit = handleDistanceSubmit;
+async function handleDistanceSubmit(e) {
+  e.preventDefault();
+  const t = getTranslations();
+  const teamId = document.getElementById('teamSelect').value;
+  const date = document.getElementById('dateInput').value;
+  let distanceValue = document.getElementById('distanceInput').value;
+  // Aceptar punto, coma o apóstrofe como separador decimal
+  distanceValue = distanceValue.replace(/['’,]/g, '.');
+  const distance = parseFloat(distanceValue);
+  if (isNaN(distance) || !isFinite(distance)) {
+    showNotification(t.distanceErrorFormat || 'Introduce un número válido para la distancia.', 'error');
+    return;
   }
-  
-  // Formulario de distancia
-  const distanceForm = document.getElementById('distanceForm');
-  if (distanceForm) {
-    distanceForm.addEventListener('submit', handleDistanceSubmit);
-    console.log('Event listener para formulario de distancia añadido');
-  } else {
-    console.error('No se encontró el formulario de distancia');
+  const unit = document.getElementById('unitSelect').value;
+  if (!teamId || !date || !distance || distance <= 0) {
+    showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
+    return;
   }
-  
-  // Nota: El botón de añadir equipo se eliminó porque ahora hay una pestaña dedicada para registrar equipos
+  const selectedDate = new Date(date);
+  const startDate = new Date('2025-08-04');
+  const endDate = new Date('2025-08-12');
+  if (selectedDate < startDate || selectedDate > endDate) {
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
+    return;
+  }
+  const newDistance = {
+    team_id: parseInt(teamId),
+    date: date,
+    distance: distance,
+    unit: unit,
+    timestamp: new Date().toISOString()
+  };
+  const { error, data } = await window.supabase.from('distance').insert([newDistance]).select();
+  if (error) {
+    showNotification(t.distanceRegisterError || 'Error al registrar la distancia', 'error');
+    return;
+  }
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    showNotification(t.distanceRegisterUnexpected || 'No se insertó la distancia. Revisa la consola.', 'error');
+    return;
+  }
+  document.getElementById('distanceForm').reset();
+  showNotification(t.distanceRegisteredSuccess || '¡Distancia registrada con éxito!', 'success');
+  if (document.getElementById('results-tab').classList.contains('active')) {
+    await loadResults();
+  }
 }
+window.handleDistanceSubmit = handleDistanceSubmit;
+
+// Llamar a updateDistanceTabTexts() cada vez que se cambie el idioma
+const originalUpdateLanguage2 = window.updateLanguage;
+window.updateLanguage = function() {
+  updateTabAndCategoryTexts();
+  updateDistanceTabTexts();
+  loadTeams();
+  if (document.getElementById('results-tab').classList.contains('active') && lastTeamStats) {
+    updateCategoryResults(lastTeamStats);
+  }
+};
 
 function switchTab(tabName) {
   console.log('Cambiando a pestaña:', tabName);
@@ -611,7 +856,11 @@ function switchTab(tabName) {
       if (resetButton) resetButton.classList.add('hidden');
     }
   }
+  if (tabName === 'register') {
+    loadTeams();
+  }
 }
+window.switchTab = switchTab;
 
 function switchModalTab(modalNumber) {
   console.log('Cambiando a modalidad:', modalNumber);
@@ -643,150 +892,119 @@ function switchModalTab(modalNumber) {
     selectedButton.classList.remove('text-white/70');
   }
 }
+window.switchModalTab = switchModalTab;
 
-function loadTeams() {
-  console.log('Cargando equipos...');
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  console.log('Equipos encontrados en localStorage:', teams);
-  
+// --- INICIO: FUNCIONES SUPABASE ---
+
+async function loadTeams() {
+  const { data, error } = await window.supabase
+    .from('registrations')
+    .select('*');
+  if (error) {
+    console.error('Error cargando equipos:', error);
+    return [];
+  }
   const teamSelect = document.getElementById('teamSelect');
-  console.log('Selector de equipos encontrado:', teamSelect);
-  
+  const t = translations[currentLanguage] || translations['ca'];
   if (teamSelect) {
-    // Limpiar opciones existentes excepto la primera
-    const t = translations[currentLanguage] || translations['ca'];
     teamSelect.innerHTML = `<option value="">${t.selectTeam}</option>`;
-    
-    // Añadir equipos
-    teams.forEach(team => {
+    data.forEach(team => {
       const option = document.createElement('option');
       option.value = team.id;
       option.textContent = `${team.name} (${team.category})`;
       teamSelect.appendChild(option);
-      console.log('Añadido equipo al selector:', team.name);
     });
-    
-    console.log(`${teams.length} equipos cargados en el selector`);
-    console.log('Opciones en el selector:', teamSelect.options.length);
-  } else {
-    console.error('No se encontró el selector de equipos');
   }
+  return data;
 }
 
-function handleTeamSubmit(e) {
+async function handleTeamSubmit(e) {
   e.preventDefault();
-  console.log('Enviando formulario de equipo...');
-  
+  const t = getTranslations();
   const teamName = document.getElementById('teamName').value.trim();
   const teamCategory = document.getElementById('teamCategory').value;
-  
   if (!teamName || !teamCategory) {
-    console.log('Campos obligatorios faltantes');
-    showNotification('Si us plau completa tots els camps obligatoris.', 'error');
+    showNotification(t.teamFieldsRequired || 'Por favor completa todos los campos obligatorios.', 'error');
     return;
   }
-  
   // Verificar que no exista un equipo con el mismo nombre
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
+  const { data: teams } = await window.supabase.from('registrations').select('name');
   const existingTeam = teams.find(team => team.name.toLowerCase() === teamName.toLowerCase());
-  
   if (existingTeam) {
-    const t = translations[currentLanguage] || translations['ca'];
-    showNotification(t.teamNameExists, 'error');
+    showNotification(t.teamNameExists || 'Ya existe un equipo con este nombre. Por favor, elige otro nombre.', 'error');
     return;
   }
-  
-  console.log('Equipos existentes:', teams.length);
-  
-  const newTeam = {
-    id: Date.now(),
-    name: teamName,
-    category: teamCategory
-  };
-  
-  teams.push(newTeam);
-  localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));
-  
-  console.log('Equipo guardado:', newTeam);
-  console.log('Total de equipos después de guardar:', teams.length);
-  
-  // Verificar que se guardó correctamente
-  const savedTeams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  console.log('Equipos en localStorage después de guardar:', savedTeams.length);
-  
-  // Recargar equipos en el selector
-  loadTeams();
-  
-  // Limpiar formulario
+  const newTeam = { name: teamName, category: teamCategory };
+  const { error, data } = await window.supabase
+    .from('registrations')
+    .insert([newTeam])
+    .select();
+  if (error) {
+    showNotification(t.teamRegisterError || 'Error al registrar el equipo', 'error');
+    return;
+  }
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    showNotification(t.teamRegisterUnexpected || 'No se insertó el equipo. Revisa la consola.', 'error');
+    return;
+  }
+  await loadTeams();
   document.getElementById('teamForm').reset();
-  
-  const t = translations[currentLanguage] || translations['ca'];
-  showNotification(t.teamRegisteredSuccess, 'success');
+  showNotification(t.teamRegisteredSuccess || '¡Equipo registrado con éxito!', 'success');
 }
+window.handleTeamSubmit = handleTeamSubmit;
 
-function handleDistanceSubmit(e) {
-  console.log('handleDistanceSubmit ejecutado');
+async function handleDistanceSubmit(e) {
   e.preventDefault();
-  console.log('Enviando formulario de distancia...');
-  
+  const t = getTranslations();
   const teamId = document.getElementById('teamSelect').value;
   const date = document.getElementById('dateInput').value;
   let distanceValue = document.getElementById('distanceInput').value;
-  // Permitir coma o punto como separador decimal
-  distanceValue = distanceValue.replace(',', '.');
+  // Aceptar punto, coma o apóstrofe como separador decimal
+  distanceValue = distanceValue.replace(/['’,]/g, '.');
   const distance = parseFloat(distanceValue);
-  const unit = document.getElementById('unitSelect').value;
-  
-  console.log('Datos del formulario:', { teamId, date, distance, unit });
-  
-  if (!teamId || !date || !distance || distance <= 0) {
-    showNotification('Si us plau completa tots els camps correctament.', 'error');
+  if (isNaN(distance) || !isFinite(distance)) {
+    showNotification(t.distanceErrorFormat || 'Introduce un número válido para la distancia.', 'error');
     return;
   }
-  
-  // Verificar que la fecha esté en el rango válido
+  const unit = document.getElementById('unitSelect').value;
+  if (!teamId || !date || !distance || distance <= 0) {
+    showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
+    return;
+  }
   const selectedDate = new Date(date);
   const startDate = new Date('2025-08-04');
   const endDate = new Date('2025-08-12');
-  
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification('La data ha d\'estar entre el 4 i 12 d\'agost de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
     return;
   }
-  
-  // Guardar distancia
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
   const newDistance = {
-    id: Date.now(),
-    teamId: parseInt(teamId),
+    team_id: parseInt(teamId),
     date: date,
     distance: distance,
     unit: unit,
     timestamp: new Date().toISOString()
   };
-  
-  distances.push(newDistance);
-  localStorage.setItem(DISTANCES_KEY, JSON.stringify(distances));
-  
-  console.log('Distancia guardada:', newDistance);
-  
-  // Limpiar formulario
+  const { error, data } = await window.supabase.from('distance').insert([newDistance]).select();
+  if (error) {
+    showNotification(t.distanceRegisterError || 'Error al registrar la distancia', 'error');
+    return;
+  }
+  if (!data || (Array.isArray(data) && data.length === 0)) {
+    showNotification(t.distanceRegisterUnexpected || 'No se insertó la distancia. Revisa la consola.', 'error');
+    return;
+  }
   document.getElementById('distanceForm').reset();
-  
-  const t = translations[currentLanguage] || translations['ca'];
-  showNotification(t.distanceRegisteredSuccess, 'success');
-  
-  // Actualizar resultados si estamos en esa pestaña
+  showNotification(t.distanceRegisteredSuccess || '¡Distancia registrada con éxito!', 'success');
   if (document.getElementById('results-tab').classList.contains('active')) {
-    loadResults();
+    await loadResults();
   }
 }
+window.handleDistanceSubmit = handleDistanceSubmit;
 
-function loadResults() {
-  console.log('Cargando resultados...');
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  console.log('Equipos:', teams.length, 'Distancias:', distances.length);
+async function loadResults() {
+  const { data: teams } = await window.supabase.from('registrations').select('*');
+  const { data: distances } = await window.supabase.from('distance').select('*');
   // Calcular estadísticas por equipo
   const teamStats = {};
   teams.forEach(team => {
@@ -799,7 +1017,7 @@ function loadResults() {
     };
   });
   distances.forEach(distance => {
-    const teamStat = teamStats[distance.teamId];
+    const teamStat = teamStats[distance.team_id];
     if (teamStat) {
       const distanceKm = distance.unit === 'mi' ? distance.distance * 1.60934 : distance.distance;
       const distanceMi = distance.unit === 'km' ? distance.distance / 1.60934 : distance.distance;
@@ -809,6 +1027,7 @@ function loadResults() {
       teamStat.lastRegistration = distance.timestamp;
     }
   });
+  lastTeamStats = teamStats;
   updateGeneralStats(teams, distances);
   updateCategoryResults(teamStats);
   generateCharts(teamStats);
@@ -846,6 +1065,7 @@ function updateGeneralStats(teams, distances) {
 }
 
 function updateCategoryResults(teamStats) {
+  const t = getTranslations();
   const categories = {
     '1 pax (Run + Bike)': 'category-1',
     '2 pax (Run + Bike)': 'category-2',
@@ -875,7 +1095,6 @@ function updateCategoryResults(teamStats) {
     const container = document.getElementById(elementId);
     if (container) {
       const teams = teamsByCategory[categoryName] || [];
-      const t = translations[currentLanguage] || translations['ca'];
       if (teams.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-4">' + t.noTeamsRegistered + '</p>';
       } else {
@@ -899,8 +1118,7 @@ function updateCategoryResults(teamStats) {
                 </div>
                 <div class="text-xs text-gray-500 text-center mb-1">${progressPercent.toFixed(1)}%</div>
                 <button type="button" onclick="showTeamHistory(${teamId})" class="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center justify-center w-full py-1 mt-1">
-                  <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
-                  ${t.history}
+                  ${t.viewHistoryButton || 'Ver historial'}
                 </button>
               </div>
             `;
@@ -909,18 +1127,52 @@ function updateCategoryResults(teamStats) {
       }
     }
   });
-  
-  console.log('Resultados por categoría actualizados');
 }
 
+// --- INICIO: showTeamHistory ---
+function showTeamHistory(teamId) {
+  const t = getTranslations();
+  window.supabase.from('registrations').select('*').eq('id', teamId).then(({ data: teams }) => {
+    const team = teams && teams[0];
+    if (!team) {
+      showNotification(t.teamNotFound || 'Equipo no encontrado', 'error');
+      return;
+    }
+    window.supabase.from('distance').select('*').eq('team_id', teamId).order('date', { ascending: true }).then(({ data: distances }) => {
+      let modal = document.getElementById('team-history-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'team-history-modal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.4)';
+        modal.style.zIndex = '10000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        document.body.appendChild(modal);
+      }
+      modal.innerHTML = `
+        <div style="background:#fff;padding:32px 24px;border-radius:12px;max-width:400px;width:100%;box-shadow:0 4px 32px rgba(0,0,0,0.18);position:relative;color:#111;">
+          <button onclick="document.getElementById('team-history-modal').remove()" style="position:absolute;top:12px;right:12px;font-size:1.5em;background:none;border:none;cursor:pointer;color:#111;">&times;</button>
+          <h2 style="font-size:1.3em;font-weight:bold;margin-bottom:12px;color:#111;">${t.historyTitle || 'Historial de'} ${team.name}</h2>
+          <ul style="max-height:300px;overflow-y:auto;padding:0;list-style:none;color:#111;">
+            ${distances && distances.length > 0 ? distances.map(d => `<li style='margin-bottom:8px;color:#111;'>${d.date}: <b>${d.distance} ${d.unit}</b></li>`).join('') : `<li style="color:#111;">${t.noRegistrationsForTeam || 'No hay registros'}</li>`}
+          </ul>
+        </div>
+      `;
+    });
+  });
+}
+window.showTeamHistory = showTeamHistory;
+// --- FIN: showTeamHistory ---
+
+// --- INICIO: generateCharts ---
 function generateCharts(teamStats) {
-  console.log('Generando gráficas...');
-  
-  // Asegurar que charts esté inicializada
-  if (typeof charts === 'undefined') {
-    charts = {};
-  }
-  
+  // Por cada categoría, genera una gráfica de barras con los equipos y su distancia total en millas
   const categories = {
     '1 pax (Run + Bike)': 'chart-1',
     '2 pax (Run + Bike)': 'chart-2',
@@ -928,644 +1180,374 @@ function generateCharts(teamStats) {
     '4 pax (Run)': 'chart-4',
     '5 pax (Run)': 'chart-5'
   };
-  
-  Object.entries(categories).forEach(([categoryName, chartId]) => {
-    const teams = Object.values(teamStats).filter(stat => stat.team.category === categoryName);
-    console.log(`Generando gráfica para ${categoryName}:`, teams.length, 'equipos');
-    
-    if (teams.length > 0) {
-      // Ordenar por distancia en millas
-      teams.sort((a, b) => b.totalDistanceMi - a.totalDistanceMi);
-      
-      const ctx = document.getElementById(chartId);
-      if (ctx) {
-        // Destruir gráfica existente si existe
-        if (charts && charts[chartId]) {
-          charts[chartId].destroy();
-        }
-        
-        const labels = teams.map(stat => stat.team.name);
-        const data = teams.map(stat => stat.totalDistanceMi);
-        const colors = teams.map((_, index) => {
-          if (index === 0) return '#fbbf24'; // Oro
-          if (index === 1) return '#9ca3af'; // Plata
-          if (index === 2) return '#d97706'; // Bronce
-          return '#667eea'; // Azul
-        });
-        
-        console.log('Datos para gráfica:', { labels, data, colors });
-        
-        // Verificar que Chart.js esté disponible
-        if (typeof Chart === 'undefined') {
-          console.error('Chart.js no está disponible para crear gráfica');
-          return;
-        }
-        
-        charts[chartId] = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Milles',
-              data: data,
-              backgroundColor: colors,
-              borderColor: colors,
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return `${context.parsed.y.toFixed(1)} milles`;
-                  }
-                }
-              }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Milles'
-                }
-              }
-            }
+  Object.entries(categories).forEach(([cat, canvasId]) => {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    // Ajustar tamaño del canvas (solo CSS, no JS)
+    canvas.style.width = '100%';
+    canvas.style.maxWidth = '100%';
+    // Limpiar canvas anterior
+    if (canvas.chartInstance) {
+      canvas.chartInstance.destroy();
+    }
+    // Filtrar equipos de la categoría
+    const teams = Object.values(teamStats).filter(stat => stat.team.category === cat);
+    if (teams.length === 0) {
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+    // Ordenar por distancia
+    teams.sort((a, b) => b.totalDistanceMi - a.totalDistanceMi);
+    // Datos para la gráfica
+    const labels = teams.map(stat => stat.team.name);
+    const data = teams.map(stat => stat.totalDistanceMi);
+    // Crear gráfica
+    const chart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Millas acumuladas',
+          data: data,
+          backgroundColor: 'rgba(34,197,94,0.7)',
+          borderColor: 'rgba(34,197,94,1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true }
+        },
+        scales: {
+          x: { title: { display: false } },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Millas' }
           }
-        });
-        
-        console.log(`Gráfica ${chartId} creada exitosamente`);
-      } else {
-        console.error(`No se encontró el canvas para ${chartId}`);
-      }
-    } else {
-      console.log(`No hay equipos para la categoría ${categoryName}`);
-    }
-  });
-}
-
-function showNotification(message, type = 'info') {
-  console.log('Mostrando notificación:', message, type);
-  
-  // Remover notificaciones existentes
-  const existingNotifications = document.querySelectorAll('.notification');
-  existingNotifications.forEach(notification => notification.remove());
-  
-  const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
-  notification.textContent = message;
-  
-  // Añadir icono según el tipo
-  let icon = '';
-  switch(type) {
-    case 'success':
-      icon = '✅';
-      break;
-    case 'error':
-      icon = '❌';
-      break;
-    default:
-      icon = 'ℹ️';
-  }
-  
-  notification.innerHTML = `${icon} ${message}`;
-  
-  document.body.appendChild(notification);
-  
-  // Auto-remover después de 4 segundos
-  setTimeout(() => {
-    if (notification.parentNode) {
-      notification.style.animation = 'slideOut 0.3s ease-in';
-      setTimeout(() => {
-        if (notification.parentNode) {
-          notification.remove();
         }
-      }, 300);
-    }
-  }, 4000);
-}
-
-function showTeamHistory(teamId) {
-  console.log('showTeamHistory llamada con teamId:', teamId);
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  const t = translations[currentLanguage] || translations['ca'];
-  
-  console.log('Equipos encontrados:', teams.length);
-  console.log('Distancias encontradas:', distances.length);
-  
-  const team = teams.find(t => t.id === teamId);
-  if (!team) {
-    console.error('Equipo no encontrado con ID:', teamId);
-    showNotification('Equip no trobat', 'error');
-    return;
-  }
-  
-  console.log('Equipo encontrado:', team);
-  
-  const teamDistances = distances.filter(d => d.teamId === teamId);
-  const totalDistanceMi = teamDistances.reduce((sum, d) => sum + (d.unit === 'mi' ? d.distance : d.distance / 1.60934), 0);
-  const totalDistanceKm = totalDistanceMi * 1.60934;
-  
-  // Ordenar distancias por fecha (más reciente primero)
-  const sortedDistances = teamDistances.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
-  const historyHTML = `
-    <div>
-      <div class="modal-header">
-        <div>
-          <h3>${team.name}</h3>
-          <p>${team.category}</p>
-        </div>
-        <button onclick="closeTeamHistory()" class="close-btn" aria-label="Cerrar">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414-1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </button>
-      </div>
-      <div class="modal-content">
-        <table class="w-full mb-6 text-base">
-          <tbody>
-            <tr class="border-b">
-              <td class="py-3 px-10 font-medium text-blue-700 bg-blue-50 border border-blue-100 rounded-l-lg">${t.totalMiles || t.miles || 'Milles'}</td>
-              <td class="py-3 px-10 text-right font-bold text-blue-600 bg-blue-50 border border-blue-100 rounded-r-lg">${totalDistanceMi.toFixed(1)}</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-3 px-10 font-medium text-green-700 bg-green-50 border border-green-100 rounded-l-lg">${t.totalKm || t.kilometers || 'Km'}</td>
-              <td class="py-3 px-10 text-right font-bold text-green-600 bg-green-50 border border-green-100 rounded-r-lg">${totalDistanceKm.toFixed(1)}</td>
-            </tr>
-            <tr>
-              <td class="py-3 px-10 font-medium text-purple-700 bg-purple-50 border border-purple-100 rounded-l-lg">${t.registrations || 'Registres'}</td>
-              <td class="py-3 px-10 text-right font-bold text-purple-600 bg-purple-50 border border-purple-100 rounded-r-lg">${teamDistances.length}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <h4 class="text-lg font-semibold text-gray-800 mb-4">${t.historyTitle || t.history || 'Historial de Registres'}</h4>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="bg-white border-b border-gray-200">
-                  <th class="text-left py-3 px-10 font-semibold text-gray-700">${t.date || 'Data'}</th>
-                  <th class="text-left py-3 px-10 font-semibold text-gray-700">${t.distance || 'Distància'}</th>
-                  <th class="text-left py-3 px-10 font-semibold text-gray-700">${t.units || 'Unitats'}</th>
-                  <th class="text-left py-3 px-10 font-semibold text-gray-700">${t.miles || 'Milles'}</th>
-                  <th class="text-left py-3 px-10 font-semibold text-gray-700">${t.kilometers || 'Km'}</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${sortedDistances.length === 0 ? `<tr><td colspan="5" class="text-center py-8 text-gray-500">${t.noRegistrationsForTeam || 'No hi ha registres per aquest equip'}</td></tr>` :
-                  sortedDistances.map(distance => {
-                    const distanceKm = distance.unit === 'mi' ? distance.distance * 1.60934 : distance.distance;
-                    const distanceMi = distance.unit === 'km' ? distance.distance / 1.60934 : distance.distance;
-                    const formattedDate = new Date(distance.date).toLocaleDateString('ca-ES');
-                    return `<tr class="bg-white border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                      <td class="py-3 px-10 font-medium">${formattedDate}</td>
-                      <td class="py-3 px-10">${distance.distance}</td>
-                      <td class="py-3 px-10">${distance.unit === 'km' ? (t.kilometers || 'Km') : (t.miles || 'Milles')}</td>
-                      <td class="py-3 px-10 font-semibold">${distanceMi.toFixed(1)}</td>
-                      <td class="py-3 px-10 font-semibold">${distanceKm.toFixed(1)}</td>
-                    </tr>`;
-                  }).join('')
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  // Crear y mostrar el modal
-  console.log('Creando modal con HTML:', historyHTML.substring(0, 200) + '...');
-  const modal = document.createElement('div');
-  modal.id = 'teamHistoryModal';
-  modal.innerHTML = historyHTML;
-  document.body.appendChild(modal);
-  console.log('Modal creado y añadido al DOM');
-}
-
-function closeTeamHistory() {
-  console.log('closeTeamHistory llamada');
-  const modal = document.getElementById('teamHistoryModal');
-  if (modal) {
-    modal.remove();
-    console.log('Modal eliminado');
-  } else {
-    console.log('Modal no encontrado');
-  }
-}
-
-// Función para actualizar textos
-function updateTexts() {
-  console.log('updateTexts() llamada con idioma:', currentLanguage);
-  const texts = translations[currentLanguage];
-  
-  if (!texts) {
-    console.error('No se encontraron traducciones para:', currentLanguage);
-    return;
-  }
-  
-  console.log('Traducciones encontradas:', Object.keys(texts).length);
-  
-  // Lista de todos los IDs que necesitan traducción
-  const textIds = [
-    'registerTeamTitle',
-    'joinChallengeText', 
-    'teamNameLabel',
-    'teamCategoryLabel',
-    'whatsappGroupLabel',
-    'whatsappGroupLinkText',
-    'whatsappGroupInfo',
-    'whatsappGroupBenefit1',
-    'whatsappGroupBenefit2',
-    'whatsappGroupBenefit3',
-    'whatsappGroupBenefit4',
-    'registerTeamButton',
-    'totalTeamsLabel',
-    'totalDistanceLabel',
-    'totalDistanceMiLabel',
-    'totalRegistrationsLabel',
-    'registerProgressText',
-    'viewProgressText',
-    'resultsTitle',
-    'registerDistanceTitle'
-  ];
-  
-  textIds.forEach(id => {
-    const element = document.getElementById(id);
-    if (element && texts[id]) {
-      console.log(`Actualizando ${id}: "${element.textContent}" -> "${texts[id]}"`);
-      element.textContent = texts[id];
-    } else if (!element) {
-      console.log(`Elemento no encontrado: ${id}`);
-    } else if (!texts[id]) {
-      console.log(`Traducción no encontrada para: ${id}`);
-    }
-  });
-
-  // Actualizar textos de las pestañas
-  const tabElements = {
-    'tab-register-team': texts.registerTeam || 'Registrar Equip',
-    'tab-register': texts.registerDistance || 'Registrar Distància', 
-    'tab-results': texts.viewResults || 'Veure Resultats',
-    'tab-admin': 'Admin'
-  };
-
-  Object.keys(tabElements).forEach(tabId => {
-    const tabElement = document.getElementById(tabId);
-    if (tabElement) {
-      const spanElement = tabElement.querySelector('span');
-      if (spanElement) {
-        // Extraer solo el texto, manteniendo el icono
-        const icon = spanElement.querySelector('svg');
-        spanElement.innerHTML = '';
-        if (icon) spanElement.appendChild(icon);
-        spanElement.appendChild(document.createTextNode(' ' + tabElements[tabId]));
-        console.log(`Actualizando pestaña ${tabId}: "${tabElements[tabId]}"`);
       }
-    }
+    });
+    canvas.chartInstance = chart;
   });
-
-  // Actualizar textos de las modalidades
-  const modalTabElements = {
-    'modal-tab-1': '1 pax (Run + Bike)',
-    'modal-tab-2': '2 pax (Run + Bike)', 
-    'modal-tab-3': '3 pax (Run)',
-    'modal-tab-4': '4 pax (Run)',
-    'modal-tab-5': '5 pax (Run)'
-  };
-
-  Object.keys(modalTabElements).forEach(modalId => {
-    const modalElement = document.getElementById(modalId);
-    if (modalElement) {
-      modalElement.textContent = modalTabElements[modalId];
-    }
-  });
-  
-  console.log('updateTexts() completada');
 }
+window.generateCharts = generateCharts;
+// --- FIN: generateCharts ---
 
-// Funciones de administración
+// --- INICIO: loginAdmin ---
 function loginAdmin() {
+  const t = getTranslations();
   const password = document.getElementById('adminPassword').value;
-  if (password === ADMIN_PASSWORD) {
+  if (password === 'edu.mi') {
     isAdminLogged = true;
     document.getElementById('admin-login').classList.add('hidden');
     document.getElementById('admin-panel').classList.remove('hidden');
-    // Mostrar botons després del login
-    const exportButton = document.getElementById('admin-export-button');
-    const resetButton = document.getElementById('admin-reset-button');
-    if (exportButton) exportButton.classList.remove('hidden');
-    if (resetButton) resetButton.classList.remove('hidden');
-    loadAdminData();
-    updateAdminTexts();
+    showNotification(t.adminAccessGranted || 'Acceso de administrador concedido', 'success');
+    document.getElementById('admin-export-button').classList.remove('hidden');
+    document.getElementById('admin-reset-button').classList.remove('hidden');
+    loadAdminPanel();
   } else {
     isAdminLogged = false;
-    const t = translations[currentLanguage] || translations['ca'];
-    showNotification(t.adminWrongPassword, 'error');
+    showNotification(t.adminWrongPassword || 'Contraseña incorrecta', 'error');
+    document.getElementById('admin-panel').classList.add('hidden');
+    document.getElementById('admin-login').classList.remove('hidden');
+    const teamsList = document.getElementById('admin-teams-list');
+    if (teamsList) teamsList.innerHTML = '';
+    document.getElementById('admin-export-button').classList.add('hidden');
+    document.getElementById('admin-reset-button').classList.add('hidden');
   }
 }
+window.loginAdmin = loginAdmin;
+// --- FIN: loginAdmin ---
 
+// --- INICIO: logoutAdmin ---
 function logoutAdmin() {
   isAdminLogged = false;
   document.getElementById('admin-panel').classList.add('hidden');
   document.getElementById('admin-login').classList.remove('hidden');
   document.getElementById('adminPassword').value = '';
-  // Ocultar botons al fer logout
-  const exportButton = document.getElementById('admin-export-button');
-  const resetButton = document.getElementById('admin-reset-button');
-  if (exportButton) exportButton.classList.add('hidden');
-  if (resetButton) resetButton.classList.add('hidden');
-}
-
-function updateAdminTexts() {
-  const t = translations[currentLanguage] || translations['ca'];
-  
-  // Actualizar textos del panel de administración
-  const adminElements = {
-    'admin-title': t.adminTitle,
-    'admin-subtitle': t.adminSubtitle,
-    'admin-login-title': t.adminLoginTitle,
-    'admin-panel-title': t.adminPanelTitle,
-    'admin-logout-button': t.adminLogoutButton,
-    'admin-total-teams-label': t.adminTotalTeams,
-    'admin-total-registrations-label': t.adminTotalRegistrations,
-    'admin-total-distance-label': t.adminTotalDistance,
-    'admin-teams-list-title': t.adminTeamsListTitle,
-    'admin-export-button': t.adminExportButton,
-    'admin-reset-button': t.adminResetButton
-  };
-  
-  Object.keys(adminElements).forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.textContent = adminElements[id];
-    }
-  });
-  
-  // Actualizar placeholder del input de contraseña
-  const passwordInput = document.getElementById('adminPassword');
-  if (passwordInput) {
-    passwordInput.placeholder = t.adminPasswordPlaceholder;
-  }
-  
-  // Actualizar botón de login
-  const loginButton = document.getElementById('admin-login-button');
-  if (loginButton) {
-    loginButton.textContent = t.adminLoginButton;
-  }
-  
-  // Verificar si el panel de admin está visible para decidir si mostrar los botones
-  const adminPanel = document.getElementById('admin-panel');
-  const exportButton = document.getElementById('admin-export-button');
-  const resetButton = document.getElementById('admin-reset-button');
-  
-  if (adminPanel && !adminPanel.classList.contains('hidden')) {
-    // Panel visible = login hecho, mostrar botones
-    if (exportButton) exportButton.classList.remove('hidden');
-    if (resetButton) resetButton.classList.remove('hidden');
-  } else {
-    // Panel oculto = no login, ocultar botones
-    if (exportButton) exportButton.classList.add('hidden');
-    if (resetButton) resetButton.classList.add('hidden');
-  }
-}
-
-function loadAdminData() {
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  const t = translations[currentLanguage] || translations['ca'];
-  
-  // Actualizar estadísticas
-  document.getElementById('admin-total-teams').textContent = teams.length;
-  document.getElementById('admin-total-registrations').textContent = distances.length;
-  
-  const totalDistanceKm = distances.reduce((sum, d) => {
-    return sum + (d.unit === 'mi' ? d.distance * 1.60934 : d.distance);
-  }, 0);
-  document.getElementById('admin-total-distance').textContent = `${totalDistanceKm.toFixed(1)} km`;
-  
-  // Listar equipos
+  document.getElementById('admin-export-button').classList.add('hidden');
+  document.getElementById('admin-reset-button').classList.add('hidden');
   const teamsList = document.getElementById('admin-teams-list');
+  if (teamsList) teamsList.innerHTML = '';
+  showNotification(getTranslations().adminLogout || 'Sesión de administrador cerrada', 'info');
+}
+window.logoutAdmin = logoutAdmin;
+// --- FIN: logoutAdmin ---
+
+// --- INICIO: loadAdminPanel ---
+async function loadAdminPanel() {
+  const teamsList = document.getElementById('admin-teams-list');
+  if (!teamsList) return;
+  teamsList.innerHTML = '<div style="text-align:center;color:#888;">Cargando equipos...</div>';
+  // Obtener equipos y registros
+  const { data: teams } = await window.supabase.from('registrations').select('*');
+  const { data: distances } = await window.supabase.from('distance').select('*');
+  if (!teams || teams.length === 0) {
+    teamsList.innerHTML = '<div style="text-align:center;color:#888;">No hay equipos registrados</div>';
+    return;
+  }
+  // Renderizar cada equipo y sus registros
   teamsList.innerHTML = teams.map(team => {
-    const teamDistances = distances.filter(d => d.teamId === team.id);
-    const totalDistance = teamDistances.reduce((sum, d) => {
-      return sum + (d.unit === 'mi' ? d.distance * 1.60934 : d.distance);
-    }, 0);
-    
+    const teamDistances = distances.filter(d => d.team_id === team.id);
     return `
-      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-        <div>
-          <h5 class="font-bold text-gray-800">${team.name}</h5>
-          <p class="text-sm text-gray-600">${team.category}</p>
-          <p class="text-xs text-gray-500">${teamDistances.length} registres, ${totalDistance.toFixed(1)} km</p>
+      <div class="admin-team-card" style="border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:18px;background:#fff;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <input type="text" value="${team.name}" id="edit-team-name-${team.id}" style="font-weight:bold;font-size:1.1em;width:160px;" />
+            <select id="edit-team-category-${team.id}" style="margin-left:8px;">
+              <option${team.category==='1 pax (Run + Bike)'?' selected':''}>1 pax (Run + Bike)</option>
+              <option${team.category==='2 pax (Run + Bike)'?' selected':''}>2 pax (Run + Bike)</option>
+              <option${team.category==='3 pax (Run)'?' selected':''}>3 pax (Run)</option>
+              <option${team.category==='4 pax (Run)'?' selected':''}>4 pax (Run)</option>
+              <option${team.category==='5 pax (Run)'?' selected':''}>5 pax (Run)</option>
+            </select>
+            <button onclick="updateTeam(${team.id})" style="margin-left:8px;">💾</button>
+            <button onclick="deleteTeam(${team.id})" style="margin-left:4px;color:#b91c1c;">🗑️</button>
+          </div>
         </div>
-        <div class="flex flex-col md:flex-row gap-2 items-center">
-          <button onclick="showAdminTeamHistory(${team.id})" class="btn-primary px-3 py-1 text-sm">Veure registres</button>
-          <button onclick="deleteTeam(${team.id})" class="btn-secondary bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-sm">${t.adminDeleteButton}</button>
+        <div style="margin-top:12px;">
+          <b>Registros:</b>
+          <ul style="margin:0;padding:0;list-style:none;">
+            ${teamDistances.map(reg => `
+              <li style='margin-bottom:6px;'>
+                <input type="date" value="${reg.date}" id="edit-reg-date-${reg.id}" style="width:120px;" />
+                <input type="number" value="${reg.distance}" id="edit-reg-distance-${reg.id}" style="width:70px;" step="0.1" min="0" />
+                <select id="edit-reg-unit-${reg.id}">
+                  <option value="km"${reg.unit==='km'?' selected':''}>km</option>
+                  <option value="mi"${reg.unit==='mi'?' selected':''}>mi</option>
+                </select>
+                <button onclick="updateRegistration(${reg.id})">💾</button>
+                <button onclick="deleteRegistration(${reg.id})" style="color:#b91c1c;">🗑️</button>
+              </li>
+            `).join('')}
+          </ul>
         </div>
       </div>
     `;
   }).join('');
 }
+window.loadAdminPanel = loadAdminPanel;
+// --- FIN: loadAdminPanel ---
 
-function deleteTeam(teamId) {
+// Llamar a loadAdminPanel tras loginAdmin
+
+// --- INICIO: updateTeam ---
+async function updateTeam(teamId) {
+  const t = getTranslations();
+  const teamName = document.getElementById(`edit-team-name-${teamId}`).value;
+  const teamCategory = document.getElementById(`edit-team-category-${teamId}`).value;
+  if (!teamName || !teamCategory) {
+    showNotification(t.teamFieldsRequired || 'Por favor completa todos los campos obligatorios.', 'error');
+    return;
+  }
+  const { error } = await window.supabase.from('registrations').update({ name: teamName, category: teamCategory }).eq('id', teamId);
+  if (error) {
+    showNotification(t.adminTeamUpdateError || 'Error al actualizar el equipo', 'error');
+    return;
+  }
+  showNotification(t.adminTeamUpdated || 'Equipo actualizado correctamente', 'success');
+  await loadAdminPanel();
+}
+// --- FIN: updateTeam ---
+window.updateTeam = updateTeam;
+// --- INICIO: deleteTeam ---
+async function deleteTeam(teamId) {
+  const t = getTranslations();
+  if (getConfirm('adminConfirmDelete', '¿Estás seguro que quieres eliminar este equipo? Esto también eliminará todos sus registros.')) {
+    const { error } = await window.supabase.from('registrations').delete().eq('id', teamId);
+    if (error) {
+      showNotification(t.adminTeamDeleteError || 'Error al eliminar el equipo', 'error');
+      return;
+    }
+    showNotification(t.adminTeamDeleted || 'Equipo eliminado correctamente', 'success');
+    await loadAdminPanel();
+  }
+}
+// --- FIN: deleteTeam ---
+window.deleteTeam = deleteTeam;
+// --- INICIO: updateRegistration ---
+async function updateRegistration(regId) {
+  const t = getTranslations();
+  const date = document.getElementById(`edit-reg-date-${regId}`).value;
+  let distanceValue = document.getElementById(`edit-reg-distance-${regId}`).value;
+  distanceValue = distanceValue.replace(',', '.');
+  const distance = parseFloat(distanceValue);
+  const unit = document.getElementById(`edit-reg-unit-${regId}`).value;
+  if (!date || !distance || distance <= 0) {
+    showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
+    return;
+  }
+  const selectedDate = new Date(date);
+  const startDate = new Date('2025-08-04');
+  const endDate = new Date('2025-08-12');
+  if (selectedDate < startDate || selectedDate > endDate) {
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
+    return;
+  }
+  const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);
+  if (error) {
+    showNotification(t.adminRegUpdateError || 'Error al actualizar el registro', 'error');
+    return;
+  }
+  showNotification(t.adminRegUpdated || 'Registro actualizado correctamente', 'success');
+  await loadAdminPanel();
+}
+// --- FIN: updateRegistration ---
+window.updateRegistration = updateRegistration;
+// --- INICIO: deleteRegistration ---
+async function deleteRegistration(regId) {
+  const t = getTranslations();
+  if (getConfirm('adminConfirmDeleteReg', '¿Seguro que quieres eliminar este registro?')) {
+    const { error } = await window.supabase.from('distance').delete().eq('id', regId);
+    if (error) {
+      showNotification(t.adminRegDeleteError || 'Error al eliminar el registro', 'error');
+      return;
+    }
+    showNotification(t.adminRegDeleted || 'Registro eliminado correctamente', 'success');
+    await loadAdminPanel();
+  }
+}
+// --- FIN: deleteRegistration ---
+window.deleteRegistration = deleteRegistration;
+
+// --- INICIO: resetAllData ---
+async function resetAllData() {
+  const t = getTranslations();
   if (!isAdminLogged) {
-    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+    showNotification(t.adminRestricted || 'Acceso restringido solo para administradores.', 'error');
     return;
   }
-  const t = translations[currentLanguage] || translations['ca'];
-  if (confirm(t.adminConfirmDelete)) {
-    const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-    const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-    // Eliminar equipo
-    const updatedTeams = teams.filter(team => team.id !== teamId);
-    localStorage.setItem(TEAMS_KEY, JSON.stringify(updatedTeams));
-    // Eliminar distàncies de l'equip
-    const updatedDistances = distances.filter(distance => distance.teamId !== teamId);
-    localStorage.setItem(DISTANCES_KEY, JSON.stringify(updatedDistances));
-    clearAllCharts();
-    showNotification(t.adminTeamDeleted, 'success');
-    loadAdminData();
-    loadTeams();
-    loadResults();
+  if (!getConfirm('adminConfirmReset', 'ATENCIÓN: Esto eliminará TODOS los equipos y registros. No se puede deshacer. ¿Estás seguro?')) return;
+  const { error: errorDist } = await window.supabase.from('distance').delete().neq('id', 0);
+  const { error: errorTeams } = await window.supabase.from('registrations').delete().neq('id', 0);
+  if (errorDist || errorTeams) {
+    showNotification(t.adminDataResetError || 'Error al resetear los datos', 'error');
+    return;
   }
+  showNotification(t.adminDataReset || 'Todos los datos han sido eliminados', 'success');
+  await loadAdminPanel();
 }
+window.resetAllData = resetAllData;
+// --- FIN: resetAllData ---
 
-function exportData() {
+// --- INICIO: exportData ---
+async function exportData() {
+  const t = getTranslations();
   if (!isAdminLogged) {
-    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+    showNotification(t.adminRestricted || 'Acceso restringido solo para administradores.', 'error');
     return;
   }
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  const data = {
-    teams: teams,
-    distances: distances,
-    exportDate: new Date().toISOString()
-  };
-  const dataStr = JSON.stringify(data, null, 2);
-  const dataBlob = new Blob([dataStr], {type: 'application/json'});
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(dataBlob);
-  link.download = `bigfoot-challenge-data-${new Date().toISOString().split('T')[0]}.json`;
-  link.click();
-  const t = translations[currentLanguage] || translations['ca'];
-  showNotification(t.adminDataExported, 'success');
-}
-
-function resetAllData() {
-  if (!isAdminLogged) {
-    showNotification("Accés restringit: només l'administrador pot fer aquesta acció.", 'error');
+  const { data: teams, error: errorTeams } = await window.supabase.from('registrations').select('*');
+  const { data: distances, error: errorDist } = await window.supabase.from('distance').select('*');
+  if (errorTeams || errorDist) {
+    showNotification(t.adminDataExportError || 'Error al exportar los datos', 'error');
     return;
   }
-  const t = translations[currentLanguage] || translations['ca'];
-  if (confirm(t.adminConfirmReset)) {
-    localStorage.removeItem(TEAMS_KEY);
-    localStorage.removeItem(DISTANCES_KEY);
-    clearAllCharts();
-    showNotification(t.adminDataReset, 'success');
-    loadAdminData();
-    loadTeams();
-    loadResults();
-  }
+  let csv = 'Tipo,ID,Equipo,Fecha,Distancia,Unidad,Categoría\n';
+  teams.forEach(team => {
+    csv += `Equipo,${team.id},${team.name},,,,'${team.category}'\n`;
+  });
+  distances.forEach(reg => {
+    const team = teams.find(t => t.id === reg.team_id);
+    csv += `Registro,${reg.id},${team ? team.name : ''},${reg.date},${reg.distance},${reg.unit},${team ? team.category : ''}\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bigfoot_dades.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showNotification(t.adminDataExported || 'Dades exportades correctament', 'success');
 }
+window.exportData = exportData;
+// --- FIN: exportData ---
 
-// Función para limpiar todas las gráficas
-function clearAllCharts() {
-  if (charts) {
-    Object.keys(charts).forEach(chartId => {
-      if (charts[chartId]) {
-        charts[chartId].destroy();
-      }
-    });
-    charts = {};
-  }
+// --- INICIO: utilidades de traducción para notificaciones y popups ---
+function getTranslations() {
+  return translations[currentLanguage] || translations['ca'];
 }
-
-// Modal d'historial editable per admin
-function showAdminTeamHistory(teamId) {
-  const teams = JSON.parse(localStorage.getItem(TEAMS_KEY) || '[]');
-  const distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  const t = translations[currentLanguage] || translations['ca'];
-  const team = teams.find(t => t.id === teamId);
-  if (!team) {
-    showNotification('Equip no trobat', 'error');
-    return;
-  }
-  const teamDistances = distances.filter(d => d.teamId === teamId);
-  // Ordenar per data descendent
-  const sortedDistances = teamDistances.sort((a, b) => new Date(b.date) - new Date(a.date));
-  // Modal HTML
-  const modalHTML = `
-    <div class="admin-modal-overlay">
-      <div class="admin-modal modern-card p-6 max-w-2xl mx-auto animate-fade-in">
-        <div class="flex justify-between items-center mb-4">
-          <div>
-            <h3 class="text-lg font-bold">${team.name}</h3>
-            <p class="text-sm text-gray-500">${team.category}</p>
-          </div>
-          <button onclick="closeAdminTeamHistory()" class="close-btn" aria-label="Tancar">
-            <svg viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414-1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </button>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm mb-4">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="py-2 px-3">${t.date || 'Data'}</th>
-                <th class="py-2 px-3">${t.distance || 'Distància'}</th>
-                <th class="py-2 px-3">${t.units || 'Unitats'}</th>
-                <th class="py-2 px-3">Accions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${sortedDistances.length === 0 ? `<tr><td colspan="4" class="text-center py-8 text-gray-500">${t.noRegistrationsForTeam || 'No hi ha registres per aquest equip'}</td></tr>` :
-                sortedDistances.map(distance => {
-                  return `<tr data-id="${distance.id}">
-                    <td class="py-2 px-3"><input type="date" class="modern-input w-32" value="${distance.date}" /></td>
-                    <td class="py-2 px-3"><input type="number" step="0.01" class="modern-input w-20" value="${distance.distance}" /></td>
-                    <td class="py-2 px-3">
-                      <select class="modern-select w-20">
-                        <option value="km" ${distance.unit === 'km' ? 'selected' : ''}>km</option>
-                        <option value="mi" ${distance.unit === 'mi' ? 'selected' : ''}>mi</option>
-                      </select>
-                    </td>
-                    <td class="py-2 px-3 flex gap-2">
-                      <button class="btn-primary px-2 py-1 text-xs" onclick="saveAdminDistanceEdit(${distance.id}, ${teamId}, this)">Desa</button>
-                      <button class="btn-secondary bg-red-600 hover:bg-red-700 text-white px-2 py-1 text-xs" onclick="confirmDeleteDistance(${distance.id}, ${teamId})">Elimina</button>
-                    </td>
-                  </tr>`;
-                }).join('')
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-  // Eliminar modal existent si n'hi ha
-  closeAdminTeamHistory();
-  // Afegir modal al body
-  const modalDiv = document.createElement('div');
-  modalDiv.id = 'adminTeamHistoryModal';
-  modalDiv.innerHTML = modalHTML;
-  document.body.appendChild(modalDiv);
+function getConfirm(msgKey, fallback) {
+  const t = getTranslations();
+  return confirm(t[msgKey] || fallback);
 }
+// --- FIN utilidades ---
 
-function closeAdminTeamHistory() {
-  const modal = document.getElementById('adminTeamHistoryModal');
-  if (modal) modal.remove();
-}
+// Ejemplo de uso en notificaciones y confirmaciones:
+// showNotification(t.miClave, 'success');
+// if (getConfirm('adminConfirmDelete', '¿Estás seguro...?')) { ... }
 
-// Desa l'edició d'un registre
-function saveAdminDistanceEdit(distanceId, teamId, btn) {
-  const row = btn.closest('tr');
-  const dateInput = row.querySelector('input[type="date"]');
-  const distInput = row.querySelector('input[type="number"]');
-  const unitSelect = row.querySelector('select');
-  const newDate = dateInput.value;
-  const newDist = parseFloat(distInput.value);
-  const newUnit = unitSelect.value;
-  if (!newDate || isNaN(newDist) || newDist <= 0) {
-    showNotification('Dades incorrectes', 'error');
-    return;
+document.addEventListener('DOMContentLoaded', () => {
+  const langSelect = document.getElementById('languageSelect');
+  if (langSelect) {
+    langSelect.value = currentLanguage;
+    langSelect.onchange = function() {
+      currentLanguage = langSelect.value;
+      if (window.updateLanguage) window.updateLanguage();
+    };
   }
-  let distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-  const idx = distances.findIndex(d => d.id === distanceId);
-  if (idx === -1) {
-    showNotification('Registre no trobat', 'error');
-    return;
-  }
-  distances[idx].date = newDate;
-  distances[idx].distance = newDist;
-  distances[idx].unit = newUnit;
-  localStorage.setItem(DISTANCES_KEY, JSON.stringify(distances));
-  showNotification('Registre actualitzat!', 'success');
-  // Refresca modal i estadístiques
-  showAdminTeamHistory(teamId);
-  loadAdminData();
-  loadResults();
+});
+
+function updateTabAndCategoryTexts() {
+  const t = getTranslations();
+  // Pestañas principales
+  const tabIds = [
+    ['tab-register-team', 'tabRegisterTeam'],
+    ['tab-register', 'tabRegister'],
+    ['tab-results', 'tabResults'],
+    ['tab-admin', 'tabAdmin']
+  ];
+  tabIds.forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (el && t[key]) el.innerHTML = `<span class="flex items-center">${el.innerHTML.match(/<svg[\s\S]*?<\/svg>/) ? el.innerHTML.match(/<svg[\s\S]*?<\/svg>/)[0] : ''}${t[key]}</span>`;
+  });
+  // Títulos y textos principales
+  const textMap = [
+    ['registerTeamTitle', 'registerTeamTitle'],
+    ['joinChallengeText', 'joinChallengeText'],
+    ['teamNameLabel', 'teamNameLabel'],
+    ['teamCategoryLabel', 'teamCategoryLabel'],
+    ['whatsappGroupLabel', 'whatsappGroupLabel'],
+    ['whatsappGroupLinkText', 'whatsappGroupLinkText'],
+    ['whatsappGroupInfo', 'whatsappGroupInfo'],
+    ['whatsappGroupBenefit1', 'whatsappGroupBenefit1'],
+    ['whatsappGroupBenefit2', 'whatsappGroupBenefit2'],
+    ['whatsappGroupBenefit3', 'whatsappGroupBenefit3'],
+    ['whatsappGroupBenefit4', 'whatsappGroupBenefit4'],
+    ['registerTeamButton', 'registerTeamButton'],
+    ['registerDistanceTitle', 'registerDistanceTitle'],
+    ['registerProgressText', 'registerProgressText'],
+    ['distanceTeamLabel', 'selectTeamLabel'],
+    ['distanceTeamSelectOption', 'selectYourTeam'],
+    ['distanceDateLabel', 'dateLabel'],
+    ['distanceLabel', 'distanceLabel'],
+    ['distanceUnitKmOption', 'unitKm'],
+    ['distanceUnitMiOption', 'unitMi'],
+    ['distanceRegisterButton', 'registerDistanceButton'],
+    ['resultsTitle', 'resultsTitle'],
+    ['viewProgressText', 'viewProgressText'],
+    ['totalTeamsLabel', 'totalTeamsLabel'],
+    ['totalDistanceLabel', 'totalDistanceLabel'],
+    ['totalDistanceMiLabel', 'totalDistanceMiLabel'],
+    ['totalRegistrationsLabel', 'totalRegistrationsLabel'],
+    ['admin-title', 'adminTitle'],
+    ['admin-subtitle', 'adminSubtitle'],
+    ['admin-login-title', 'adminLoginTitle'],
+    ['admin-login-button', 'adminLoginButton'],
+    ['admin-panel-title', 'adminPanelTitle'],
+    ['admin-logout-button', 'adminLogoutButton'],
+    ['admin-teams-list-title', 'adminTeamsListTitle'],
+    ['admin-export-button', 'adminExportButton'],
+    ['admin-reset-button', 'adminResetButton']
+  ];
+  textMap.forEach(([elId, key]) => {
+    const el = document.getElementById(elId);
+    if (el && t[key]) el.textContent = t[key];
+  });
 }
-
-// Elimina un registre realment
-function confirmDeleteDistance(distanceId, teamId) {
-  if (confirm('Segur que vols eliminar aquest registre?')) {
-    let distances = JSON.parse(localStorage.getItem(DISTANCES_KEY) || '[]');
-    distances = distances.filter(d => d.id !== distanceId);
-    localStorage.setItem(DISTANCES_KEY, JSON.stringify(distances));
-    showNotification('Registre eliminat!', 'success');
-    // Refresca modal i estadístiques
-    showAdminTeamHistory(teamId);
-    loadAdminData();
-    loadResults();
-  }
-}
-
-
 

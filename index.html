@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BIGFOOT 200 CHALLENGE</title>
   <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // Configura aquí tu URL y ANON KEY de Supabase
+    const SUPABASE_URL = 'https://okzbyxzqmibxytzsqzhj.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9remJ5eHpxbWlieHl0enNxemhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5ODQzMzAsImV4cCI6MjA2NzU2MDMzMH0.05_4hnMXUaxlSAUmQk5M3QT_nfvD-vJXWgTZVuNjl3k';
+    window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
 </head>
 <body>
   <!-- Header moderno con logo -->
@@ -13,7 +20,7 @@
       <div class="logo-container">
         <img src="assets/logo.png" alt="Bigfoot Challenge Logo" class="logo">
         <div>
-          <h1 class="text-3xl font-bold gradient-text">BIGFOOT 200 CHALLENGE</h1>
+          <h1 class="text-3xl font-bold gradient-text main-title-black">BIGFOOT 200 CHALLENGE <span style="font-size:1.2em;vertical-align:middle;">👑👑</span></h1>
         </div>
       </div>
       <div class="absolute right-0 flex items-center">
@@ -32,11 +39,7 @@
   <nav class="bg-white/10 backdrop-blur-sm border-b border-white/20">
     <div class="container mx-auto px-4">
       <div class="flex space-x-1">
-        <button 
-          id="tab-register-team" 
-          class="tab-button active px-6 py-3 text-white font-medium rounded-t-lg transition-all duration-300"
-          onclick="switchTab('register-team')"
-        >
+        <button type="button" id="tab-register-team" class="tab-button active px-6 py-3 text-white font-medium rounded-t-lg transition-all duration-300" onclick="switchTab('register-team')">
           <span class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
@@ -44,11 +47,7 @@
             Registrar Equip
           </span>
         </button>
-        <button 
-          id="tab-register" 
-          class="tab-button px-6 py-3 text-white/70 font-medium rounded-t-lg transition-all duration-300"
-          onclick="switchTab('register')"
-        >
+        <button type="button" id="tab-register" class="tab-button px-6 py-3 text-white/70 font-medium rounded-t-lg transition-all duration-300" onclick="switchTab('register')">
           <span class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
@@ -56,11 +55,7 @@
             Registrar Distància
           </span>
         </button>
-        <button 
-          id="tab-results" 
-          class="tab-button text-white/70 px-6 py-3 font-medium rounded-lg transition-all duration-300"
-          onclick="switchTab('results')"
-        >
+        <button type="button" id="tab-results" class="tab-button text-white/70 px-6 py-3 font-medium rounded-lg transition-all duration-300" onclick="switchTab('results')">
           <span class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
@@ -69,11 +64,7 @@
           </span>
         </button>
         
-        <button 
-          id="tab-admin" 
-          class="tab-button text-white/70 px-6 py-3 font-medium rounded-lg transition-all duration-300"
-          onclick="switchTab('admin')"
-        >
+        <button type="button" id="tab-admin" class="tab-button text-white/70 px-6 py-3 font-medium rounded-lg transition-all duration-300" onclick="switchTab('admin')">
           <span class="flex items-center">
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>
@@ -97,7 +88,7 @@
 
       <div class="max-w-3xl mx-auto">
         <div class="modern-card animate-fade-in" style="animation-delay: 0.2s;">
-          <form id="teamForm">
+          <form id="teamForm" onsubmit="handleTeamSubmit(event)">
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">
                 <span class="flex items-center">
@@ -182,7 +173,7 @@
 
       <div class="max-w-2xl mx-auto">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.2s;">
-          <form id="distanceForm" class="space-y-4">
+          <form id="distanceForm" onsubmit="handleDistanceSubmit(event)" class="space-y-4">
             <!-- Selección de equipo -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -190,11 +181,11 @@
                   <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                   </svg>
-                  Seleccionar Equip *
+                  <span id="distanceTeamLabel">Seleccionar Equip *</span>
                 </span>
               </label>
               <select id="teamSelect" required class="modern-select w-full">
-                <option value="">Selecciona el teu equip</option>
+                <option id="distanceTeamSelectOption" value="">Selecciona el teu equip</option>
                 <!-- Se llenará dinámicamente -->
               </select>
             </div>
@@ -206,7 +197,7 @@
                   <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
                   </svg>
-                  Data *
+                  <span id="distanceDateLabel">Data *</span>
                 </span>
               </label>
               <input 
@@ -226,7 +217,7 @@
                   <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/>
                   </svg>
-                  Distància *
+                  <span id="distanceLabel">Distància *</span>
                 </span>
               </label>
               <div class="flex space-x-4">
@@ -240,8 +231,8 @@
                   min="0"
                 />
                 <select id="unitSelect" class="modern-select w-32">
-                  <option value="km">Quilòmetres</option>
-                  <option value="mi">Milles</option>
+                  <option id="distanceUnitKmOption" value="km">km</option>
+                  <option id="distanceUnitMiOption" value="mi">Milles</option>
                 </select>
               </div>
             </div>
@@ -254,7 +245,7 @@
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                 </svg>
-                Registrar Distància
+                <span id="distanceRegisterButton">Registrar Distància</span>
               </span>
             </button>
           </form>
@@ -294,39 +285,19 @@
       <!-- Navegación de modalidades -->
       <div class="mb-8">
         <div class="flex space-x-2 overflow-x-auto pb-2">
-          <button 
-            id="modal-tab-1" 
-            class="modal-tab-button active px-4 py-2 text-white font-medium rounded-lg transition-all duration-300"
-            onclick="switchModalTab('1')"
-          >
+          <button type="button" id="modal-tab-1" class="modal-tab-button active px-4 py-2 text-white font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('1')">
             1 pax (Run + Bike)
           </button>
-          <button 
-            id="modal-tab-2" 
-            class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300"
-            onclick="switchModalTab('2')"
-          >
+          <button type="button" id="modal-tab-2" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('2')">
             2 pax (Run + Bike)
           </button>
-          <button 
-            id="modal-tab-3" 
-            class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300"
-            onclick="switchModalTab('3')"
-          >
+          <button type="button" id="modal-tab-3" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('3')">
             3 pax (Run)
           </button>
-          <button 
-            id="modal-tab-4" 
-            class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300"
-            onclick="switchModalTab('4')"
-          >
+          <button type="button" id="modal-tab-4" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('4')">
             4 pax (Run)
           </button>
-          <button 
-            id="modal-tab-5" 
-            class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300"
-            onclick="switchModalTab('5')"
-          >
+          <button type="button" id="modal-tab-5" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('5')">
             5 pax (Run)
           </button>
         </div>
@@ -438,20 +409,7 @@
           </button>
         </div>
         <!-- Estadístiques -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 id="admin-total-teams-label" class="text-sm font-semibold text-blue-700 mb-1">Total Equips</h4>
-            <p id="admin-total-teams" class="text-2xl font-bold text-blue-600">0</p>
-          </div>
-          <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h4 id="admin-total-registrations-label" class="text-sm font-semibold text-green-700 mb-1">Total Registres</h4>
-            <p id="admin-total-registrations" class="text-2xl font-bold text-green-600">0</p>
-          </div>
-          <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
-            <h4 id="admin-total-distance-label" class="text-sm font-semibold text-purple-700 mb-1">Total Distància</h4>
-            <p id="admin-total-distance" class="text-2xl font-bold text-purple-600">0 km</p>
-          </div>
-        </div>
+        <!-- Eliminado: Totales de equipos, registros y distancia en admin -->
         <!-- Botons d'acció -->
         <div class="flex flex-wrap gap-4 mb-6">
           <button onclick="exportData()" id="admin-export-button" 

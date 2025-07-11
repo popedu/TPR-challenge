@@ -16,14 +16,267 @@
   --glass-border: rgba(255, 255, 255, 0.2);
 }
 
-/* Estilos base */
+/* Modernización general y responsive */
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  color: #2d3748;
-  max-width: 100vw;
-  overflow-x: hidden;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0e7ff 0%, #b6ccfe 100%);
+  color: #f3f4f6;
+  margin: 0;
+  padding: 0;
+}
+
+.container, main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+header.modern-header {
+  background: linear-gradient(90deg, #b3cfff 0%, #6ea8fe 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 0 0 24px 24px;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #6b73ff 0%, #000dff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 16px 16px 0 0;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  margin-bottom: -2px;
+}
+.tab-button.active {
+  background: #fff;
+  color: #232526;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-weight: bold;
+}
+.tab-button:not(.active):hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Modern cards */
+.modern-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Inputs y selects modernos */
+.modern-input, .modern-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: #f8fafc;
+}
+.modern-input:focus, .modern-select:focus {
+  border: 1.5px solid #6b73ff;
+  outline: none;
+  box-shadow: 0 0 0 2px #6b73ff33;
+}
+
+/* Botones principales */
+.btn-primary {
+  background: linear-gradient(90deg, #6b73ff 0%, #000dff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  box-shadow: 0 2px 8px rgba(107,115,255,0.10);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #000dff 0%, #6b73ff 100%);
+  box-shadow: 0 4px 16px rgba(107,115,255,0.18);
+}
+
+.btn-secondary {
+  background: #f87171;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-secondary:hover {
+  background: #ef4444;
+}
+
+/* Responsive grid para stats y cards */
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .stats-summary {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.stats-mini-square {
+  background: #f3f4f6;
+  border-radius: 16px;
+  padding: 1.2rem 0.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 0.5rem;
+}
+
+/* Notificaciones modernas */
+.notification {
+  position: fixed;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 9999;
+  min-width: 260px;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.notification.success {
+  background: linear-gradient(90deg, #22c55e 0%, #4ade80 100%);
+  color: #fff;
+}
+.notification.error {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+  color: #fff;
+}
+.notification.info {
+  background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+  color: #fff;
+}
+
+/* Responsive: padding y tipografía */
+@media (max-width: 600px) {
+  .container, main {
+    padding: 0 0.3rem;
+  }
+  .modern-card {
+    padding: 1rem;
+  }
+  .tab-button {
+    font-size: 1rem;
+    padding: 0.6rem 0.7rem;
+  }
+  h1, h2, h3 {
+    font-size: 1.2em !important;
+  }
+  .stats-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mejoras para listas y tablas */
+.admin-team-item, .modern-card, .stats-mini-square {
+  margin-bottom: 1rem;
+}
+
+/* Mejoras para los selects y opciones */
+select.modern-select {
+  appearance: none;
+  background: #f8fafc url('data:image/svg+xml;utf8,<svg fill="%236b73ff" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 111.414-1.414z"/></svg>') no-repeat right 1rem center/1.2em auto;
+}
+
+/* Mejoras para el header en móvil */
+@media (max-width: 600px) {
+  header.modern-header {
+    padding: 1rem 0.5rem;
+    border-radius: 0 0 16px 16px;
+  }
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Mejoras para los botones de acción en admin */
+#admin-export-button, #admin-reset-button {
+  min-width: 120px;
+  margin-bottom: 0.5rem;
+}
+
+/* Mejoras para los modales */
+.admin-modal, #teamHistoryModal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 2rem 1rem;
+  max-width: 95vw;
+  margin: 2rem auto;
+}
+@media (max-width: 600px) {
+  .admin-modal, #teamHistoryModal {
+    padding: 1rem 0.2rem;
+  }
+}
+
+/* Mejoras para los tabs de modalidades */
+.modal-tab-button {
+  font-size: 1rem;
+  border-radius: 10px 10px 0 0;
+  padding: 0.5rem 1.2rem;
+  margin-bottom: -2px;
+  background: #f3f4f6;
+  color: #232526;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-tab-button.active {
+  background: linear-gradient(90deg, #6b73ff 0%, #000dff 100%);
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Mejoras para los títulos */
+h1, h2, h3, h4, h5 {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* Mejoras para los links de WhatsApp */
+.whatsapp-link {
+  color: #22c55e;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.whatsapp-link:hover {
+  color: #16a34a;
 }
 
 /* Contenedor principal */
@@ -678,6 +931,16 @@ label svg,
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Título principal en negro y sin gradiente */
+.gradient-text, .main-title-black {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  -webkit-text-fill-color: #232526 !important;
+  color: #232526 !important;
+  text-shadow: none !important;
+  font-weight: 900;
+}
+
 /* Pestañas de modalidades */
 .modal-tab-button {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -802,7 +1065,7 @@ label svg,
   max-height: 100px;
   aspect-ratio: 1/1;
   transition: background 0.3s, box-shadow 0.3s;
-  border: 1.5px solid rgba(255,255,255,0.25);
+  border: 1.5px solid #e0e7ef;
   width: 100%;
 }
 .stats-mini-square .stats-number {
@@ -1360,4 +1623,156 @@ body, html {
   #teamHistoryModal .modal-header h3 {
     font-size: 1.2rem !important;
   }
+}
+
+/* Mejorar legibilidad de textos y títulos sobre fondo azul */
+body {
+  color: #f3f4f6;
+}
+
+h1, h2, h3, h4, h5 {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* Mejorar contraste en tarjetas y stats */
+.modern-card, .stats-mini-square, .admin-modal, #teamHistoryModal {
+  background: #fff;
+  color: #232526;
+}
+
+.stats-mini-square .stats-number, .stats-mini-square .stats-label {
+  color: #232526;
+  text-shadow: none;
+}
+
+.stats-mini-square {
+  border: 1.5px solid #e0e7ef;
+}
+
+/* Mejorar contraste de los datos del resumen */
+.stats-number {
+  color: #1e293b;
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.stats-label {
+  color: #475569;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Gráficas más bonitas */
+canvas {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 1rem;
+}
+
+/* Leyendas y tooltips de Chart.js */
+.chartjs-render-monitor {
+  background: #fff !important;
+  border-radius: 18px;
+}
+
+@media (max-width: 600px) {
+  h1, h2, h3, h4, h5 {
+    font-size: 1.1em !important;
+    color: #fff;
+  }
+  .stats-number {
+    font-size: 1.4rem;
+  }
+  .stats-label {
+    font-size: 1rem;
+  }
+}
+
+/* Limitar ancho de inputs y selects para que no se salgan de las tarjetas */
+.modern-input, .modern-select {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Inputs y selects en formularios y modales de admin: limitar a 260px en desktop, 100% en móvil */
+@media (min-width: 600px) {
+  .modern-input, .modern-select {
+    max-width: 260px;
+  }
+  .admin-modal input, .admin-modal select, #teamHistoryModal input, #teamHistoryModal select {
+    max-width: 180px;
+  }
+}
+
+/* Grid 2x2 del resumen de datos más compacta */
+.stats-summary {
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+.stats-mini-square {
+  padding: 0.7rem 0.3rem;
+  margin-bottom: 0.2rem;
+}
+
+/* Inputs y selects en modales de admin: texto oscuro y tamaño más pequeño */
+.admin-modal input, .admin-modal select, #teamHistoryModal input, #teamHistoryModal select {
+  color: #232526;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 7px;
+  margin-bottom: 0.2rem;
+}
+
+/* Tabla de edición en admin: texto oscuro, tamaño compacto y centrada */
+.admin-modal table, #teamHistoryModal table {
+  color: #232526;
+  font-size: 0.95rem;
+  margin: 0 auto;
+  width: auto;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.admin-modal th, .admin-modal td, #teamHistoryModal th, #teamHistoryModal td {
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+}
+
+/* Centrar el contenido del modal */
+.admin-modal .overflow-x-auto, #teamHistoryModal .overflow-x-auto {
+  display: flex;
+  justify-content: center;
+}
+
+/* Forzar texto oscuro en los items de equipos en admin */
+.admin-team-item, .admin-team-item * {
+  color: #232526 !important;
+}
+
+/* Mejorar contraste de los títulos de listas en admin */
+#admin-teams-list-title {
+  color: #232526 !important;
+}
+
+/* Forzar texto oscuro en estadísticas de admin */
+#admin-total-teams, #admin-total-registrations, #admin-total-distance,
+#admin-total-teams-label, #admin-total-registrations-label, #admin-total-distance-label {
+  color: #232526 !important;
+}
+
+/* Forzar texto oscuro en títulos y cabeceras de tablas en modales de historial */
+.admin-modal h3, .admin-modal h4, .admin-modal th, #teamHistoryModal h3, #teamHistoryModal h4, #teamHistoryModal th {
+  color: #232526 !important;
+  text-shadow: none !important;
+}
+
+/* Forzar texto oscuro en todo el contenido de los modales de historial */
+#teamHistoryModal, #teamHistoryModal * {
+  color: #232526 !important;
+}
+body, .tab-content, .modern-card, .tab-button, .modal-content-tab, .stats-label, .stats-number, .modern-input, .modern-select, .btn-primary, .btn-secondary, .text-center, .text-xl, .text-lg, .text-base, .text-sm, .text-xs, label, input, select, button, h1, h2, h3, h4, h5, h6, p, ul, li, div {
+  color: #111 !important;
 }
