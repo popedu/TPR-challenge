@@ -192,7 +192,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre el 4 i 12 d\'agost de 2025.',
+    distanceErrorDate: 'La data ha d\'estar entre el 4 i 13 d\'agost de 2025.',
     adminAccessGranted: 'Accés d\'administrador concedit',
     adminTeamUpdateError: 'Error en actualitzar l\'equip',
     adminTeamUpdated: 'Equip actualitzat correctament',
@@ -323,7 +323,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 4 y 12 de agosto de 2025.',
+    distanceErrorDate: 'La fecha debe estar entre el 4 y 13 de agosto de 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -454,7 +454,7 @@ const translations = {
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between August 4 and 12, 2025.',
+    distanceErrorDate: 'The date must be between August 4 and 13, 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -585,7 +585,7 @@ const translations = {
     selectTeamLabel: 'Selecionar Equipa *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Por favor preencha todos os campos corretamente.',
-    distanceErrorDate: 'A data deve estar entre 4 e 12 de agosto de 2025.',
+    distanceErrorDate: 'A data deve estar entre 4 e 13 de agosto de 2025.',
     adminAccessGranted: 'Acesso de administrador concedido',
     adminTeamUpdateError: 'Erro ao atualizar a equipa',
     adminTeamUpdated: 'Equipa atualizada com sucesso',
@@ -706,7 +706,7 @@ Object.keys(translations).forEach(lang => {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre el 4 i 12 d\'agost de 2025.', es: 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', en: 'The date must be between August 4 and 12, 2025.', pt: 'A data deve estar entre 4 e 12 de agosto de 2025.'
+    ca: 'La data ha d\'estar entre el 4 i 13 d\'agost de 2025.', es: 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', en: 'The date must be between August 4 and 13, 2025.', pt: 'A data deve estar entre 4 e 13 de agosto de 2025.'
   }[lang];
 });
 
@@ -745,6 +745,14 @@ function updateDistanceTabTexts() {
   if (teamSelect && teamSelect.options.length > 0) {
     teamSelect.options[0].text = t.selectYourTeam;
   }
+  // Mostrar la categoría del equipo seleccionado al lado del select
+  const categoryText = document.getElementById('selectedTeamCategory');
+  if (categoryText) categoryText.remove();
+  teamSelect.insertAdjacentHTML('afterend', '<span id="selectedTeamCategory" style="margin-left:12px;font-size:0.95em;color:#555;"></span>');
+  teamSelect.addEventListener('change', function() {
+    const selected = data.find(t => t.id == teamSelect.value);
+    document.getElementById('selectedTeamCategory').textContent = selected ? selected.category : '';
+  });
 }
 
 // Modificar los mensajes de error/éxito en handleDistanceSubmit
@@ -769,9 +777,9 @@ async function handleDistanceSubmit(e) {
   }
   const selectedDate = new Date(date);
   const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-12');
+  const endDate = new Date('2025-08-13');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -945,10 +953,18 @@ async function loadTeams() {
     data.forEach(team => {
       const option = document.createElement('option');
       option.value = team.id;
-      option.textContent = `${team.name} (${team.category})`;
+      option.textContent = team.name; // Solo el nombre
       teamSelect.appendChild(option);
     });
   }
+  // Mostrar la categoría del equipo seleccionado al lado del select
+  const categoryText = document.getElementById('selectedTeamCategory');
+  if (categoryText) categoryText.remove();
+  teamSelect.insertAdjacentHTML('afterend', '<span id="selectedTeamCategory" style="margin-left:12px;font-size:0.95em;color:#555;"></span>');
+  teamSelect.addEventListener('change', function() {
+    const selected = data.find(t => t.id == teamSelect.value);
+    document.getElementById('selectedTeamCategory').textContent = selected ? selected.category : '';
+  });
   return data;
 }
 
@@ -1007,9 +1023,9 @@ async function handleDistanceSubmit(e) {
   }
   const selectedDate = new Date(date);
   const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-12');
+  const endDate = new Date('2025-08-13');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -1426,6 +1442,13 @@ window.updateTeam = updateTeam;
 async function deleteTeam(teamId) {
   const t = getTranslations();
   if (getConfirm('adminConfirmDelete', '¿Estás seguro que quieres eliminar este equipo? Esto también eliminará todos sus registros.')) {
+    // Primero eliminar todos los registros de distancia asociados
+    const { error: errorDist } = await window.supabase.from('distance').delete().eq('team_id', teamId);
+    if (errorDist) {
+      showNotification(t.adminRegDeleteError || 'Error al eliminar los registros del equipo', 'error');
+      return;
+    }
+    // Luego eliminar el equipo
     const { error } = await window.supabase.from('registrations').delete().eq('id', teamId);
     if (error) {
       showNotification(t.adminTeamDeleteError || 'Error al eliminar el equipo', 'error');
@@ -1451,9 +1474,9 @@ async function updateRegistration(regId) {
   }
   const selectedDate = new Date(date);
   const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-12');
+  const endDate = new Date('2025-08-13');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 12 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
     return;
   }
   const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);

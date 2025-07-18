@@ -32,7 +32,7 @@ function updateMainStats(dailyData) {
   
   const completedDays = dates.length;
   const avgDaily = completedDays > 0 ? (totalDistance / completedDays).toFixed(1) : 0;
-  const percentage = Math.round((completedDays / 9) * 100);
+  const percentage = Math.round((completedDays / 10) * 100); // Cambiado de 9 a 10
   
   document.getElementById('totalDistance').textContent = totalDistance.toFixed(1);
   document.getElementById('completedDays').textContent = completedDays;
@@ -85,8 +85,8 @@ function generateProgressChart(dailyData) {
   const ctx = canvas.getContext('2d');
   console.log('[generateProgressChart] Canvas creado, se va a dibujar la gráfica');
   
-  // Generar datos para los 9 días
-  const dates = Array.from({ length: 9 }, (_, i) => {
+  // Generar datos para los 10 días (4 al 13 de agosto)
+  const dates = Array.from({ length: 10 }, (_, i) => {
     const date = new Date(2025, 7, 4 + i);
     return date.toISOString().split('T')[0];
   });
