@@ -1788,11 +1788,28 @@ body, .tab-content, .modern-card, .tab-button, .modal-content-tab, .stats-label,
   }
 
   #dateInput {
-    max-width: 180px;
-    width: 100%;
-    min-width: 120px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+    max-width: 180px !important;
+    width: 100% !important;
+    min-width: 120px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
+
+  #distanceInput {
+    max-width: 120px !important;
+    width: 100% !important;
+    min-width: 70px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: inline-block !important;
+  }
+  #unitSelect {
+    max-width: 80px !important;
+    width: 100% !important;
+    min-width: 60px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: inline-block !important;
   }
 }

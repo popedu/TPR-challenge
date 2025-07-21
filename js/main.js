@@ -210,7 +210,10 @@ const translations = {
     adminConfirmDeleteReg: 'Segur que vols eliminar aquest registre?',
     viewHistoryButton: 'Veure historial',
     accumulatedMiles: 'Milles acumulades',
-    milesAxis: 'Milles'
+    milesAxis: 'Milles',
+    resultsSubtitle: "del 4 al 13 d'agost",
+    mainSubtitle: "Del 4 al 13 d'agost",
+    dateRangeSubtitle: "Del 4 al 13 d'agost"
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -343,7 +346,10 @@ const translations = {
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'Ver historial',
     accumulatedMiles: 'Millas acumuladas',
-    milesAxis: 'Millas'
+    milesAxis: 'Millas',
+    resultsSubtitle: 'del 4 al 13 de agosto',
+    mainSubtitle: 'Del 4 al 13 de agosto',
+    dateRangeSubtitle: 'Del 4 al 13 de agosto'
   },
   en: {
     registerTeam: 'Register Team',
@@ -476,7 +482,10 @@ const translations = {
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'View history',
     accumulatedMiles: 'Accumulated miles',
-    milesAxis: 'Miles'
+    milesAxis: 'Miles',
+    resultsSubtitle: 'from August 4th to 13th',
+    mainSubtitle: 'From August 4th to 13th',
+    dateRangeSubtitle: 'From August 4th to 13th'
   },
   pt: {
     registerTeam: 'Registrar Equipe',
@@ -609,7 +618,10 @@ const translations = {
     adminConfirmDeleteReg: 'Tem a certeza que quer eliminar este registo?',
     viewHistoryButton: 'Ver histórico',
     accumulatedMiles: 'Milhas acumuladas',
-    milesAxis: 'Milhas'
+    milesAxis: 'Milhas',
+    resultsSubtitle: 'de 4 a 13 de agosto',
+    mainSubtitle: 'De 4 a 13 de agosto',
+    dateRangeSubtitle: 'De 4 a 13 de agosto'
   }
 };
 
@@ -761,6 +773,9 @@ function updateDistanceTabTexts() {
     const selected = data.find(t => t.id == teamSelect.value);
     document.getElementById('selectedTeamCategory').textContent = selected ? selected.category : '';
   });
+  // Subtítulo de rango de fechas junto a Data*
+  const dateRangeSubtitle = document.getElementById('dateRangeSubtitle');
+  if (dateRangeSubtitle && t.dateRangeSubtitle) dateRangeSubtitle.textContent = t.dateRangeSubtitle;
 }
 
 // Modificar los mensajes de error/éxito en handleDistanceSubmit
@@ -1596,6 +1611,7 @@ document.addEventListener('DOMContentLoaded', () => {
     langSelect.onchange = function() {
       currentLanguage = langSelect.value;
       if (window.updateLanguage) window.updateLanguage();
+      if (window.updateTabAndCategoryTexts) window.updateTabAndCategoryTexts();
     };
   }
 });
@@ -1656,5 +1672,11 @@ function updateTabAndCategoryTexts() {
     const el = document.getElementById(elId);
     if (el && t[key]) el.textContent = t[key];
   });
+  // Subtítulo de fechas en resultados
+  const resultsSubtitle = document.getElementById('resultsSubtitle');
+  if (resultsSubtitle && t.resultsSubtitle) resultsSubtitle.textContent = t.resultsSubtitle;
+  // Subtítulo de fechas en cabecera principal
+  const mainSubtitle = document.getElementById('mainSubtitle');
+  if (mainSubtitle && t.mainSubtitle) mainSubtitle.textContent = t.mainSubtitle;
 }
 
