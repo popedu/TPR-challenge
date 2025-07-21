@@ -3,7 +3,7 @@ const TEAMS_KEY = 'bigfoot_teams';
 const DISTANCES_KEY = 'bigfoot_distances';
 
 // Objetivo del reto: 200 millas
-const TARGET_MILES = 200;
+const TARGET_MILES = 208;
 const TARGET_KM = 200 * 1.60934; // 321.868 km
 
 // Variables globales
@@ -208,7 +208,8 @@ const translations = {
     adminDataExported: 'Dades exportades correctament',
     adminRestricted: 'Accés restringit només per a administradors.',
     adminConfirmDeleteReg: 'Segur que vols eliminar aquest registre?',
-    viewHistoryButton: 'Veure historial'
+    viewHistoryButton: 'Veure historial',
+    accumulatedMiles: 'Milles acumulades'
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -339,7 +340,8 @@ const translations = {
     adminDataExported: 'Data exported successfully',
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
-    viewHistoryButton: 'Ver historial'
+    viewHistoryButton: 'Ver historial',
+    accumulatedMiles: 'Millas acumuladas'
   },
   en: {
     registerTeam: 'Register Team',
@@ -470,7 +472,8 @@ const translations = {
     adminDataExported: 'Data exported successfully',
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
-    viewHistoryButton: 'View history'
+    viewHistoryButton: 'View history',
+    accumulatedMiles: 'Accumulated miles'
   },
   pt: {
     registerTeam: 'Registrar Equipe',
@@ -601,7 +604,8 @@ const translations = {
     adminDataExported: 'Dados exportados com sucesso',
     adminRestricted: 'Acesso restrito apenas para administradores.',
     adminConfirmDeleteReg: 'Tem a certeza que quer eliminar este registo?',
-    viewHistoryButton: 'Ver histórico'
+    viewHistoryButton: 'Ver histórico',
+    accumulatedMiles: 'Milhas acumuladas'
   }
 };
 
@@ -1269,16 +1273,24 @@ function generateCharts(teamStats) {
     // Datos para la gráfica
     const labels = teams.map(stat => stat.team.name);
     const data = teams.map(stat => stat.totalDistanceMi);
+
+    // Crear degradado para el fondo
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, 'rgba(54, 162, 235, 0.7)'); // Azul
+    gradient.addColorStop(1, 'rgba(153, 102, 255, 0.7)'); // Morado
+    const t = getTranslations();
+
     // Crear gráfica
     const chart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [{
-          label: 'Millas acumuladas',
+          label: t.accumulatedMiles,
           data: data,
-          backgroundColor: 'rgba(34,197,94,0.7)',
-          borderColor: 'rgba(34,197,94,1)',
+          backgroundColor: gradient,
+          borderColor: 'rgba(153, 102, 255, 1)',
           borderWidth: 1
         }]
       },
@@ -1287,7 +1299,23 @@ function generateCharts(teamStats) {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          tooltip: { enabled: true }
+          tooltip: { enabled: true },
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                yMin: TARGET_MILES,
+                yMax: TARGET_MILES,
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 2,
+                label: {
+                  content: 'Objectiu 208 milles',
+                  enabled: true,
+                  position: 'end'
+                }
+              }
+            }
+          }
         },
         scales: {
           x: {
@@ -1310,6 +1338,9 @@ function generateCharts(teamStats) {
                 weight: 'bold',
                 size: 16
               }
+            },
+            ticks: {
+              stepSize: 25
             }
           }
         }
@@ -1320,6 +1351,125 @@ function generateCharts(teamStats) {
 }
 window.generateCharts = generateCharts;
 // --- FIN: generateCharts ---
+
+// --- INICIO: Lógica para modal de gráfica ---
+function setupChartModal() {
+    const modal = document.getElementById('chart-modal');
+    const modalContent = document.getElementById('chart-modal-content');
+    const modalClose = document.getElementById('chart-modal-close');
+    const modalTitle = document.getElementById('chart-modal-title');
+
+    if (!modal || !modalContent || !modalClose || !modalTitle) return;
+
+    const closeModal = () => {
+        modal.classList.remove('visible');
+    };
+
+    modalClose.onclick = closeModal;
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    };
+
+    // Usar delegación de eventos en un contenedor padre
+    const resultsTab = document.getElementById('results-tab');
+    if (resultsTab) {
+        resultsTab.addEventListener('click', (e) => {
+            // Solo activar en vista móvil
+            if (window.innerWidth > 768) return;
+
+            const canvas = e.target.closest('canvas[id^="chart-"]');
+            if (canvas && canvas.chartInstance) {
+                // Eliminar gráfica anterior en el modal
+                if (modalContent.firstChild) {
+                    modalContent.removeChild(modalContent.firstChild);
+                }
+
+                const newCanvas = document.createElement('canvas');
+                modalContent.appendChild(newCanvas);
+
+                const originalChart = canvas.chartInstance;
+                const categoryTitle = canvas.closest('.modern-card').querySelector('h3').textContent;
+                modalTitle.textContent = categoryTitle;
+
+                // Crear degradado para el modal
+                const modalCtx = newCanvas.getContext('2d');
+                const modalGradient = modalCtx.createLinearGradient(0, 0, 0, 400);
+                modalGradient.addColorStop(0, 'rgba(54, 162, 235, 0.7)');
+                modalGradient.addColorStop(1, 'rgba(153, 102, 255, 0.7)');
+                const t = getTranslations();
+                new Chart(newCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: originalChart.data.labels,
+                        datasets: [{
+                            label: t.accumulatedMiles,
+                            data: originalChart.data.datasets[0].data,
+                            backgroundColor: modalGradient,
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { enabled: true },
+                            annotation: {
+                              annotations: {
+                                line1: {
+                                  type: 'line',
+                                  yMin: TARGET_MILES,
+                                  yMax: TARGET_MILES,
+                                  borderColor: 'rgb(255, 99, 132)',
+                                  borderWidth: 2,
+                                  label: {
+                                    content: 'Objectiu 208 milles',
+                                    enabled: true,
+                                    position: 'end'
+                                  }
+                                }
+                              }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    font: { size: 12 },
+                                    autoSkip: false,
+                                    maxRotation: 90,
+                                    minRotation: 45
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'MILES',
+                                    font: {
+                                        family: 'Inter',
+                                        weight: 'bold',
+                                        size: 16
+                                    }
+                                },
+                                ticks: {
+                                    stepSize: 25
+                                }
+                            }
+                        }
+                    }
+                });
+
+                modal.classList.add('visible');
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', setupChartModal);
+// --- FIN: Lógica para modal de gráfica ---
 
 // --- INICIO: loginAdmin ---
 function loginAdmin() {

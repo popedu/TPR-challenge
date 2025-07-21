@@ -990,6 +990,34 @@ label svg,
   display: block;
 }
 
+#chart-modal {
+    display: none; /* Hidden by default */
+}
+
+#chart-modal.visible {
+    display: flex; /* Show it when class is added */
+}
+
+/* On mobile, make charts clickable and modal fullscreen */
+@media (max-width: 768px) {
+    canvas[id^="chart-"] {
+        cursor: pointer;
+    }
+
+    #chart-modal.visible .bg-white {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 1rem;
+    }
+    
+    #chart-modal #rotate-hint {
+        display: block;
+    }
+}
+
 .qr-whatsapp-img {
   width: 180px;
   height: 180px;
