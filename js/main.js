@@ -209,7 +209,8 @@ const translations = {
     adminRestricted: 'Accés restringit només per a administradors.',
     adminConfirmDeleteReg: 'Segur que vols eliminar aquest registre?',
     viewHistoryButton: 'Veure historial',
-    accumulatedMiles: 'Milles acumulades'
+    accumulatedMiles: 'Milles acumulades',
+    milesAxis: 'Milles'
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -341,7 +342,8 @@ const translations = {
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'Ver historial',
-    accumulatedMiles: 'Millas acumuladas'
+    accumulatedMiles: 'Millas acumuladas',
+    milesAxis: 'Millas'
   },
   en: {
     registerTeam: 'Register Team',
@@ -473,7 +475,8 @@ const translations = {
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'View history',
-    accumulatedMiles: 'Accumulated miles'
+    accumulatedMiles: 'Accumulated miles',
+    milesAxis: 'Miles'
   },
   pt: {
     registerTeam: 'Registrar Equipe',
@@ -605,7 +608,8 @@ const translations = {
     adminRestricted: 'Acesso restrito apenas para administradores.',
     adminConfirmDeleteReg: 'Tem a certeza que quer eliminar este registo?',
     viewHistoryButton: 'Ver histórico',
-    accumulatedMiles: 'Milhas acumuladas'
+    accumulatedMiles: 'Milhas acumuladas',
+    milesAxis: 'Milhas'
   }
 };
 
@@ -1317,7 +1321,7 @@ function generateCharts(teamStats) {
             beginAtZero: true,
             title: {
               display: true,
-              text: 'MILLES'
+              text: t.milesAxis || 'Millas'
             },
             ticks: {
               stepSize: 25
