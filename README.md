@@ -1,4 +1,4 @@
-# BIGFOOT 200 CHALLENGE
+# MOAB 240 CHALLENGE
 
 Una aplicación web moderna para gestionar el reto Bigfoot 200 Challenge, donde los equipos compiten para completar 200 millas durante el evento.
 
@@ -256,5 +256,6 @@ http://localhost:8000
 - [ ] Integración con WhatsApp API
 
 ---
+
 
 **¡Únete al reto y compite por completar las 200 millas!** 🏃‍♂️🚴‍♀️ 
