@@ -1,6 +1,6 @@
-# MOAB 240 CHALLENGE
+# MOAB 240
 
-Una aplicación web moderna para gestionar el reto Bigfoot 200 Challenge, donde los equipos compiten para completar 200 millas durante el evento.
+Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos compiten para completar 240 millas (384 km) durante el evento.
 
 ## 🚀 Características
 
@@ -20,13 +20,13 @@ Una aplicación web moderna para gestionar el reto Bigfoot 200 Challenge, donde 
 ### 📊 **Registro de Distancias**
 - Formulario simplificado para registrar distancias diarias
 - Selector de equipos registrados
-- Calendario integrado (4-12 agosto 2025)
+- Calendario integrado (6-14 octubre 2025)
 - Soporte para kilómetros y millas
 - Conversión automática entre unidades
 
 ### 📈 **Resultados y Gráficas**
 - **Gráficas interactivas por categoría** usando Chart.js
-- Visualización del progreso hacia 200 millas objetivo
+- Visualización del progreso hacia 240 millas objetivo
 - Rankings en tiempo real con medallas (🥇🥈🥉)
 - Estadísticas generales del challenge
 - Barras de progreso por equipo
@@ -41,7 +41,7 @@ Una aplicación web moderna para gestionar el reto Bigfoot 200 Challenge, donde 
 
 ## 🎯 Objetivo del Challenge
 
-**Completar 200 millas** (321.868 km) durante el evento del 4 al 12 de agosto de 2025.
+**Completar 240 millas** (384 km) durante el evento del 6 al 14 de octubre de 2025.
 
 ## 📋 Categorías
 
@@ -256,6 +256,5 @@ http://localhost:8000
 - [ ] Integración con WhatsApp API
 
 ---
-
 
 **¡Únete al reto y compite por completar las 200 millas!** 🏃‍♂️🚴‍♀️ 

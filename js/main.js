@@ -2,9 +2,9 @@
 const TEAMS_KEY = 'bigfoot_teams';
 const DISTANCES_KEY = 'bigfoot_distances';
 
-// Objetivo del reto: 200 millas
-const TARGET_MILES = 208;
-const TARGET_KM = 200 * 1.60934; // 321.868 km
+// Objetivo del reto: 240 millas
+const TARGET_MILES = 240;
+const TARGET_KM = 384; // 384 km
 
 // Variables globales
 let charts = {};
@@ -74,7 +74,8 @@ const initialDistances = [
   { id: 4, teamId: 2, date: '2025-08-05', distance: 10.1, unit: 'mi', timestamp: '2025-08-05T10:45:00Z' },
   { id: 5, teamId: 3, date: '2025-08-04', distance: 20.0, unit: 'km', timestamp: '2025-08-04T08:00:00Z' },
   { id: 6, teamId: 4, date: '2025-08-04', distance: 18.5, unit: 'km', timestamp: '2025-08-04T07:30:00Z' },
-  { id: 7, teamId: 5, date: '2025-08-04', distance: 25.0, unit: 'km', timestamp: '2025-08-04T06:00:00Z' }
+  { id: 7, teamId: 5, date: '2025-08-04', distance: 25.0, unit: 'km', timestamp: '2025-08-04T06:00:00Z' },
+  { id: 8, teamId: 1, date: '2025-10-06', distance: 15.5, unit: 'km', timestamp: '2025-10-06T06:00:00Z' }
 ];
 
 // Traducciones
@@ -98,7 +99,7 @@ const translations = {
     totalKm: 'km totals',
     totalMiles: 'milles totals',
     registrations: 'Registres',
-    progressTowards: 'Progrés cap a 200 milles',
+    progressTowards: 'Progrés cap a 240 milles',
     completed: 'Completat',
     remaining: 'Restant',
     history: 'Historial de Registres',
@@ -108,12 +109,12 @@ const translations = {
     totalKm: 'km totals',
     totalMiles: 'milles totals',
     registrations: 'Registres',
-    joinChallenge: 'Uneix-te al repte Bigfoot 200 Challenge registrant el teu equip',
-    registerProgress: 'Registra el teu progrés diari al Bigfoot 200 Challenge',
-    viewProgress: 'Visualitza el progrés de tots els equips al Bigfoot 200 Challenge',
+    joinChallenge: 'Uneix-te al repte MOAB 240 registrant el teu equip',
+    registerProgress: 'Registra el teu progrés diari al MOAB 240',
+    viewProgress: 'Visualitza el progrés de tots els equips al MOAB 240',
     teamRegisteredSuccess: 'Equip registrat amb èxit!',
     distanceRegisteredSuccess: 'Distància registrada amb èxit!',
-    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del Bigfoot 200 Challenge on podràs:',
+    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del MOAB 24 on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
     whatsappGroupBenefit2: 'Veure les actualitzacions d\'altres participants',
     whatsappGroupBenefit3: 'Rebre motivació i consells',
@@ -126,7 +127,7 @@ const translations = {
     noRegistrationsForTeam: 'No hi ha registres per aquest equip',
     clickTeamForHistory: 'Fes clic a un equip per veure el seu historial complet',
     registerTeamTitle: "Registrar Equip",
-    joinChallengeText: "Uneix-te al repte Bigfoot 200 Challenge registrant el teu equip",
+    joinChallengeText: "Uneix-te al repte MOAB 240 registrant el teu equip",
     teamNameLabel: "Nom de l'Equip *",
     teamCategoryLabel: "Categoria *",
     whatsappGroupLabel: "Grup Oficial de WhatsApp",
@@ -141,8 +142,8 @@ const translations = {
     totalDistanceLabel: "km totals",
     totalDistanceMiLabel: "milles totals",
     totalRegistrationsLabel: "Registres",
-    registerProgressText: "Registra el teu progrés diari al Bigfoot 200 Challenge",
-    viewProgressText: "Visualitza el progrés de tots els equips al Bigfoot 200 Challenge",
+    registerProgressText: "Registra el teu progrés diari al MOAB 240",
+    viewProgressText: "Visualitza el progrés de tots els equips al MOAB 240",
     resultsTitle: "Resultats del Repte",
     registerDistanceTitle: "Registrar Distància",
     adminTitle: "Administració",
@@ -192,7 +193,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre el 4 i 13 d\'agost de 2025.',
+    distanceErrorDate: 'La data ha d\'estar entre el 6 i 14 d\'octubre de 2025.',
     adminAccessGranted: 'Accés d\'administrador concedit',
     adminTeamUpdateError: 'Error en actualitzar l\'equip',
     adminTeamUpdated: 'Equip actualitzat correctament',
@@ -211,9 +212,9 @@ const translations = {
     viewHistoryButton: 'Veure historial',
     accumulatedMiles: 'Milles acumulades',
     milesAxis: 'Milles',
-    resultsSubtitle: "del 4 al 13 d'agost",
-    mainSubtitle: "Del 4 al 13 d'agost",
-    dateRangeSubtitle: "Del 4 al 13 d'agost"
+    resultsSubtitle: "del 6 al 14 d'octubre",
+    mainSubtitle: "Del 6 al 14 d'octubre",
+    dateRangeSubtitle: "Del 6 al 14 d'octubre"
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -234,7 +235,7 @@ const translations = {
     totalKm: 'km totales',
     totalMiles: 'millas totales',
     registrations: 'Registros',
-    progressTowards: 'Progreso hacia 200 millas',
+    progressTowards: 'Progreso hacia 240 millas',
     completed: 'Completado',
     remaining: 'Restante',
     history: 'Historial de Registros',
@@ -244,12 +245,12 @@ const translations = {
     totalKm: 'km totales',
     totalMiles: 'millas totales',
     registrations: 'Registros',
-    joinChallenge: 'Únete al reto Bigfoot 200 Challenge registrando tu equipo',
-    registerProgress: 'Registra tu progreso diario al Bigfoot 200 Challenge',
-    viewProgress: 'Visualiza el progreso de todos los equipos al Bigfoot 200 Challenge',
+    joinChallenge: 'Únete al MOAB 240 registrando tu equipo',
+    registerProgress: 'Registra tu progreso diario en el MOAB 240',
+    viewProgress: 'Visualiza el progreso de todos los equipos en el MOAB 240',
     teamRegisteredSuccess: '¡Equipo registrado con éxito!',
     distanceRegisteredSuccess: '¡Distancia registrada con éxito!',
-    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del Bigfoot 200 Challenge donde podrás:',
+    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del MOAB 24 donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
     whatsappGroupBenefit2: 'Ver las actualizaciones de otros participantes',
     whatsappGroupBenefit3: 'Recibir motivación y consejos',
@@ -262,7 +263,7 @@ const translations = {
     noRegistrationsForTeam: 'No hay registros para este equipo',
     clickTeamForHistory: 'Haz clic en un equipo para ver su historial completo',
     registerTeamTitle: "Registrar Equipo",
-    joinChallengeText: "Únete al reto Bigfoot 200 Challenge registrando tu equipo",
+    joinChallengeText: "Únete al MOAB 240 registrando tu equipo",
     teamNameLabel: "Nombre del Equipo *",
     teamCategoryLabel: "Categoría *",
     whatsappGroupLabel: "Grupo Oficial de WhatsApp",
@@ -277,8 +278,8 @@ const translations = {
     totalDistanceLabel: "km totales",
     totalDistanceMiLabel: "millas totales",
     totalRegistrationsLabel: "Registros",
-    registerProgressText: "Registra tu progreso diario al Bigfoot 200 Challenge",
-    viewProgressText: "Visualiza el progreso de todos los equipos al Bigfoot 200 Challenge",
+    registerProgressText: "Registra tu progreso diario en el MOAB 240",
+    viewProgressText: "Visualiza el progreso de todos los equipos en el MOAB 240",
     resultsTitle: "Resultados del Reto",
     registerDistanceTitle: "Registrar Distancia",
     adminTitle: "Administración",
@@ -328,7 +329,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 4 y 13 de agosto de 2025.',
+    distanceErrorDate: 'La fecha debe estar entre el 6 y 14 de Octubre de 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -347,9 +348,9 @@ const translations = {
     viewHistoryButton: 'Ver historial',
     accumulatedMiles: 'Millas acumuladas',
     milesAxis: 'Millas',
-    resultsSubtitle: 'del 4 al 13 de agosto',
-    mainSubtitle: 'Del 4 al 13 de agosto',
-    dateRangeSubtitle: 'Del 4 al 13 de agosto'
+    resultsSubtitle: 'del 6 al 14 de Octubre',
+    mainSubtitle: 'Del 6 al 14 de Octubre',
+    dateRangeSubtitle: 'Del 6 al 14 de Octubre'
   },
   en: {
     registerTeam: 'Register Team',
@@ -370,7 +371,7 @@ const translations = {
     totalKm: 'total km',
     totalMiles: 'total miles',
     registrations: 'Registrations',
-    progressTowards: 'Progress towards 200 miles',
+    progressTowards: 'Progress towards 240 miles',
     completed: 'Completed',
     remaining: 'Remaining',
     history: 'Registration History',
@@ -380,12 +381,12 @@ const translations = {
     totalKm: 'total km',
     totalMiles: 'total miles',
     registrations: 'Registrations',
-    joinChallenge: 'Join the Bigfoot 200 Challenge by registering your team',
-    registerProgress: 'Register your daily progress to the Bigfoot 200 Challenge',
-    viewProgress: 'View the progress of all teams in the Bigfoot 200 Challenge',
+    joinChallenge: 'Join MOAB 240 by registering your team',
+    registerProgress: 'Register your daily progress to MOAB 240',
+    viewProgress: 'View the progress of all teams in MOAB 240',
     teamRegisteredSuccess: 'Team registered successfully!',
     distanceRegisteredSuccess: 'Distance registered successfully!',
-    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of the Bigfoot 200 Challenge where you can:',
+    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of MOAB 240 where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
     whatsappGroupBenefit2: 'See updates from other participants',
     whatsappGroupBenefit3: 'Receive motivation and advice',
@@ -398,7 +399,7 @@ const translations = {
     noRegistrationsForTeam: 'No registrations for this team',
     clickTeamForHistory: 'Click on a team to see their complete history',
     registerTeamTitle: "Register Team",
-    joinChallengeText: "Join the Bigfoot 200 Challenge by registering your team",
+    joinChallengeText: "Join MOAB 240 by registering your team",
     teamNameLabel: "Team Name *",
     teamCategoryLabel: "Category *",
     whatsappGroupLabel: "Official WhatsApp Group",
@@ -413,8 +414,8 @@ const translations = {
     totalDistanceLabel: "Total km",
     totalDistanceMiLabel: "Total miles",
     totalRegistrationsLabel: "Entries",
-    registerProgressText: "Register your daily progress to the Bigfoot 200 Challenge",
-    viewProgressText: "View the progress of all teams in the Bigfoot 200 Challenge",
+    registerProgressText: "Register your daily progress to MOAB 240",
+    viewProgressText: "View the progress of all teams in MOAB 240",
     resultsTitle: "Challenge Results",
     registerDistanceTitle: "Register Distance",
     adminTitle: "Administration",
@@ -464,7 +465,7 @@ const translations = {
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between August 4 and 13, 2025.',
+    distanceErrorDate: 'The date must be between October 6 and 14, 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -483,126 +484,59 @@ const translations = {
     viewHistoryButton: 'View history',
     accumulatedMiles: 'Accumulated miles',
     milesAxis: 'Miles',
-    resultsSubtitle: 'from August 4th to 13th',
-    mainSubtitle: 'From August 4th to 13th',
-    dateRangeSubtitle: 'From August 4th to 13th'
+    resultsSubtitle: 'October 6 to 14',
+    mainSubtitle: 'October 6 to 14',
+    dateRangeSubtitle: 'October 6 to 14'
   },
   pt: {
-    registerTeam: 'Registrar Equipe',
+    registerTeam: 'Registrar Equipa',
     registerDistance: 'Registrar Distância',
     viewResults: 'Ver Resultados',
-    teamName: 'Nome da Equipe',
+    teamName: 'Nome da Equipa',
     category: 'Categoria',
-    joinWhatsappGroup: 'Entrar no Grupo do WhatsApp',
-    selectTeam: 'Selecionar Equipe',
+    joinWhatsappGroup: 'Juntar-se ao Grupo de WhatsApp',
+    selectTeam: 'Selecionar Equipa',
     date: 'Data',
     distance: 'Distância',
     kilometers: 'Km',
     miles: 'Milhas',
-    registerTeamAndJoin: 'Registrar Equipe',
+    registerTeamAndJoin: 'Registrar Equipa',
     registerDistance: 'Registrar Distância',
     challengeResults: 'Resultados do Desafio',
-    teams: 'Equipes',
+    teams: 'Equipas',
     totalKm: 'km totais',
     totalMiles: 'milhas totais',
-    registrations: 'Registros',
-    progressTowards: 'Progresso para 200 milhas',
-    completed: 'Completado',
+    registrations: 'Registos',
+    progressTowards: 'Progresso para 240 milhas',
+    completed: 'Concluído',
     remaining: 'Restante',
-    history: 'Histórico de Registros',
+    history: 'Histórico de Registos',
     units: 'Unidades',
-    team: 'Equipe',
-    teams: 'Equipes',
+    team: 'Equipa',
     totalKm: 'km totais',
     totalMiles: 'milhas totais',
-    registrations: 'Registros',
-    joinChallenge: 'Junte-se ao desafio Bigfoot 200 Challenge registrando sua equipe',
-    registerProgress: 'Registre seu progresso diário no Bigfoot 200 Challenge',
-    viewProgress: 'Visualize o progresso de todas as equipes no Bigfoot 200 Challenge',
-    teamRegisteredSuccess: 'Equipe registrada com sucesso!',
-    distanceRegisteredSuccess: 'Distância registrada com sucesso!',
-    whatsappGroupInfo: 'Ao se registrar, você receberá o link para entrar no grupo oficial do WhatsApp do Bigfoot 200 Challenge onde poderá:',
-    whatsappGroupBenefit1: 'Compartilhar seu progresso diário',
-    whatsappGroupBenefit2: 'Ver atualizações de outros participantes',
+    registrations: 'Registos',
+    joinChallenge: 'Junte-se ao MOAB 240 registando a sua equipa',
+    registerProgress: 'Registe o seu progresso diário no MOAB 240',
+    viewProgress: 'Veja o progresso de todas as equipas no MOAB 240',
+    teamRegisteredSuccess: 'Equipa registada com sucesso',
+    distanceRegisteredSuccess: 'Distância registada com sucesso',
+    whatsappGroupInfo: 'Ao registar-se, receberá o link para se juntar ao grupo oficial do WhatsApp do MOAB 240 onde poderá:',
+    whatsappGroupBenefit1: 'Partilhar o seu progresso diário',
+    whatsappGroupBenefit2: 'Ver as atualizações de outros participantes',
     whatsappGroupBenefit3: 'Receber motivação e conselhos',
-    whatsappGroupBenefit4: 'Participar da comunidade do desafio',
-    historyTitle: 'Histórico de Registros',
-    historyDescription: 'Clique em uma equipe para ver seu histórico completo',
-    totalRegistrations: 'registros',
+    whatsappGroupBenefit4: 'Participar na comunidade do desafio',
+    historyTitle: 'Histórico de Registos',
+    historyDescription: 'Clique numa equipa para ver o seu histórico completo',
+    totalRegistrations: 'registos',
     totalDistance: 'Total',
-    noTeamsRegistered: 'Nenhuma equipe registrada ainda',
-    noRegistrationsForTeam: 'Nenhum registro para esta equipe',
-    clickTeamForHistory: 'Clique em uma equipe para ver seu histórico completo',
-    registerTeamTitle: "Registrar Equipa",
-    joinChallengeText: "Junte-se ao desafio Bigfoot 200 registrando sua equipa",
-    teamNameLabel: "Nome da Equipa *",
-    teamCategoryLabel: "Categoria *",
-    whatsappGroupLabel: "Grupo Oficial do WhatsApp",
-    whatsappGroupLinkText: "Entrar no grupo do WhatsApp do desafio",
-    whatsappGroupInfo: "Escaneie ou clique no link para entrar no grupo oficial do desafio. Compartilhe o link com os membros da sua equipa se também quiserem entrar!",
-    whatsappGroupBenefit1: "Compartilhar seu progresso diário",
-    whatsappGroupBenefit2: "Ver as atualizações de outros participantes",
-    whatsappGroupBenefit3: "Receber motivação e dicas",
-    whatsappGroupBenefit4: "Participar na comunidade do desafio",
-    registerTeamButton: "Registrar Equipa",
-    totalTeamsLabel: "Equipas",
-    totalDistanceLabel: "km totais",
-    totalDistanceMiLabel: "milhas totais",
-    totalRegistrationsLabel: "Registos",
-    registerProgressText: "Registra o teu progresso diário no Bigfoot 200 Challenge",
-    viewProgressText: "Visualize o progresso de todas as equipas no Bigfoot 200 Challenge",
-    resultsTitle: "Resultados do Desafio",
-    registerDistanceTitle: "Registrar Distância",
-    adminTitle: "Administração",
-    adminSubtitle: "Gestão de equipas e dados do desafio",
-    adminLoginTitle: "Acesso de Administrador",
-    adminPasswordPlaceholder: "Palavra-passe de administrador",
-    adminLoginButton: "Entrar",
-    adminPanelTitle: "Painel de Administração",
-    adminLogoutButton: "Sair",
-    adminTotalTeams: "Total Equipas",
-    adminTotalRegistrations: "Total Registos",
-    adminTotalDistance: "Total Distância",
-    adminTeamsListTitle: "Equipas Registadas",
-    adminDeleteButton: "Eliminar",
-    adminExportButton: "Exportar Dados",
-    adminResetButton: "Resetejar Tudo",
-    adminWrongPassword: "Palavra-passe incorreta",
-    adminTeamDeleted: "Equipa eliminada com sucesso",
-    adminDataExported: "Dados exportados com sucesso",
-    adminDataReset: "Todos os dados foram eliminados",
-    adminConfirmDelete: "Tem a certeza que quer eliminar esta equipa? Isto também eliminará todos os seus registos.",
-    adminConfirmReset: "ATENÇÃO: Isto eliminará TODAS as equipas e registos. Não pode ser desfeito. Tem a certeza?",
-    teamNameExists: "Já existe uma equipa com este nome. Por favor, escolha outro nome.",
-    viewRecords: 'Ver registos',
-    save: 'Guardar',
-    cancel: 'Cancelar',
-    actions: 'Ações',
-    editTeam: 'Editar equipa',
-    saveTeam: 'Guardar equipa',
-    deleteRecord: 'Eliminar registo',
-    saveRecord: 'Guardar registo',
-    tabRegisterTeam: 'Registrar Equipa',
-    tabRegister: 'Registrar Distância',
-    tabResults: 'Ver Resultados',
-    tabAdmin: 'Admin',
-    cat1: '1 pax (Run + Bike)',
-    cat2: '2 pax (Run + Bike)',
-    cat3: '3 pax (Run)',
-    cat4: '4 pax (Run)',
-    cat5: '5 pax (Run)',
-    selectYourTeam: 'Seleciona a tua equipa',
-    distanceLabel: 'Distância *',
-    distancePlaceholder: 'Ex: 10.5',
-    unitKm: 'km',
-    unitMi: 'Milhas',
-    registerDistanceButton: 'Registrar Distância',
-    selectTeamLabel: 'Selecionar Equipa *',
-    dateLabel: 'Data *',
-    distanceErrorFields: 'Por favor preencha todos os campos corretamente.',
-    distanceErrorDate: 'A data deve estar entre 4 e 13 de agosto de 2025.',
-    adminAccessGranted: 'Acesso de administrador concedido',
-    adminTeamUpdateError: 'Erro ao atualizar a equipa',
+    noTeamsRegistered: 'Ainda não há equipas registadas',
+    noRegistrationsForTeam: 'Não há registos para esta equipa',
+    clickTeamForHistory: 'Clique numa equipa para ver o seu histórico completo',
+    registerTeamTitle: 'Registrar Equipa',
+    joinChallengeText: 'Junte-se ao MOAB 240 registando a sua equipa',
+    teamNameLabel: 'Nome da Equipa *',
+    teamCategoryLabel: 'Categoria *',
     adminTeamUpdated: 'Equipa atualizada com sucesso',
     adminTeamDeleteError: 'Erro ao eliminar a equipa',
     adminTeamDeleted: 'Equipa eliminada com sucesso',
@@ -619,16 +553,16 @@ const translations = {
     viewHistoryButton: 'Ver histórico',
     accumulatedMiles: 'Milhas acumuladas',
     milesAxis: 'Milhas',
-    resultsSubtitle: 'de 4 a 13 de agosto',
-    mainSubtitle: 'De 4 a 13 de agosto',
-    dateRangeSubtitle: 'De 4 a 13 de agosto'
+    resultsSubtitle: 'de 6 a 14 de outubro',
+    mainSubtitle: 'De 6 a 14 de outubro',
+    dateRangeSubtitle: 'De 6 a 14 de outubro'
   }
 };
 
 // Corrección de traducción en portugués para la pestaña de registro de distancia
 ttranslations = translations;
 translations.pt.registerDistanceTitle = 'Registrar Distância';
-translations.pt.registerProgressText = 'Registra o teu progresso diário no Bigfoot 200 Challenge';
+translations.pt.registerProgressText = 'Registe o seu progresso diário no MOAB 240';
 
 // Añadir claves de traducción si faltan
 Object.keys(translations).forEach(lang => {
@@ -726,7 +660,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre el 4 i 13 d\'agost de 2025.', es: 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', en: 'The date must be between August 4 and 13, 2025.', pt: 'A data deve estar entre 4 e 13 de agosto de 2025.'
+    ca: 'La data ha d\'estar entre el 6 i 14 d\'octubre de 2025.',
+    es: 'La fecha debe estar entre el 6 y 14 de Octubre de 2025.',
+    en: 'The date must be between October 6 and 14, 2025.',
+    pt: 'A data deve estar entre 6 e 14 de outubro de 2025.'
   }[lang];
 });
 
@@ -799,10 +736,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-13');
+  const startDate = new Date('2025-10-06');
+  const endDate = new Date('2025-10-14');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -1045,10 +982,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-13');
+  const startDate = new Date('2025-10-06');
+  const endDate = new Date('2025-10-14');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -1503,10 +1440,10 @@ async function updateRegistration(regId) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-08-04');
-  const endDate = new Date('2025-08-13');
+  const startDate = new Date('2025-10-06');
+  const endDate = new Date('2025-10-14');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 4 y 13 de agosto de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
     return;
   }
   const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);
