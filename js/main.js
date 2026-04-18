@@ -2,9 +2,17 @@
 const TEAMS_KEY = 'bigfoot_teams';
 const DISTANCES_KEY = 'bigfoot_distances';
 
-// Objetivo del reto: 240 millas
-const TARGET_MILES = 240;
-const TARGET_KM = 384; // 384 km
+// Objetivo del reto: 250 millas
+const TARGET_MILES = 250;
+const TARGET_KM = 402.34; // 250 mi en km
+const ALLOWED_CATEGORIES = [
+  '1 pax (RUN)',
+  '2 pax (RUN)',
+  '3 pax (RUN)',
+  '4 pax (RUN)',
+  '5 pax (RUN)',
+  '6 pax (RUN)'
+];
 
 // Variables globales
 let charts = {};
@@ -59,11 +67,12 @@ window.showNotification = showNotification;
 
 // Datos de ejemplo para empezar
 const initialTeams = [
-  { id: 1, name: 'Equip Alpha', category: '1 pax (Run + Bike)', phones: ['+34 600 123 456'] },
-  { id: 2, name: 'Els Corredors', category: '2 pax (Run + Bike)', phones: ['+34 600 234 567', '+34 600 345 678'] },
-  { id: 3, name: 'Trio Veloz', category: '3 pax (Run)', phones: ['+34 600 456 789', '+34 600 567 890', '+34 600 678 901'] },
-  { id: 4, name: 'Quartet Fort', category: '4 pax (Run)', phones: ['+34 600 789 012', '+34 600 890 123', '+34 600 901 234', '+34 600 012 345'] },
-  { id: 5, name: 'Quintet Elite', category: '5 pax (Run)', phones: ['+34 600 123 789', '+34 600 234 890', '+34 600 345 901', '+34 600 456 012', '+34 600 567 123'] }
+  { id: 1, name: 'Equip Alpha', category: '1 pax (RUN)', phones: ['+34 600 123 456'] },
+  { id: 2, name: 'Els Corredors', category: '2 pax (RUN)', phones: ['+34 600 234 567', '+34 600 345 678'] },
+  { id: 3, name: 'Trio Veloz', category: '3 pax (RUN)', phones: ['+34 600 456 789', '+34 600 567 890', '+34 600 678 901'] },
+  { id: 4, name: 'Quartet Fort', category: '4 pax (RUN)', phones: ['+34 600 789 012', '+34 600 890 123', '+34 600 901 234', '+34 600 012 345'] },
+  { id: 5, name: 'Quintet Elite', category: '5 pax (RUN)', phones: ['+34 600 123 789', '+34 600 234 890', '+34 600 345 901', '+34 600 456 012', '+34 600 567 123'] },
+  { id: 6, name: 'Sextet Trail', category: '6 pax (RUN)', phones: ['+34 600 111 222', '+34 600 222 333', '+34 600 333 444', '+34 600 444 555', '+34 600 555 666', '+34 600 666 777'] }
 ];
 
 // Datos de ejemplo para distancias
@@ -99,7 +108,7 @@ const translations = {
     totalKm: 'km totals',
     totalMiles: 'milles totals',
     registrations: 'Registres',
-    progressTowards: 'Progrés cap a 240 milles',
+    progressTowards: 'Progrés cap a 250 milles',
     completed: 'Completat',
     remaining: 'Restant',
     history: 'Historial de Registres',
@@ -109,12 +118,12 @@ const translations = {
     totalKm: 'km totals',
     totalMiles: 'milles totals',
     registrations: 'Registres',
-    joinChallenge: 'Uneix-te al repte MOAB 240 registrant el teu equip',
-    registerProgress: 'Registra el teu progrés diari al MOAB 240',
-    viewProgress: 'Visualitza el progrés de tots els equips al MOAB 240',
+    joinChallenge: 'Uneix-te al repte COCODONA 250 registrant el teu equip',
+    registerProgress: 'Registra el teu progrés diari al COCODONA 250',
+    viewProgress: 'Visualitza el progrés de tots els equips al COCODONA 250',
     teamRegisteredSuccess: 'Equip registrat amb èxit!',
     distanceRegisteredSuccess: 'Distància registrada amb èxit!',
-    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del MOAB 24 on podràs:',
+    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del COCODONA 250 on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
     whatsappGroupBenefit2: 'Veure les actualitzacions d\'altres participants',
     whatsappGroupBenefit3: 'Rebre motivació i consells',
@@ -127,7 +136,7 @@ const translations = {
     noRegistrationsForTeam: 'No hi ha registres per aquest equip',
     clickTeamForHistory: 'Fes clic a un equip per veure el seu historial complet',
     registerTeamTitle: "Registrar Equip",
-    joinChallengeText: "Uneix-te al repte MOAB 240 registrant el teu equip",
+    joinChallengeText: "Uneix-te al repte COCODONA 250 registrant el teu equip",
     teamNameLabel: "Nom de l'Equip *",
     teamCategoryLabel: "Categoria *",
     whatsappGroupLabel: "Grup Oficial de WhatsApp",
@@ -142,8 +151,8 @@ const translations = {
     totalDistanceLabel: "km totals",
     totalDistanceMiLabel: "milles totals",
     totalRegistrationsLabel: "Registres",
-    registerProgressText: "Registra el teu progrés diari al MOAB 240",
-    viewProgressText: "Visualitza el progrés de tots els equips al MOAB 240",
+    registerProgressText: "Registra el teu progrés diari al COCODONA 250",
+    viewProgressText: "Visualitza el progrés de tots els equips al COCODONA 250",
     resultsTitle: "Resultats del Repte",
     registerDistanceTitle: "Registrar Distància",
     adminTitle: "Administració",
@@ -179,11 +188,12 @@ const translations = {
     tabRegister: 'Registrar Distància',
     tabResults: 'Veure Resultats',
     tabAdmin: 'Admin',
-    cat1: '1 pax (Run + Bike)',
-    cat2: '2 pax (Run + Bike)',
-    cat3: '3 pax (Run)',
-    cat4: '4 pax (Run)',
-    cat5: '5 pax (Run)',
+    cat1: '1 pax (RUN)',
+    cat2: '2 pax (RUN)',
+    cat3: '3 pax (RUN)',
+    cat4: '4 pax (RUN)',
+    cat5: '5 pax (RUN)',
+    cat6: '6 pax (RUN)',
     selectYourTeam: 'Selecciona el teu equip',
     distanceLabel: 'Distància *',
     distancePlaceholder: 'Ex: 10.5',
@@ -193,7 +203,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre el 6 i 14 d\'octubre de 2025.',
+    distanceErrorDate: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2025.',
     adminAccessGranted: 'Accés d\'administrador concedit',
     adminTeamUpdateError: 'Error en actualitzar l\'equip',
     adminTeamUpdated: 'Equip actualitzat correctament',
@@ -212,9 +222,9 @@ const translations = {
     viewHistoryButton: 'Veure historial',
     accumulatedMiles: 'Milles acumulades',
     milesAxis: 'Milles',
-    resultsSubtitle: "del 6 al 14 d'octubre",
-    mainSubtitle: "Del 6 al 14 d'octubre",
-    dateRangeSubtitle: "Del 6 al 14 d'octubre"
+    resultsSubtitle: "de l'1 al 10 de maig",
+    mainSubtitle: "De l'1 al 10 de maig",
+    dateRangeSubtitle: "De l'1 al 10 de maig"
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -235,7 +245,7 @@ const translations = {
     totalKm: 'km totales',
     totalMiles: 'millas totales',
     registrations: 'Registros',
-    progressTowards: 'Progreso hacia 240 millas',
+    progressTowards: 'Progreso hacia 250 millas',
     completed: 'Completado',
     remaining: 'Restante',
     history: 'Historial de Registros',
@@ -245,12 +255,12 @@ const translations = {
     totalKm: 'km totales',
     totalMiles: 'millas totales',
     registrations: 'Registros',
-    joinChallenge: 'Únete al MOAB 240 registrando tu equipo',
-    registerProgress: 'Registra tu progreso diario en el MOAB 240',
-    viewProgress: 'Visualiza el progreso de todos los equipos en el MOAB 240',
+    joinChallenge: 'Únete al COCODONA 250 registrando tu equipo',
+    registerProgress: 'Registra tu progreso diario en el COCODONA 250',
+    viewProgress: 'Visualiza el progreso de todos los equipos en el COCODONA 250',
     teamRegisteredSuccess: '¡Equipo registrado con éxito!',
     distanceRegisteredSuccess: '¡Distancia registrada con éxito!',
-    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del MOAB 24 donde podrás:',
+    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del COCODONA 250 donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
     whatsappGroupBenefit2: 'Ver las actualizaciones de otros participantes',
     whatsappGroupBenefit3: 'Recibir motivación y consejos',
@@ -263,7 +273,7 @@ const translations = {
     noRegistrationsForTeam: 'No hay registros para este equipo',
     clickTeamForHistory: 'Haz clic en un equipo para ver su historial completo',
     registerTeamTitle: "Registrar Equipo",
-    joinChallengeText: "Únete al MOAB 240 registrando tu equipo",
+    joinChallengeText: "Únete al COCODONA 250 registrando tu equipo",
     teamNameLabel: "Nombre del Equipo *",
     teamCategoryLabel: "Categoría *",
     whatsappGroupLabel: "Grupo Oficial de WhatsApp",
@@ -278,8 +288,8 @@ const translations = {
     totalDistanceLabel: "km totales",
     totalDistanceMiLabel: "millas totales",
     totalRegistrationsLabel: "Registros",
-    registerProgressText: "Registra tu progreso diario en el MOAB 240",
-    viewProgressText: "Visualiza el progreso de todos los equipos en el MOAB 240",
+    registerProgressText: "Registra tu progreso diario en el COCODONA 250",
+    viewProgressText: "Visualiza el progreso de todos los equipos en el COCODONA 250",
     resultsTitle: "Resultados del Reto",
     registerDistanceTitle: "Registrar Distancia",
     adminTitle: "Administración",
@@ -315,11 +325,12 @@ const translations = {
     tabRegister: 'Registrar Distancia',
     tabResults: 'Ver Resultados',
     tabAdmin: 'Admin',
-    cat1: '1 pax (Run + Bike)',
-    cat2: '2 pax (Run + Bike)',
-    cat3: '3 pax (Run)',
-    cat4: '4 pax (Run)',
-    cat5: '5 pax (Run)',
+    cat1: '1 pax (RUN)',
+    cat2: '2 pax (RUN)',
+    cat3: '3 pax (RUN)',
+    cat4: '4 pax (RUN)',
+    cat5: '5 pax (RUN)',
+    cat6: '6 pax (RUN)',
     selectYourTeam: 'Selecciona tu equipo',
     distanceLabel: 'Distancia *',
     distancePlaceholder: 'Ej: 10.5',
@@ -329,7 +340,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 6 y 14 de Octubre de 2025.',
+    distanceErrorDate: 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -348,9 +359,9 @@ const translations = {
     viewHistoryButton: 'Ver historial',
     accumulatedMiles: 'Millas acumuladas',
     milesAxis: 'Millas',
-    resultsSubtitle: 'del 6 al 14 de Octubre',
-    mainSubtitle: 'Del 6 al 14 de Octubre',
-    dateRangeSubtitle: 'Del 6 al 14 de Octubre'
+    resultsSubtitle: 'del 1 al 10 de mayo',
+    mainSubtitle: 'Del 1 al 10 de mayo',
+    dateRangeSubtitle: 'Del 1 al 10 de mayo'
   },
   en: {
     registerTeam: 'Register Team',
@@ -371,7 +382,7 @@ const translations = {
     totalKm: 'total km',
     totalMiles: 'total miles',
     registrations: 'Registrations',
-    progressTowards: 'Progress towards 240 miles',
+    progressTowards: 'Progress towards 250 miles',
     completed: 'Completed',
     remaining: 'Remaining',
     history: 'Registration History',
@@ -381,12 +392,12 @@ const translations = {
     totalKm: 'total km',
     totalMiles: 'total miles',
     registrations: 'Registrations',
-    joinChallenge: 'Join MOAB 240 by registering your team',
-    registerProgress: 'Register your daily progress to MOAB 240',
-    viewProgress: 'View the progress of all teams in MOAB 240',
+    joinChallenge: 'Join COCODONA 250 by registering your team',
+    registerProgress: 'Register your daily progress to COCODONA 250',
+    viewProgress: 'View the progress of all teams in COCODONA 250',
     teamRegisteredSuccess: 'Team registered successfully!',
     distanceRegisteredSuccess: 'Distance registered successfully!',
-    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of MOAB 240 where you can:',
+    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of COCODONA 250 where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
     whatsappGroupBenefit2: 'See updates from other participants',
     whatsappGroupBenefit3: 'Receive motivation and advice',
@@ -399,7 +410,7 @@ const translations = {
     noRegistrationsForTeam: 'No registrations for this team',
     clickTeamForHistory: 'Click on a team to see their complete history',
     registerTeamTitle: "Register Team",
-    joinChallengeText: "Join MOAB 240 by registering your team",
+    joinChallengeText: "Join COCODONA 250 by registering your team",
     teamNameLabel: "Team Name *",
     teamCategoryLabel: "Category *",
     whatsappGroupLabel: "Official WhatsApp Group",
@@ -414,8 +425,8 @@ const translations = {
     totalDistanceLabel: "Total km",
     totalDistanceMiLabel: "Total miles",
     totalRegistrationsLabel: "Entries",
-    registerProgressText: "Register your daily progress to MOAB 240",
-    viewProgressText: "View the progress of all teams in MOAB 240",
+    registerProgressText: "Register your daily progress to COCODONA 250",
+    viewProgressText: "View the progress of all teams in COCODONA 250",
     resultsTitle: "Challenge Results",
     registerDistanceTitle: "Register Distance",
     adminTitle: "Administration",
@@ -451,11 +462,12 @@ const translations = {
     tabRegister: 'Register Distance',
     tabResults: 'View Results',
     tabAdmin: 'Admin',
-    cat1: '1 pax (Run + Bike)',
-    cat2: '2 pax (Run + Bike)',
-    cat3: '3 pax (Run)',
-    cat4: '4 pax (Run)',
-    cat5: '5 pax (Run)',
+    cat1: '1 pax (RUN)',
+    cat2: '2 pax (RUN)',
+    cat3: '3 pax (RUN)',
+    cat4: '4 pax (RUN)',
+    cat5: '5 pax (RUN)',
+    cat6: '6 pax (RUN)',
     selectYourTeam: 'Select your team',
     distanceLabel: 'Distance *',
     distancePlaceholder: 'Ex: 10.5',
@@ -465,7 +477,7 @@ const translations = {
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between October 6 and 14, 2025.',
+    distanceErrorDate: 'The date must be between May 1 and 10, 2025.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -484,9 +496,9 @@ const translations = {
     viewHistoryButton: 'View history',
     accumulatedMiles: 'Accumulated miles',
     milesAxis: 'Miles',
-    resultsSubtitle: 'October 6 to 14',
-    mainSubtitle: 'October 6 to 14',
-    dateRangeSubtitle: 'October 6 to 14'
+    resultsSubtitle: 'May 1 to 10',
+    mainSubtitle: 'May 1 to 10',
+    dateRangeSubtitle: 'May 1 to 10'
   },
   pt: {
     registerTeam: 'Registrar Equipa',
@@ -507,7 +519,7 @@ const translations = {
     totalKm: 'km totais',
     totalMiles: 'milhas totais',
     registrations: 'Registos',
-    progressTowards: 'Progresso para 240 milhas',
+    progressTowards: 'Progresso para 250 milhas',
     completed: 'Concluído',
     remaining: 'Restante',
     history: 'Histórico de Registos',
@@ -516,12 +528,12 @@ const translations = {
     totalKm: 'km totais',
     totalMiles: 'milhas totais',
     registrations: 'Registos',
-    joinChallenge: 'Junte-se ao MOAB 240 registando a sua equipa',
-    registerProgress: 'Registe o seu progresso diário no MOAB 240',
-    viewProgress: 'Veja o progresso de todas as equipas no MOAB 240',
+    joinChallenge: 'Junte-se ao COCODONA 250 registando a sua equipa',
+    registerProgress: 'Registe o seu progresso diário no COCODONA 250',
+    viewProgress: 'Veja o progresso de todas as equipas no COCODONA 250',
     teamRegisteredSuccess: 'Equipa registada com sucesso',
     distanceRegisteredSuccess: 'Distância registada com sucesso',
-    whatsappGroupInfo: 'Ao registar-se, receberá o link para se juntar ao grupo oficial do WhatsApp do MOAB 240 onde poderá:',
+    whatsappGroupInfo: 'Ao registar-se, receberá o link para se juntar ao grupo oficial do WhatsApp do COCODONA 250 onde poderá:',
     whatsappGroupBenefit1: 'Partilhar o seu progresso diário',
     whatsappGroupBenefit2: 'Ver as atualizações de outros participantes',
     whatsappGroupBenefit3: 'Receber motivação e conselhos',
@@ -534,7 +546,7 @@ const translations = {
     noRegistrationsForTeam: 'Não há registos para esta equipa',
     clickTeamForHistory: 'Clique numa equipa para ver o seu histórico completo',
     registerTeamTitle: 'Registrar Equipa',
-    joinChallengeText: 'Junte-se ao MOAB 240 registando a sua equipa',
+    joinChallengeText: 'Junte-se ao COCODONA 250 registando a sua equipa',
     teamNameLabel: 'Nome da Equipa *',
     teamCategoryLabel: 'Categoria *',
     adminTeamUpdated: 'Equipa atualizada com sucesso',
@@ -553,16 +565,16 @@ const translations = {
     viewHistoryButton: 'Ver histórico',
     accumulatedMiles: 'Milhas acumuladas',
     milesAxis: 'Milhas',
-    resultsSubtitle: 'de 6 a 14 de outubro',
-    mainSubtitle: 'De 6 a 14 de outubro',
-    dateRangeSubtitle: 'De 6 a 14 de outubro'
+    resultsSubtitle: 'de 1 a 10 de maio',
+    mainSubtitle: 'De 1 a 10 de maio',
+    dateRangeSubtitle: 'De 1 a 10 de maio'
   }
 };
 
 // Corrección de traducción en portugués para la pestaña de registro de distancia
 ttranslations = translations;
 translations.pt.registerDistanceTitle = 'Registrar Distância';
-translations.pt.registerProgressText = 'Registe o seu progresso diário no MOAB 240';
+translations.pt.registerProgressText = 'Registe o seu progresso diário no COCODONA 250';
 
 // Añadir claves de traducción si faltan
 Object.keys(translations).forEach(lang => {
@@ -590,6 +602,12 @@ Object.keys(translations).forEach(lang => {
   translations[lang].saveRecord = translations[lang].saveRecord || {
     ca: 'Desar registre', es: 'Guardar registro', en: 'Save record', pt: 'Guardar registo'
   }[lang];
+  translations[lang].teamCategoryInvalid = translations[lang].teamCategoryInvalid || {
+    ca: 'Només es permet modalitat RUN amb equips d\'1 a 6 persones.',
+    es: 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.',
+    en: 'Only RUN modality is allowed with teams from 1 to 6 people.',
+    pt: 'Só é permitida a modalidade RUN com equipas de 1 a 6 pessoas.'
+  }[lang];
 });
 
 // Añadir claves de traducción para categorías/modalidades y pestañas principales
@@ -607,19 +625,22 @@ Object.keys(translations).forEach(lang => {
     ca: 'Admin', es: 'Admin', en: 'Admin', pt: 'Admin'
   }[lang];
   translations[lang].cat1 = translations[lang].cat1 || {
-    ca: '1 pax (Run + Bike)', es: '1 pax (Run + Bike)', en: '1 pax (Run + Bike)', pt: '1 pax (Run + Bike)'
+    ca: '1 pax (RUN)', es: '1 pax (RUN)', en: '1 pax (RUN)', pt: '1 pax (RUN)'
   }[lang];
   translations[lang].cat2 = translations[lang].cat2 || {
-    ca: '2 pax (Run + Bike)', es: '2 pax (Run + Bike)', en: '2 pax (Run + Bike)', pt: '2 pax (Run + Bike)'
+    ca: '2 pax (RUN)', es: '2 pax (RUN)', en: '2 pax (RUN)', pt: '2 pax (RUN)'
   }[lang];
   translations[lang].cat3 = translations[lang].cat3 || {
-    ca: '3 pax (Run)', es: '3 pax (Run)', en: '3 pax (Run)', pt: '3 pax (Run)'
+    ca: '3 pax (RUN)', es: '3 pax (RUN)', en: '3 pax (RUN)', pt: '3 pax (RUN)'
   }[lang];
   translations[lang].cat4 = translations[lang].cat4 || {
-    ca: '4 pax (Run)', es: '4 pax (Run)', en: '4 pax (Run)', pt: '4 pax (Run)'
+    ca: '4 pax (RUN)', es: '4 pax (RUN)', en: '4 pax (RUN)', pt: '4 pax (RUN)'
   }[lang];
   translations[lang].cat5 = translations[lang].cat5 || {
-    ca: '5 pax (Run)', es: '5 pax (Run)', en: '5 pax (Run)', pt: '5 pax (Run)'
+    ca: '5 pax (RUN)', es: '5 pax (RUN)', en: '5 pax (RUN)', pt: '5 pax (RUN)'
+  }[lang];
+  translations[lang].cat6 = translations[lang].cat6 || {
+    ca: '6 pax (RUN)', es: '6 pax (RUN)', en: '6 pax (RUN)', pt: '6 pax (RUN)'
   }[lang];
 });
 
@@ -660,10 +681,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre el 6 i 14 d\'octubre de 2025.',
-    es: 'La fecha debe estar entre el 6 y 14 de Octubre de 2025.',
-    en: 'The date must be between October 6 and 14, 2025.',
-    pt: 'A data deve estar entre 6 e 14 de outubro de 2025.'
+    ca: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2025.',
+    es: 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.',
+    en: 'The date must be between May 1 and 10, 2025.',
+    pt: 'A data deve estar entre 1 e 10 de maio de 2025.'
   }[lang];
 });
 
@@ -736,10 +757,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-10-06');
-  const endDate = new Date('2025-10-14');
+  const startDate = new Date('2025-05-01');
+  const endDate = new Date('2025-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -931,35 +952,50 @@ async function loadTeams() {
 async function handleTeamSubmit(e) {
   e.preventDefault();
   const t = getTranslations();
-  const teamName = document.getElementById('teamName').value.trim();
-  const teamCategory = document.getElementById('teamCategory').value;
-  if (!teamName || !teamCategory) {
-    showNotification(t.teamFieldsRequired || 'Por favor completa todos los campos obligatorios.', 'error');
-    return;
-  }
-  // Verificar que no exista un equipo con el mismo nombre
-  const { data: teams } = await window.supabase.from('registrations').select('name');
-  const existingTeam = teams.find(team => team.name.toLowerCase() === teamName.toLowerCase());
-  if (existingTeam) {
-    showNotification(t.teamNameExists || 'Ya existe un equipo con este nombre. Por favor, elige otro nombre.', 'error');
-    return;
-  }
-  const newTeam = { name: teamName, category: teamCategory };
-  const { error, data } = await window.supabase
-    .from('registrations')
-    .insert([newTeam])
-    .select();
-  if (error) {
-    showNotification(t.teamRegisterError || 'Error al registrar el equipo', 'error');
-    return;
-  }
-  if (!data || (Array.isArray(data) && data.length === 0)) {
+  try {
+    const teamName = document.getElementById('teamName').value.trim();
+    const teamCategory = document.getElementById('teamCategory').value;
+    if (!teamName || !teamCategory) {
+      showNotification(t.teamFieldsRequired || 'Por favor completa todos los campos obligatorios.', 'error');
+      return;
+    }
+    if (!ALLOWED_CATEGORIES.includes(teamCategory)) {
+      showNotification(t.teamCategoryInvalid || 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.', 'error');
+      return;
+    }
+    // Verificar que no exista un equipo con el mismo nombre
+    const { data: teams, error: teamsError } = await window.supabase.from('registrations').select('name');
+    if (teamsError) {
+      console.error('[handleTeamSubmit] Error consultando equipos:', teamsError);
+      showNotification(`${t.teamRegisterError || 'Error al registrar el equipo'}: ${teamsError.message}`, 'error');
+      return;
+    }
+    const existingTeam = (teams || []).find(team => team.name.toLowerCase() === teamName.toLowerCase());
+    if (existingTeam) {
+      showNotification(t.teamNameExists || 'Ya existe un equipo con este nombre. Por favor, elige otro nombre.', 'error');
+      return;
+    }
+    const newTeam = { name: teamName, category: teamCategory };
+    const { error, data } = await window.supabase
+      .from('registrations')
+      .insert([newTeam])
+      .select();
+    if (error) {
+      console.error('[handleTeamSubmit] Error insertando equipo:', error);
+      showNotification(`${t.teamRegisterError || 'Error al registrar el equipo'}: ${error.message}`, 'error');
+      return;
+    }
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      showNotification(t.teamRegisterUnexpected || 'No se insertó el equipo. Revisa la consola.', 'error');
+      return;
+    }
+    await loadTeams();
+    document.getElementById('teamForm').reset();
+    showNotification(t.teamRegisteredSuccess || '¡Equipo registrado con éxito!', 'success');
+  } catch (err) {
+    console.error('[handleTeamSubmit] Error inesperado:', err);
     showNotification(t.teamRegisterUnexpected || 'No se insertó el equipo. Revisa la consola.', 'error');
-    return;
   }
-  await loadTeams();
-  document.getElementById('teamForm').reset();
-  showNotification(t.teamRegisteredSuccess || '¡Equipo registrado con éxito!', 'success');
 }
 window.handleTeamSubmit = handleTeamSubmit;
 
@@ -982,10 +1018,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-10-06');
-  const endDate = new Date('2025-10-14');
+  const startDate = new Date('2025-05-01');
+  const endDate = new Date('2025-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
     return;
   }
   const newDistance = {
@@ -1092,11 +1128,12 @@ function updateGeneralStats(teams, distances) {
 function updateCategoryResults(teamStats) {
   const t = getTranslations();
   const categories = {
-    '1 pax (Run + Bike)': 'category-1',
-    '2 pax (Run + Bike)': 'category-2',
-    '3 pax (Run)': 'category-3',
-    '4 pax (Run)': 'category-4',
-    '5 pax (Run)': 'category-5'
+    '1 pax (RUN)': 'category-1',
+    '2 pax (RUN)': 'category-2',
+    '3 pax (RUN)': 'category-3',
+    '4 pax (RUN)': 'category-4',
+    '5 pax (RUN)': 'category-5',
+    '6 pax (RUN)': 'category-6'
   };
   
   // Agrupar equipos por categoría
@@ -1199,11 +1236,12 @@ window.showTeamHistory = showTeamHistory;
 function generateCharts(teamStats) {
   const t = getTranslations();
   const categories = {
-    '1 pax (Run + Bike)': 'chart-1',
-    '2 pax (Run + Bike)': 'chart-2',
-    '3 pax (Run)': 'chart-3',
-    '4 pax (Run)': 'chart-4',
-    '5 pax (Run)': 'chart-5'
+    '1 pax (RUN)': 'chart-1',
+    '2 pax (RUN)': 'chart-2',
+    '3 pax (RUN)': 'chart-3',
+    '4 pax (RUN)': 'chart-4',
+    '5 pax (RUN)': 'chart-5',
+    '6 pax (RUN)': 'chart-6'
   };
 
   Object.entries(categories).forEach(([cat, canvasId]) => {
@@ -1350,11 +1388,12 @@ async function loadAdminPanel() {
           <div>
             <input type="text" value="${team.name}" id="edit-team-name-${team.id}" style="font-weight:bold;font-size:1.1em;width:160px;" />
             <select id="edit-team-category-${team.id}" style="margin-left:8px;">
-              <option${team.category==='1 pax (Run + Bike)'?' selected':''}>1 pax (Run + Bike)</option>
-              <option${team.category==='2 pax (Run + Bike)'?' selected':''}>2 pax (Run + Bike)</option>
-              <option${team.category==='3 pax (Run)'?' selected':''}>3 pax (Run)</option>
-              <option${team.category==='4 pax (Run)'?' selected':''}>4 pax (Run)</option>
-              <option${team.category==='5 pax (Run)'?' selected':''}>5 pax (Run)</option>
+              <option${team.category==='1 pax (RUN)'?' selected':''}>1 pax (RUN)</option>
+              <option${team.category==='2 pax (RUN)'?' selected':''}>2 pax (RUN)</option>
+              <option${team.category==='3 pax (RUN)'?' selected':''}>3 pax (RUN)</option>
+              <option${team.category==='4 pax (RUN)'?' selected':''}>4 pax (RUN)</option>
+              <option${team.category==='5 pax (RUN)'?' selected':''}>5 pax (RUN)</option>
+              <option${team.category==='6 pax (RUN)'?' selected':''}>6 pax (RUN)</option>
             </select>
             <button onclick="updateTeam(${team.id})" style="margin-left:8px;">💾</button>
             <button onclick="deleteTeam(${team.id})" style="margin-left:4px;color:#b91c1c;">🗑️</button>
@@ -1393,6 +1432,10 @@ async function updateTeam(teamId) {
   const teamCategory = document.getElementById(`edit-team-category-${teamId}`).value;
   if (!teamName || !teamCategory) {
     showNotification(t.teamFieldsRequired || 'Por favor completa todos los campos obligatorios.', 'error');
+    return;
+  }
+  if (!ALLOWED_CATEGORIES.includes(teamCategory)) {
+    showNotification(t.teamCategoryInvalid || 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.', 'error');
     return;
   }
   const { error } = await window.supabase.from('registrations').update({ name: teamName, category: teamCategory }).eq('id', teamId);
@@ -1440,10 +1483,10 @@ async function updateRegistration(regId) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-10-06');
-  const endDate = new Date('2025-10-14');
+  const startDate = new Date('2025-05-01');
+  const endDate = new Date('2025-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 6 y 14 de octubre de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
     return;
   }
   const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);

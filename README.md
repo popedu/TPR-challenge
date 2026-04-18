@@ -1,6 +1,6 @@
-# MOAB 240
+# COCODONA 250
 
-Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos compiten para completar 240 millas (384 km) durante el evento.
+Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equipos compiten para completar 250 millas (402.34 km) durante el evento.
 
 ## 🚀 Características
 
@@ -13,7 +13,7 @@ Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos c
 ### 👥 **Gestión de Equipos**
 - **Nueva pestaña de registro de equipos** con formulario integrado
 - Registro de múltiples números de WhatsApp por equipo
-- Categorías: 1-5 participantes (Run + Bike / Run)
+- Categorías: 1-6 participantes (solo RUN/Caminar)
 - Integración con grupo de WhatsApp del challenge
 - Validación de datos en tiempo real
 
@@ -26,7 +26,7 @@ Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos c
 
 ### 📈 **Resultados y Gráficas**
 - **Gráficas interactivas por categoría** usando Chart.js
-- Visualización del progreso hacia 240 millas objetivo
+- Visualización del progreso hacia 250 millas objetivo
 - Rankings en tiempo real con medallas (🥇🥈🥉)
 - Estadísticas generales del challenge
 - Barras de progreso por equipo
@@ -41,15 +41,16 @@ Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos c
 
 ## 🎯 Objetivo del Challenge
 
-**Completar 240 millas** (384 km) durante el evento del 6 al 14 de octubre de 2025.
+**Completar 250 millas** (402.34 km) durante el evento del 1 al 10 de mayo de 2025.
 
 ## 📋 Categorías
 
-1. **1 pax (Run + Bike)** - 1 participante (Carrera + Bicicleta)
-2. **2 pax (Run + Bike)** - 2 participantes (Carrera + Bicicleta)
-3. **3 pax (Run)** - 3 participantes (Solo Carrera)
-4. **4 pax (Run)** - 4 participantes (Solo Carrera)
-5. **5 pax (Run)** - 5 participantes (Solo Carrera)
+1. **1 pax (RUN)** - 1 participante (solo Correr/Caminar)
+2. **2 pax (RUN)** - 2 participantes (solo Correr/Caminar)
+3. **3 pax (RUN)** - 3 participantes (solo Correr/Caminar)
+4. **4 pax (RUN)** - 4 participantes (solo Correr/Caminar)
+5. **5 pax (RUN)** - 5 participantes (solo Correr/Caminar)
+6. **6 pax (RUN)** - 6 participantes (solo Correr/Caminar)
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -77,7 +78,7 @@ Una aplicación web moderna para gestionar el reto MOAB 240, donde los equipos c
 ### 3. **Visualización de Resultados**
 - **Gráficas por categoría** con Chart.js
 - Rankings en tiempo real
-- Progreso hacia 200 millas objetivo
+- Progreso hacia 250 millas objetivo
 - Estadísticas generales del challenge
 - Medallas para los 3 primeros de cada categoría
 
@@ -160,7 +161,7 @@ La aplicación está optimizada para:
 
 ## 📞 Soporte
 
-Para soporte técnico o preguntas sobre el challenge, contacta a través del grupo oficial de WhatsApp del Bigfoot 200 Challenge.
+Para soporte técnico o preguntas sobre el challenge, contacta a través del grupo oficial de WhatsApp del COCODONA 250 Challenge.
 
 ## 🚀 Cómo publicar la web para acceso móvil
 
@@ -257,4 +258,4 @@ http://localhost:8000
 
 ---
 
-**¡Únete al reto y compite por completar las 200 millas!** 🏃‍♂️🚴‍♀️ 
+**¡Únete al reto y compite por completar las 250 millas!** 🏃‍♂️🚶‍♀️ 

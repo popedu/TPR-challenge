@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MOAB 240</title>
+  <title>COCODONA 250</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     // Configura aquí tu URL y ANON KEY de Supabase
-    const SUPABASE_URL = 'https://okzbyxzqmibxytzsqzhj.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9remJ5eHpxbWlieHl0enNxemhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5ODQzMzAsImV4cCI6MjA2NzU2MDMzMH0.05_4hnMXUaxlSAUmQk5M3QT_nfvD-vJXWgTZVuNjl3k';
+    const SUPABASE_URL = 'https://lcfhaqmnwnmtziszxhgm.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjZmhhcW1ud25tdHppc3p4aGdtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDMyNjQsImV4cCI6MjA5MjA3OTI2NH0.FxoXdPJwaborLrzlclYrpZ5lLwjo7H4BzQEH1KX_090';
     window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   </script>
 </head>
@@ -18,9 +18,9 @@
   <header class="modern-header text-white p-6">
     <div class="container mx-auto flex justify-center items-center relative">
       <div class="logo-container">
-        <img src="assets/logo.png" alt="MOAB 240 Logo" class="logo">
+        <img src="assets/logo.png" alt="COCODONA 250 Logo" class="logo">
         <div class="flex flex-col items-center w-full">
-          <h1 class="text-3xl font-bold gradient-text main-title-black text-center mb-0">MOAB 240 <span style="font-size:1.2em;vertical-align:middle;">👑👑👑</span></h1>
+          <h1 class="text-3xl font-bold gradient-text main-title-black text-center mb-0">COCODONA 250</h1>
         </div>
       </div>
       <div class="absolute right-0 flex items-center">
@@ -82,7 +82,7 @@
       <div class="text-center mb-12 animate-fade-in">
         <h2 class="text-4xl font-bold mb-4 text-black" id="registerTeamTitle">Registrar Equip</h2>
         <p class="text-xl text-white opacity-90 max-w-2xl mx-auto" id="joinChallengeText">
-          Uneix-te al repte MOAB 240 registrant el teu equip
+          Uneix-te al repte COCODONA 250 registrant el teu equip
         </p>
       </div>
 
@@ -112,11 +112,12 @@
               </label>
               <select id="teamCategory" required class="modern-select w-full">
                 <option value="">Selecciona categoria</option>
-                <option>1 pax (Run + Bike)</option>
-                <option>2 pax (Run + Bike)</option>
-                <option>3 pax (Run)</option>
-                <option>4 pax (Run)</option>
-                <option>5 pax (Run)</option>
+                <option>1 pax (RUN)</option>
+                <option>2 pax (RUN)</option>
+                <option>3 pax (RUN)</option>
+                <option>4 pax (RUN)</option>
+                <option>5 pax (RUN)</option>
+                <option>6 pax (RUN)</option>
               </select>
             </div>
             
@@ -167,7 +168,7 @@
       <div class="text-center mb-12 animate-fade-in">
         <h2 class="text-4xl font-bold mb-4 text-black" id="registerDistanceTitle">Registrar Distància</h2>
         <p class="text-xl text-white opacity-90 max-w-2xl mx-auto" id="registerProgressText">
-          Registra el teu progrés diari al MOAB 240
+          Registra el teu progrés diari al COCODONA 250
         </p>
       </div>
 
@@ -198,7 +199,7 @@
                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
                   </svg>
                   <span id="distanceDateLabel">Data *</span>
-                  <span id="dateRangeSubtitle" class="ml-2 text-xs text-gray-500 font-normal align-middle">Del 6 al 14 d’octubre</span>
+                  <span id="dateRangeSubtitle" class="ml-2 text-xs text-gray-500 font-normal align-middle">Del 1 al 10 de maig</span>
                 </span>
               </label>
               <input 
@@ -206,8 +207,8 @@
                 id="dateInput" 
                 required 
                 class="modern-input w-full"
-                min="2025-10-06"
-                max="2025-10-14"
+                min="2025-05-01"
+                max="2025-05-10"
               />
             </div>
 
@@ -260,7 +261,7 @@
         <h2 class="text-4xl font-bold mb-4 text-black" id="resultsTitle">Resultats del Repte</h2>
         <div id="resultsSubtitle" class="text-lg text-gray-700 mb-2 font-medium"></div>
         <p class="text-xl text-white opacity-90 max-w-2xl mx-auto" id="viewProgressText">
-          Visualitza el progrés de tots els equips al MOAB 240
+          Visualitza el progrés de tots els equips al COCODONA 250
         </p>
       </div>
 
@@ -288,19 +289,22 @@
       <div class="mb-8">
         <div class="flex space-x-2 overflow-x-auto pb-2">
           <button type="button" id="modal-tab-1" class="modal-tab-button active px-4 py-2 text-white font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('1')">
-            1 pax (Run + Bike)
+            1 pax (RUN)
           </button>
           <button type="button" id="modal-tab-2" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('2')">
-            2 pax (Run + Bike)
+            2 pax (RUN)
           </button>
           <button type="button" id="modal-tab-3" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('3')">
-            3 pax (Run)
+            3 pax (RUN)
           </button>
           <button type="button" id="modal-tab-4" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('4')">
-            4 pax (Run)
+            4 pax (RUN)
           </button>
           <button type="button" id="modal-tab-5" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('5')">
-            5 pax (Run)
+            5 pax (RUN)
+          </button>
+          <button type="button" id="modal-tab-6" class="modal-tab-button px-4 py-2 text-white/70 font-medium rounded-lg transition-all duration-300" onclick="switchModalTab('6')">
+            6 pax (RUN)
           </button>
         </div>
       </div>
@@ -308,7 +312,7 @@
       <!-- Contenido de modalidades -->
       <div id="modal-content-1" class="modal-content-tab active">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.3s;">
-          <h3 class="text-xl font-bold mb-6 text-black">1 pax (Run + Bike)</h3>
+          <h3 class="text-xl font-bold mb-6 text-black">1 pax (RUN)</h3>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="mb-6">
               <canvas id="chart-1" height="400"></canvas>
@@ -323,7 +327,7 @@
 
       <div id="modal-content-2" class="modal-content-tab hidden">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.4s;">
-          <h3 class="text-xl font-bold mb-6 text-black">2 pax (Run + Bike)</h3>
+          <h3 class="text-xl font-bold mb-6 text-black">2 pax (RUN)</h3>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="mb-6">
               <canvas id="chart-2" height="400"></canvas>
@@ -338,7 +342,7 @@
 
       <div id="modal-content-3" class="modal-content-tab hidden">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.5s;">
-          <h3 class="text-xl font-bold mb-6 text-black">3 pax (Run)</h3>
+          <h3 class="text-xl font-bold mb-6 text-black">3 pax (RUN)</h3>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="mb-6">
               <canvas id="chart-3" height="400"></canvas>
@@ -353,7 +357,7 @@
 
       <div id="modal-content-4" class="modal-content-tab hidden">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.6s;">
-          <h3 class="text-xl font-bold mb-6 text-black">4 pax (Run)</h3>
+          <h3 class="text-xl font-bold mb-6 text-black">4 pax (RUN)</h3>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div class="mb-6">
               <canvas id="chart-4" height="400"></canvas>
@@ -368,13 +372,28 @@
 
       <div id="modal-content-5" class="modal-content-tab hidden">
         <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.7s;">
-          <h3 class="text-xl font-bold mb-6 text-black">5 pax (Run)</h3>
+          <h3 class="text-xl font-bold mb-6 text-black">5 pax (RUN)</h3>
           <div class="grid grid-cols-1 lg-grid-cols-2 gap-6">
             <div class="mb-6">
               <canvas id="chart-5" height="400"></canvas>
             </div>
             <div style="height:40px;"></div>
             <div id="category-5" class="w-full min-w-0" style="margin-top:40px; min-height:40px; border-top-left-radius: 0; border-top-right-radius: 0;">
+              <!-- Rankings se llenarán dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="modal-content-6" class="modal-content-tab hidden">
+        <div class="modern-card p-6 animate-fade-in" style="animation-delay: 0.8s;">
+          <h3 class="text-xl font-bold mb-6 text-black">6 pax (RUN)</h3>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="mb-6">
+              <canvas id="chart-6" height="400"></canvas>
+            </div>
+            <div style="height:40px;"></div>
+            <div id="category-6" class="w-full min-w-0" style="margin-top:40px; min-height:40px; border-top-left-radius: 0; border-top-right-radius: 0;">
               <!-- Rankings se llenarán dinámicamente -->
             </div>
           </div>
