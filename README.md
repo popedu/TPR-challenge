@@ -20,7 +20,7 @@ Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equip
 ### 📊 **Registro de Distancias**
 - Formulario simplificado para registrar distancias diarias
 - Selector de equipos registrados
-- Calendario integrado (6-14 octubre 2025)
+- Calendario integrado (6-14 octubre 2026)
 - Soporte para kilómetros y millas
 - Conversión automática entre unidades
 
@@ -41,7 +41,7 @@ Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equip
 
 ## 🎯 Objetivo del Challenge
 
-**Completar 250 millas** (402.34 km) durante el evento del 1 al 10 de mayo de 2025.
+**Completar 250 millas** (402.34 km) durante el evento del 1 al 10 de mayo de 2026.
 
 ## 📋 Categorías
 
