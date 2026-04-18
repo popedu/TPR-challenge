@@ -77,14 +77,14 @@ const initialTeams = [
 
 // Datos de ejemplo para distancias
 const initialDistances = [
-  { id: 1, teamId: 1, date: '2025-08-04', distance: 15.5, unit: 'km', timestamp: '2025-08-04T10:00:00Z' },
-  { id: 2, teamId: 1, date: '2025-08-05', distance: 12.3, unit: 'km', timestamp: '2025-08-05T09:30:00Z' },
-  { id: 3, teamId: 2, date: '2025-08-04', distance: 8.2, unit: 'mi', timestamp: '2025-08-04T11:15:00Z' },
-  { id: 4, teamId: 2, date: '2025-08-05', distance: 10.1, unit: 'mi', timestamp: '2025-08-05T10:45:00Z' },
-  { id: 5, teamId: 3, date: '2025-08-04', distance: 20.0, unit: 'km', timestamp: '2025-08-04T08:00:00Z' },
-  { id: 6, teamId: 4, date: '2025-08-04', distance: 18.5, unit: 'km', timestamp: '2025-08-04T07:30:00Z' },
-  { id: 7, teamId: 5, date: '2025-08-04', distance: 25.0, unit: 'km', timestamp: '2025-08-04T06:00:00Z' },
-  { id: 8, teamId: 1, date: '2025-10-06', distance: 15.5, unit: 'km', timestamp: '2025-10-06T06:00:00Z' }
+  { id: 1, teamId: 1, date: '2026-08-04', distance: 15.5, unit: 'km', timestamp: '2026-08-04T10:00:00Z' },
+  { id: 2, teamId: 1, date: '2026-08-05', distance: 12.3, unit: 'km', timestamp: '2026-08-05T09:30:00Z' },
+  { id: 3, teamId: 2, date: '2026-08-04', distance: 8.2, unit: 'mi', timestamp: '2026-08-04T11:15:00Z' },
+  { id: 4, teamId: 2, date: '2026-08-05', distance: 10.1, unit: 'mi', timestamp: '2026-08-05T10:45:00Z' },
+  { id: 5, teamId: 3, date: '2026-08-04', distance: 20.0, unit: 'km', timestamp: '2026-08-04T08:00:00Z' },
+  { id: 6, teamId: 4, date: '2026-08-04', distance: 18.5, unit: 'km', timestamp: '2026-08-04T07:30:00Z' },
+  { id: 7, teamId: 5, date: '2026-08-04', distance: 25.0, unit: 'km', timestamp: '2026-08-04T06:00:00Z' },
+  { id: 8, teamId: 1, date: '2026-10-06', distance: 15.5, unit: 'km', timestamp: '2026-10-06T06:00:00Z' }
 ];
 
 // Traducciones
@@ -203,7 +203,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2025.',
+    distanceErrorDate: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2026.',
     adminAccessGranted: 'Accés d\'administrador concedit',
     adminTeamUpdateError: 'Error en actualitzar l\'equip',
     adminTeamUpdated: 'Equip actualitzat correctament',
@@ -340,7 +340,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.',
+    distanceErrorDate: 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -477,7 +477,7 @@ const translations = {
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between May 1 and 10, 2025.',
+    distanceErrorDate: 'The date must be between May 1 and 10, 2026.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -681,10 +681,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2025.',
-    es: 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.',
-    en: 'The date must be between May 1 and 10, 2025.',
-    pt: 'A data deve estar entre 1 e 10 de maio de 2025.'
+    ca: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2026.',
+    es: 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.',
+    en: 'The date must be between May 1 and 10, 2026.',
+    pt: 'A data deve estar entre 1 e 10 de maio de 2026.'
   }[lang];
 });
 
@@ -757,10 +757,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-05-01');
-  const endDate = new Date('2025-05-10');
+  const startDate = new Date('2026-05-01');
+  const endDate = new Date('2026-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
     return;
   }
   const newDistance = {
@@ -1018,10 +1018,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-05-01');
-  const endDate = new Date('2025-05-10');
+  const startDate = new Date('2026-05-01');
+  const endDate = new Date('2026-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
     return;
   }
   const newDistance = {
@@ -1483,10 +1483,10 @@ async function updateRegistration(regId) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2025-05-01');
-  const endDate = new Date('2025-05-10');
+  const startDate = new Date('2026-05-01');
+  const endDate = new Date('2026-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2025.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
     return;
   }
   const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);

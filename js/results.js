@@ -87,7 +87,7 @@ function generateProgressChart(dailyData) {
   
   // Generar datos para los 10 días (4 al 13 de agosto)
   const dates = Array.from({ length: 10 }, (_, i) => {
-    const date = new Date(2025, 7, 4 + i);
+    const date = new Date(2026, 7, 4 + i);
     return date.toISOString().split('T')[0];
   });
   
