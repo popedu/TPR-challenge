@@ -3,7 +3,7 @@ const TEAMS_KEY = 'bigfoot_teams';
 const DISTANCES_KEY = 'bigfoot_distances';
 
 // Objetivo del reto: desnivel positivo acumulado del equipo (metros)
-const TARGET_ELEVATION_M = 27000;
+const TARGET_ELEVATION_M = 25000;
 const TEAM_CATEGORY = '4 pax (RUN)';
 const ALLOWED_CATEGORIES = [TEAM_CATEGORY];
 
@@ -66,9 +66,9 @@ const initialTeams = [
 
 // Datos de ejemplo para desnivel (metros)
 const initialDistances = [
-  { id: 1, teamId: 1, date: '2026-05-04', distance: 850, unit: 'm', timestamp: '2026-05-04T10:00:00Z' },
-  { id: 2, teamId: 1, date: '2026-05-05', distance: 620, unit: 'm', timestamp: '2026-05-05T09:30:00Z' },
-  { id: 3, teamId: 2, date: '2026-05-04', distance: 1200, unit: 'm', timestamp: '2026-05-04T11:15:00Z' }
+  { id: 1, teamId: 1, date: '2026-09-11', distance: 850, unit: 'm', timestamp: '2026-09-11T10:00:00Z' },
+  { id: 2, teamId: 1, date: '2026-09-12', distance: 620, unit: 'm', timestamp: '2026-09-12T09:30:00Z' },
+  { id: 3, teamId: 2, date: '2026-09-11', distance: 1200, unit: 'm', timestamp: '2026-09-11T11:15:00Z' }
 ];
 
 function getElevationMeters(record) {
@@ -99,13 +99,13 @@ const translations = {
     remaining: 'Restant',
     history: 'Historial de Registres',
     team: 'Equip',
-    joinChallenge: 'Uneix-te al repte COCODONA 250 registrant el teu equip de 4 persones',
-    registerProgress: 'Registra el desnivell positiu diari del teu equip al COCODONA 250',
-    viewProgress: 'Visualitza el desnivell acumulat de tots els equips al COCODONA 250',
+    joinChallenge: 'Uneix-te al repte Tor des Géants Challenge registrant el teu equip de 4 persones',
+    registerProgress: 'Registra el desnivell positiu diari del teu equip al Tor des Géants Challenge',
+    viewProgress: 'Visualitza el desnivell acumulat de tots els equips al Tor des Géants Challenge',
     teamRegisteredSuccess: 'Equip registrat amb èxit!',
     distanceRegisteredSuccess: 'Desnivell registrat amb èxit!',
     teamCategoryInfo: 'Equip de 4 persones (RUN)',
-    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del COCODONA 250 on podràs:',
+    whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del Tor des Géants Challenge on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
     whatsappGroupBenefit2: 'Veure les actualitzacions d\'altres participants',
     whatsappGroupBenefit3: 'Rebre motivació i consells',
@@ -118,7 +118,7 @@ const translations = {
     noRegistrationsForTeam: 'No hi ha registres per aquest equip',
     clickTeamForHistory: 'Fes clic a un equip per veure el seu historial complet',
     registerTeamTitle: "Registrar Equip",
-    joinChallengeText: "Uneix-te al repte COCODONA 250 registrant el teu equip",
+    joinChallengeText: "Uneix-te al repte Tor des Géants Challenge registrant el teu equip",
     teamNameLabel: "Nom de l'Equip *",
     teamCategoryLabel: "Categoria *",
     whatsappGroupLabel: "Grup Oficial de WhatsApp",
@@ -132,8 +132,8 @@ const translations = {
     totalTeamsLabel: "Equips",
     totalDistanceLabel: "m de desnivell",
     totalRegistrationsLabel: "Registres",
-    registerProgressText: "Registra el desnivell positiu diari del teu equip al COCODONA 250",
-    viewProgressText: "Visualitza el desnivell acumulat de tots els equips al COCODONA 250",
+    registerProgressText: "Registra el desnivell positiu diari del teu equip al Tor des Géants Challenge",
+    viewProgressText: "Visualitza el desnivell acumulat de tots els equips al Tor des Géants Challenge",
     resultsTitle: "Resultats del Repte",
     registerDistanceTitle: "Registrar Desnivell",
     adminTitle: "Administració",
@@ -178,7 +178,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre el 10 i el 19 de setembre de 2026.',
+    distanceErrorDate: 'La data ha d\'estar entre l\'11 i el 20 de setembre de 2026.',
     distanceErrorFormat: 'Introdueix un número vàlid per al desnivell.',
     distanceRegisterError: 'Error en registrar el desnivell',
     distanceRegisterUnexpected: 'No s\'ha registrat el desnivell. Revisa la consola.',
@@ -200,9 +200,9 @@ const translations = {
     viewHistoryButton: 'Veure historial',
     accumulatedElevation: 'Desnivell acumulat',
     elevationAxis: 'Metres',
-    resultsSubtitle: "del 10 al 19 de setembre",
-    mainSubtitle: "Del 10 al 19 de setembre",
-    dateRangeSubtitle: "Del 10 al 19 de setembre"
+    resultsSubtitle: "de l'11 al 20 de setembre",
+    mainSubtitle: "De l'11 al 20 de setembre",
+    dateRangeSubtitle: "De l'11 al 20 de setembre"
   },
   es: {
     registerTeam: 'Registrar Equipo',
@@ -224,13 +224,13 @@ const translations = {
     remaining: 'Restante',
     history: 'Historial de Registros',
     team: 'Equipo',
-    joinChallenge: 'Únete al COCODONA 250 registrando tu equipo de 4 personas',
-    registerProgress: 'Registra el desnivel positivo diario de tu equipo en el COCODONA 250',
-    viewProgress: 'Visualiza el desnivel acumulado de todos los equipos en el COCODONA 250',
+    joinChallenge: 'Únete al Tor des Géants Challenge registrando tu equipo de 4 personas',
+    registerProgress: 'Registra el desnivel positivo diario de tu equipo en el Tor des Géants Challenge',
+    viewProgress: 'Visualiza el desnivel acumulado de todos los equipos en el Tor des Géants Challenge',
     teamRegisteredSuccess: '¡Equipo registrado con éxito!',
     distanceRegisteredSuccess: '¡Desnivel registrado con éxito!',
     teamCategoryInfo: 'Equipo de 4 personas (RUN)',
-    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del COCODONA 250 donde podrás:',
+    whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del Tor des Géants Challenge donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
     whatsappGroupBenefit2: 'Ver las actualizaciones de otros participantes',
     whatsappGroupBenefit3: 'Recibir motivación y consejos',
@@ -243,7 +243,7 @@ const translations = {
     noRegistrationsForTeam: 'No hay registros para este equipo',
     clickTeamForHistory: 'Haz clic en un equipo para ver su historial completo',
     registerTeamTitle: "Registrar Equipo",
-    joinChallengeText: "Únete al COCODONA 250 registrando tu equipo",
+    joinChallengeText: "Únete al Tor des Géants Challenge registrando tu equipo",
     teamNameLabel: "Nombre del Equipo *",
     teamCategoryLabel: "Categoría *",
     whatsappGroupLabel: "Grupo Oficial de WhatsApp",
@@ -257,8 +257,8 @@ const translations = {
     totalTeamsLabel: "Equipos",
     totalDistanceLabel: "m de desnivel",
     totalRegistrationsLabel: "Registros",
-    registerProgressText: "Registra el desnivel positivo diario de tu equipo en el COCODONA 250",
-    viewProgressText: "Visualiza el desnivel acumulado de todos los equipos en el COCODONA 250",
+    registerProgressText: "Registra el desnivel positivo diario de tu equipo en el Tor des Géants Challenge",
+    viewProgressText: "Visualiza el desnivel acumulado de todos los equipos en el Tor des Géants Challenge",
     resultsTitle: "Resultados del Reto",
     registerDistanceTitle: "Registrar Desnivel",
     adminTitle: "Administración",
@@ -303,7 +303,7 @@ const translations = {
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.',
+    distanceErrorDate: 'La fecha debe estar entre el 11 y el 20 de septiembre de 2026.',
     distanceErrorFormat: 'Introduce un número válido para el desnivel.',
     distanceRegisterError: 'Error al registrar el desnivel',
     distanceRegisterUnexpected: 'No se registró el desnivel. Revisa la consola.',
@@ -325,9 +325,9 @@ const translations = {
     viewHistoryButton: 'Ver historial',
     accumulatedElevation: 'Desnivel acumulado',
     elevationAxis: 'Metros',
-    resultsSubtitle: 'del 10 al 19 de septiembre',
-    mainSubtitle: 'Del 10 al 19 de septiembre',
-    dateRangeSubtitle: 'Del 10 al 19 de septiembre'
+    resultsSubtitle: 'del 11 al 20 de septiembre',
+    mainSubtitle: 'Del 11 al 20 de septiembre',
+    dateRangeSubtitle: 'Del 11 al 20 de septiembre'
   },
   en: {
     registerTeam: 'Register Team',
@@ -349,13 +349,13 @@ const translations = {
     remaining: 'Remaining',
     history: 'Registration History',
     team: 'Team',
-    joinChallenge: 'Join COCODONA 250 by registering your team of 4 people',
-    registerProgress: 'Register your team\'s daily positive elevation gain in COCODONA 250',
-    viewProgress: 'View the accumulated elevation of all teams in COCODONA 250',
+    joinChallenge: 'Join Tor des Géants Challenge by registering your team of 4 people',
+    registerProgress: 'Register your team\'s daily positive elevation gain in Tor des Géants Challenge',
+    viewProgress: 'View the accumulated elevation of all teams in Tor des Géants Challenge',
     teamRegisteredSuccess: 'Team registered successfully!',
     distanceRegisteredSuccess: 'Elevation registered successfully!',
     teamCategoryInfo: 'Team of 4 people (RUN)',
-    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of COCODONA 250 where you can:',
+    whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of Tor des Géants Challenge where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
     whatsappGroupBenefit2: 'See updates from other participants',
     whatsappGroupBenefit3: 'Receive motivation and advice',
@@ -368,7 +368,7 @@ const translations = {
     noRegistrationsForTeam: 'No registrations for this team',
     clickTeamForHistory: 'Click on a team to see their complete history',
     registerTeamTitle: "Register Team",
-    joinChallengeText: "Join COCODONA 250 by registering your team",
+    joinChallengeText: "Join Tor des Géants Challenge by registering your team",
     teamNameLabel: "Team Name *",
     teamCategoryLabel: "Category *",
     whatsappGroupLabel: "Official WhatsApp Group",
@@ -382,8 +382,8 @@ const translations = {
     totalTeamsLabel: "Teams",
     totalDistanceLabel: "m elevation",
     totalRegistrationsLabel: "Entries",
-    registerProgressText: "Register your team's daily positive elevation gain in COCODONA 250",
-    viewProgressText: "View the accumulated elevation of all teams in COCODONA 250",
+    registerProgressText: "Register your team's daily positive elevation gain in Tor des Géants Challenge",
+    viewProgressText: "View the accumulated elevation of all teams in Tor des Géants Challenge",
     resultsTitle: "Challenge Results",
     registerDistanceTitle: "Register Elevation",
     adminTitle: "Administration",
@@ -428,7 +428,7 @@ const translations = {
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between September 10 and 19, 2026.',
+    distanceErrorDate: 'The date must be between September 11 and 20, 2026.',
     distanceErrorFormat: 'Enter a valid number for elevation.',
     distanceRegisterError: 'Error registering elevation',
     distanceRegisterUnexpected: 'Elevation was not registered. Check the console.',
@@ -450,9 +450,9 @@ const translations = {
     viewHistoryButton: 'View history',
     accumulatedElevation: 'Accumulated elevation',
     elevationAxis: 'Meters',
-    resultsSubtitle: 'September 10 to 19',
-    mainSubtitle: 'September 10 to 19',
-    dateRangeSubtitle: 'September 10 to 19'
+    resultsSubtitle: 'September 11 to 20',
+    mainSubtitle: 'September 11 to 20',
+    dateRangeSubtitle: 'September 11 to 20'
   },
   pt: {
     registerTeam: 'Registrar Equipa',
@@ -482,12 +482,12 @@ const translations = {
     totalKm: 'km totais',
     totalMiles: 'milhas totais',
     registrations: 'Registos',
-    joinChallenge: 'Junte-se ao COCODONA 250 registando a sua equipa',
-    registerProgress: 'Registe o seu progresso diário no COCODONA 250',
-    viewProgress: 'Veja o progresso de todas as equipas no COCODONA 250',
+    joinChallenge: 'Junte-se ao Tor des Géants Challenge registando a sua equipa',
+    registerProgress: 'Registe o seu progresso diário no Tor des Géants Challenge',
+    viewProgress: 'Veja o progresso de todas as equipas no Tor des Géants Challenge',
     teamRegisteredSuccess: 'Equipa registada com sucesso',
     distanceRegisteredSuccess: 'Distância registada com sucesso',
-    whatsappGroupInfo: 'Ao registar-se, receberá o link para se juntar ao grupo oficial do WhatsApp do COCODONA 250 onde poderá:',
+    whatsappGroupInfo: 'Ao registar-se, receberá o link para se juntar ao grupo oficial do WhatsApp do Tor des Géants Challenge onde poderá:',
     whatsappGroupBenefit1: 'Partilhar o seu progresso diário',
     whatsappGroupBenefit2: 'Ver as atualizações de outros participantes',
     whatsappGroupBenefit3: 'Receber motivação e conselhos',
@@ -500,7 +500,7 @@ const translations = {
     noRegistrationsForTeam: 'Não há registos para esta equipa',
     clickTeamForHistory: 'Clique numa equipa para ver o seu histórico completo',
     registerTeamTitle: 'Registrar Equipa',
-    joinChallengeText: 'Junte-se ao COCODONA 250 registando a sua equipa',
+    joinChallengeText: 'Junte-se ao Tor des Géants Challenge registando a sua equipa',
     teamNameLabel: 'Nome da Equipa *',
     teamCategoryLabel: 'Categoria *',
     adminTeamUpdated: 'Equipa atualizada com sucesso',
@@ -519,15 +519,15 @@ const translations = {
     viewHistoryButton: 'Ver histórico',
     accumulatedMiles: 'Milhas acumuladas',
     milesAxis: 'Milhas',
-    resultsSubtitle: 'de 10 a 19 de setembro',
-    mainSubtitle: 'De 10 a 19 de setembro',
-    dateRangeSubtitle: 'De 10 a 19 de setembro'
+    resultsSubtitle: 'de 11 a 20 de setembro',
+    mainSubtitle: 'De 11 a 20 de setembro',
+    dateRangeSubtitle: 'De 11 a 20 de setembro'
   }
 };
 
 // Corrección de traducción en portugués para la pestaña de registro de desnivel
 translations.pt.registerDistanceTitle = 'Registrar Desnível';
-translations.pt.registerProgressText = 'Registe o desnível positivo diário da sua equipa no COCODONA 250';
+translations.pt.registerProgressText = 'Registe o desnível positivo diário da sua equipa no Tor des Géants Challenge';
 translations.pt.registerDistance = 'Registrar Desnível';
 translations.pt.tabRegister = 'Registrar Desnível';
 translations.pt.registerDistanceButton = 'Registrar Desnível';
@@ -625,10 +625,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre el 10 i el 19 de setembre de 2026.',
-    es: 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.',
-    en: 'The date must be between September 10 and 19, 2026.',
-    pt: 'A data deve estar entre 10 e 19 de setembro de 2026.'
+    ca: 'La data ha d\'estar entre l\'11 i el 20 de setembre de 2026.',
+    es: 'La fecha debe estar entre el 11 y el 20 de septiembre de 2026.',
+    en: 'The date must be between September 11 and 20, 2026.',
+    pt: 'A data deve estar entre 11 e 20 de setembro de 2026.'
   }[lang];
 });
 
@@ -683,10 +683,10 @@ async function handleDistanceSubmit(e) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2026-05-01');
-  const endDate = new Date('2026-05-10');
+  const startDate = new Date('2026-09-11');
+  const endDate = new Date('2026-09-20');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 11 y el 20 de septiembre de 2026.', 'error');
     return;
   }
   const newRecord = {
@@ -1329,10 +1329,10 @@ async function updateRegistration(regId) {
     return;
   }
   const selectedDate = new Date(date);
-  const startDate = new Date('2026-05-01');
-  const endDate = new Date('2026-05-10');
+  const startDate = new Date('2026-09-11');
+  const endDate = new Date('2026-09-20');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 11 y el 20 de septiembre de 2026.', 'error');
     return;
   }
   const { error } = await window.supabase.from('distance').update({ date: date, distance: elevation, unit: 'm' }).eq('id', regId);

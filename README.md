@@ -1,6 +1,6 @@
-# COCODONA 250
+# Tor des Géants Challenge
 
-Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equipos compiten para completar 250 millas (402.34 km) durante el evento.
+Una aplicación web moderna para gestionar el reto Tor des Géants Challenge, donde los equipos compiten para completar el desafío durante el evento.
 
 ## 🚀 Características
 
@@ -20,13 +20,13 @@ Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equip
 ### 📊 **Registro de Distancias**
 - Formulario simplificado para registrar distancias diarias
 - Selector de equipos registrados
-- Calendario integrado (6-14 octubre 2026)
+- Calendario integrado (11-20 septiembre 2026)
 - Soporte para kilómetros y millas
 - Conversión automática entre unidades
 
 ### 📈 **Resultados y Gráficas**
 - **Gráficas interactivas por categoría** usando Chart.js
-- Visualización del progreso hacia 250 millas objetivo
+- Visualización del progreso hacia el objetivo de desnivel positivo
 - Rankings en tiempo real con medallas (🥇🥈🥉)
 - Estadísticas generales del challenge
 - Barras de progreso por equipo
@@ -41,7 +41,7 @@ Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equip
 
 ## 🎯 Objetivo del Challenge
 
-**Completar 250 millas** (402.34 km) durante el evento del 1 al 10 de mayo de 2026.
+**Completar el desnivel positivo objetivo** durante el evento del 11 al 20 de septiembre de 2026.
 
 ## 📋 Categorías
 
@@ -78,7 +78,7 @@ Una aplicación web moderna para gestionar el reto COCODONA 250, donde los equip
 ### 3. **Visualización de Resultados**
 - **Gráficas por categoría** con Chart.js
 - Rankings en tiempo real
-- Progreso hacia 250 millas objetivo
+- Progreso hacia el objetivo de desnivel positivo
 - Estadísticas generales del challenge
 - Medallas para los 3 primeros de cada categoría
 
@@ -161,7 +161,7 @@ La aplicación está optimizada para:
 
 ## 📞 Soporte
 
-Para soporte técnico o preguntas sobre el challenge, contacta a través del grupo oficial de WhatsApp del COCODONA 250 Challenge.
+Para soporte técnico o preguntas sobre el challenge, contacta a través del grupo oficial de WhatsApp del Tor des Géants Challenge.
 
 ## 🚀 Cómo publicar la web para acceso móvil
 
@@ -258,4 +258,4 @@ http://localhost:8000
 
 ---
 
-**¡Únete al reto y compite por completar las 250 millas!** 🏃‍♂️🚶‍♀️ 
+**¡Únete al reto y compite en el Tor des Géants Challenge!** 🏃‍♂️🚶‍♀️ 
