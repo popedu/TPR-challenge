@@ -2,17 +2,10 @@
 const TEAMS_KEY = 'bigfoot_teams';
 const DISTANCES_KEY = 'bigfoot_distances';
 
-// Objetivo del reto: 250 millas
-const TARGET_MILES = 250;
-const TARGET_KM = 402.34; // 250 mi en km
-const ALLOWED_CATEGORIES = [
-  '1 pax (RUN)',
-  '2 pax (RUN)',
-  '3 pax (RUN)',
-  '4 pax (RUN)',
-  '5 pax (RUN)',
-  '6 pax (RUN)'
-];
+// Objetivo del reto: desnivel positivo acumulado del equipo (metros)
+const TARGET_ELEVATION_M = 27000;
+const TEAM_CATEGORY = '4 pax (RUN)';
+const ALLOWED_CATEGORIES = [TEAM_CATEGORY];
 
 // Variables globales
 let charts = {};
@@ -67,62 +60,51 @@ window.showNotification = showNotification;
 
 // Datos de ejemplo para empezar
 const initialTeams = [
-  { id: 1, name: 'Equip Alpha', category: '1 pax (RUN)', phones: ['+34 600 123 456'] },
-  { id: 2, name: 'Els Corredors', category: '2 pax (RUN)', phones: ['+34 600 234 567', '+34 600 345 678'] },
-  { id: 3, name: 'Trio Veloz', category: '3 pax (RUN)', phones: ['+34 600 456 789', '+34 600 567 890', '+34 600 678 901'] },
-  { id: 4, name: 'Quartet Fort', category: '4 pax (RUN)', phones: ['+34 600 789 012', '+34 600 890 123', '+34 600 901 234', '+34 600 012 345'] },
-  { id: 5, name: 'Quintet Elite', category: '5 pax (RUN)', phones: ['+34 600 123 789', '+34 600 234 890', '+34 600 345 901', '+34 600 456 012', '+34 600 567 123'] },
-  { id: 6, name: 'Sextet Trail', category: '6 pax (RUN)', phones: ['+34 600 111 222', '+34 600 222 333', '+34 600 333 444', '+34 600 444 555', '+34 600 555 666', '+34 600 666 777'] }
+  { id: 1, name: 'Quartet Alpha', category: TEAM_CATEGORY, phones: ['+34 600 789 012', '+34 600 890 123', '+34 600 901 234', '+34 600 012 345'] },
+  { id: 2, name: 'Els Corredors', category: TEAM_CATEGORY, phones: ['+34 600 234 567', '+34 600 345 678', '+34 600 456 789', '+34 600 567 890'] }
 ];
 
-// Datos de ejemplo para distancias
+// Datos de ejemplo para desnivel (metros)
 const initialDistances = [
-  { id: 1, teamId: 1, date: '2026-08-04', distance: 15.5, unit: 'km', timestamp: '2026-08-04T10:00:00Z' },
-  { id: 2, teamId: 1, date: '2026-08-05', distance: 12.3, unit: 'km', timestamp: '2026-08-05T09:30:00Z' },
-  { id: 3, teamId: 2, date: '2026-08-04', distance: 8.2, unit: 'mi', timestamp: '2026-08-04T11:15:00Z' },
-  { id: 4, teamId: 2, date: '2026-08-05', distance: 10.1, unit: 'mi', timestamp: '2026-08-05T10:45:00Z' },
-  { id: 5, teamId: 3, date: '2026-08-04', distance: 20.0, unit: 'km', timestamp: '2026-08-04T08:00:00Z' },
-  { id: 6, teamId: 4, date: '2026-08-04', distance: 18.5, unit: 'km', timestamp: '2026-08-04T07:30:00Z' },
-  { id: 7, teamId: 5, date: '2026-08-04', distance: 25.0, unit: 'km', timestamp: '2026-08-04T06:00:00Z' },
-  { id: 8, teamId: 1, date: '2026-10-06', distance: 15.5, unit: 'km', timestamp: '2026-10-06T06:00:00Z' }
+  { id: 1, teamId: 1, date: '2026-05-04', distance: 850, unit: 'm', timestamp: '2026-05-04T10:00:00Z' },
+  { id: 2, teamId: 1, date: '2026-05-05', distance: 620, unit: 'm', timestamp: '2026-05-05T09:30:00Z' },
+  { id: 3, teamId: 2, date: '2026-05-04', distance: 1200, unit: 'm', timestamp: '2026-05-04T11:15:00Z' }
 ];
+
+function getElevationMeters(record) {
+  if (record.unit === 'km') return record.distance * 1000;
+  if (record.unit === 'mi') return record.distance * 1609.34;
+  return record.distance;
+}
 
 // Traducciones
 const translations = {
   ca: {
     registerTeam: 'Registrar Equip',
-    registerDistance: 'Registrar Distància',
+    registerDistance: 'Registrar Desnivell',
     viewResults: 'Veure Resultats',
     teamName: 'Nom de l\'Equip',
     category: 'Categoria',
     joinWhatsappGroup: 'Unir-se al Grup de WhatsApp',
     selectTeam: 'Seleccionar Equip',
     date: 'Data',
-    distance: 'Distància',
-    kilometers: 'Km',
-    miles: 'Milles',
+    distance: 'Desnivell',
     registerTeamAndJoin: 'Registrar Equip',
-    registerDistance: 'Registrar Distància',
     challengeResults: 'Resultats del Repte',
     teams: 'Equips',
-    totalKm: 'km totals',
-    totalMiles: 'milles totals',
+    totalElevation: 'm de desnivell',
     registrations: 'Registres',
-    progressTowards: 'Progrés cap a 250 milles',
+    progressTowards: 'Progrés cap a 25.000 m de desnivell',
     completed: 'Completat',
     remaining: 'Restant',
     history: 'Historial de Registres',
-    units: 'Unitats',
     team: 'Equip',
-    teams: 'Equips',
-    totalKm: 'km totals',
-    totalMiles: 'milles totals',
-    registrations: 'Registres',
-    joinChallenge: 'Uneix-te al repte COCODONA 250 registrant el teu equip',
-    registerProgress: 'Registra el teu progrés diari al COCODONA 250',
-    viewProgress: 'Visualitza el progrés de tots els equips al COCODONA 250',
+    joinChallenge: 'Uneix-te al repte COCODONA 250 registrant el teu equip de 4 persones',
+    registerProgress: 'Registra el desnivell positiu diari del teu equip al COCODONA 250',
+    viewProgress: 'Visualitza el desnivell acumulat de tots els equips al COCODONA 250',
     teamRegisteredSuccess: 'Equip registrat amb èxit!',
-    distanceRegisteredSuccess: 'Distància registrada amb èxit!',
+    distanceRegisteredSuccess: 'Desnivell registrat amb èxit!',
+    teamCategoryInfo: 'Equip de 4 persones (RUN)',
     whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del COCODONA 250 on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
     whatsappGroupBenefit2: 'Veure les actualitzacions d\'altres participants',
@@ -148,13 +130,12 @@ const translations = {
     whatsappGroupBenefit4: "Participar en la comunitat del repte",
     registerTeamButton: "Registrar Equip",
     totalTeamsLabel: "Equips",
-    totalDistanceLabel: "km totals",
-    totalDistanceMiLabel: "milles totals",
+    totalDistanceLabel: "m de desnivell",
     totalRegistrationsLabel: "Registres",
-    registerProgressText: "Registra el teu progrés diari al COCODONA 250",
-    viewProgressText: "Visualitza el progrés de tots els equips al COCODONA 250",
+    registerProgressText: "Registra el desnivell positiu diari del teu equip al COCODONA 250",
+    viewProgressText: "Visualitza el desnivell acumulat de tots els equips al COCODONA 250",
     resultsTitle: "Resultats del Repte",
-    registerDistanceTitle: "Registrar Distància",
+    registerDistanceTitle: "Registrar Desnivell",
     adminTitle: "Administració",
     adminSubtitle: "Gestió d'equips i dades del repte",
     adminLoginTitle: "Accés d'Administrador",
@@ -164,7 +145,7 @@ const translations = {
     adminLogoutButton: "Sortir",
     adminTotalTeams: "Total Equips",
     adminTotalRegistrations: "Total Registres",
-    adminTotalDistance: "Total Distància",
+    adminTotalDistance: "Total Desnivell",
     adminTeamsListTitle: "Equips Registrats",
     adminDeleteButton: "Eliminar",
     adminExportButton: "Exportar Dades",
@@ -185,25 +166,22 @@ const translations = {
     deleteRecord: 'Eliminar registre',
     saveRecord: 'Desar registre',
     tabRegisterTeam: 'Registrar Equip',
-    tabRegister: 'Registrar Distància',
+    tabRegister: 'Registrar Desnivell',
     tabResults: 'Veure Resultats',
     tabAdmin: 'Admin',
-    cat1: '1 pax (RUN)',
-    cat2: '2 pax (RUN)',
-    cat3: '3 pax (RUN)',
     cat4: '4 pax (RUN)',
-    cat5: '5 pax (RUN)',
-    cat6: '6 pax (RUN)',
     selectYourTeam: 'Selecciona el teu equip',
-    distanceLabel: 'Distància *',
-    distancePlaceholder: 'Ex: 10.5',
-    unitKm: 'km',
-    unitMi: 'Milles',
-    registerDistanceButton: 'Registrar Distància',
+    distanceLabel: 'Desnivell positiu (m) *',
+    distancePlaceholder: 'Ex: 850',
+    elevationUnit: 'm',
+    registerDistanceButton: 'Registrar Desnivell',
     selectTeamLabel: 'Seleccionar Equip *',
     dateLabel: 'Data *',
     distanceErrorFields: 'Si us plau completa tots els camps correctament.',
-    distanceErrorDate: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2026.',
+    distanceErrorDate: 'La data ha d\'estar entre el 10 i el 19 de setembre de 2026.',
+    distanceErrorFormat: 'Introdueix un número vàlid per al desnivell.',
+    distanceRegisterError: 'Error en registrar el desnivell',
+    distanceRegisterUnexpected: 'No s\'ha registrat el desnivell. Revisa la consola.',
     adminAccessGranted: 'Accés d\'administrador concedit',
     adminTeamUpdateError: 'Error en actualitzar l\'equip',
     adminTeamUpdated: 'Equip actualitzat correctament',
@@ -220,46 +198,38 @@ const translations = {
     adminRestricted: 'Accés restringit només per a administradors.',
     adminConfirmDeleteReg: 'Segur que vols eliminar aquest registre?',
     viewHistoryButton: 'Veure historial',
-    accumulatedMiles: 'Milles acumulades',
-    milesAxis: 'Milles',
-    resultsSubtitle: "de l'1 al 10 de maig",
-    mainSubtitle: "De l'1 al 10 de maig",
-    dateRangeSubtitle: "De l'1 al 10 de maig"
+    accumulatedElevation: 'Desnivell acumulat',
+    elevationAxis: 'Metres',
+    resultsSubtitle: "del 10 al 19 de setembre",
+    mainSubtitle: "Del 10 al 19 de setembre",
+    dateRangeSubtitle: "Del 10 al 19 de setembre"
   },
   es: {
     registerTeam: 'Registrar Equipo',
-    registerDistance: 'Registrar Distancia',
+    registerDistance: 'Registrar Desnivel',
     viewResults: 'Ver Resultados',
     teamName: 'Nombre del Equipo',
     category: 'Categoría',
     joinWhatsappGroup: 'Unirse al Grupo de WhatsApp',
     selectTeam: 'Seleccionar Equipo',
     date: 'Fecha',
-    distance: 'Distancia',
-    kilometers: 'Km',
-    miles: 'Millas',
+    distance: 'Desnivel',
     registerTeamAndJoin: 'Registrar Equipo',
-    registerDistance: 'Registrar Distancia',
     challengeResults: 'Resultados del Reto',
     teams: 'Equipos',
-    totalKm: 'km totales',
-    totalMiles: 'millas totales',
+    totalElevation: 'm de desnivel',
     registrations: 'Registros',
-    progressTowards: 'Progreso hacia 250 millas',
+    progressTowards: 'Progreso hacia 25.000 m de desnivel',
     completed: 'Completado',
     remaining: 'Restante',
     history: 'Historial de Registros',
-    units: 'Unidades',
     team: 'Equipo',
-    teams: 'Equipos',
-    totalKm: 'km totales',
-    totalMiles: 'millas totales',
-    registrations: 'Registros',
-    joinChallenge: 'Únete al COCODONA 250 registrando tu equipo',
-    registerProgress: 'Registra tu progreso diario en el COCODONA 250',
-    viewProgress: 'Visualiza el progreso de todos los equipos en el COCODONA 250',
+    joinChallenge: 'Únete al COCODONA 250 registrando tu equipo de 4 personas',
+    registerProgress: 'Registra el desnivel positivo diario de tu equipo en el COCODONA 250',
+    viewProgress: 'Visualiza el desnivel acumulado de todos los equipos en el COCODONA 250',
     teamRegisteredSuccess: '¡Equipo registrado con éxito!',
-    distanceRegisteredSuccess: '¡Distancia registrada con éxito!',
+    distanceRegisteredSuccess: '¡Desnivel registrado con éxito!',
+    teamCategoryInfo: 'Equipo de 4 personas (RUN)',
     whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del COCODONA 250 donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
     whatsappGroupBenefit2: 'Ver las actualizaciones de otros participantes',
@@ -285,13 +255,12 @@ const translations = {
     whatsappGroupBenefit4: "Participar en la comunidad del reto",
     registerTeamButton: "Registrar Equipo",
     totalTeamsLabel: "Equipos",
-    totalDistanceLabel: "km totales",
-    totalDistanceMiLabel: "millas totales",
+    totalDistanceLabel: "m de desnivel",
     totalRegistrationsLabel: "Registros",
-    registerProgressText: "Registra tu progreso diario en el COCODONA 250",
-    viewProgressText: "Visualiza el progreso de todos los equipos en el COCODONA 250",
+    registerProgressText: "Registra el desnivel positivo diario de tu equipo en el COCODONA 250",
+    viewProgressText: "Visualiza el desnivel acumulado de todos los equipos en el COCODONA 250",
     resultsTitle: "Resultados del Reto",
-    registerDistanceTitle: "Registrar Distancia",
+    registerDistanceTitle: "Registrar Desnivel",
     adminTitle: "Administración",
     adminSubtitle: "Gestión de equipos y datos del reto",
     adminLoginTitle: "Acceso de Administrador",
@@ -301,7 +270,7 @@ const translations = {
     adminLogoutButton: "Salir",
     adminTotalTeams: "Total Equipos",
     adminTotalRegistrations: "Total Registros",
-    adminTotalDistance: "Total Distancia",
+    adminTotalDistance: "Total Desnivel",
     adminTeamsListTitle: "Equipos Registrados",
     adminDeleteButton: "Eliminar",
     adminExportButton: "Exportar Datos",
@@ -322,25 +291,22 @@ const translations = {
     deleteRecord: 'Eliminar registro',
     saveRecord: 'Guardar registro',
     tabRegisterTeam: 'Registrar Equipo',
-    tabRegister: 'Registrar Distancia',
+    tabRegister: 'Registrar Desnivel',
     tabResults: 'Ver Resultados',
     tabAdmin: 'Admin',
-    cat1: '1 pax (RUN)',
-    cat2: '2 pax (RUN)',
-    cat3: '3 pax (RUN)',
     cat4: '4 pax (RUN)',
-    cat5: '5 pax (RUN)',
-    cat6: '6 pax (RUN)',
     selectYourTeam: 'Selecciona tu equipo',
-    distanceLabel: 'Distancia *',
-    distancePlaceholder: 'Ej: 10.5',
-    unitKm: 'km',
-    unitMi: 'Millas',
-    registerDistanceButton: 'Registrar Distancia',
+    distanceLabel: 'Desnivel positivo (m) *',
+    distancePlaceholder: 'Ej: 850',
+    elevationUnit: 'm',
+    registerDistanceButton: 'Registrar Desnivel',
     selectTeamLabel: 'Seleccionar Equipo *',
     dateLabel: 'Fecha *',
     distanceErrorFields: 'Por favor completa todos los campos correctamente.',
-    distanceErrorDate: 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.',
+    distanceErrorDate: 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.',
+    distanceErrorFormat: 'Introduce un número válido para el desnivel.',
+    distanceRegisterError: 'Error al registrar el desnivel',
+    distanceRegisterUnexpected: 'No se registró el desnivel. Revisa la consola.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -357,46 +323,38 @@ const translations = {
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'Ver historial',
-    accumulatedMiles: 'Millas acumuladas',
-    milesAxis: 'Millas',
-    resultsSubtitle: 'del 1 al 10 de mayo',
-    mainSubtitle: 'Del 1 al 10 de mayo',
-    dateRangeSubtitle: 'Del 1 al 10 de mayo'
+    accumulatedElevation: 'Desnivel acumulado',
+    elevationAxis: 'Metros',
+    resultsSubtitle: 'del 10 al 19 de septiembre',
+    mainSubtitle: 'Del 10 al 19 de septiembre',
+    dateRangeSubtitle: 'Del 10 al 19 de septiembre'
   },
   en: {
     registerTeam: 'Register Team',
-    registerDistance: 'Register Distance',
+    registerDistance: 'Register Elevation',
     viewResults: 'View Results',
     teamName: 'Team Name',
     category: 'Category',
     joinWhatsappGroup: 'Join WhatsApp Group',
     selectTeam: 'Select Team',
     date: 'Date',
-    distance: 'Distance',
-    kilometers: 'Km',
-    miles: 'Miles',
+    distance: 'Elevation',
     registerTeamAndJoin: 'Register Team',
-    registerDistance: 'Register Distance',
     challengeResults: 'Challenge Results',
     teams: 'Teams',
-    totalKm: 'total km',
-    totalMiles: 'total miles',
+    totalElevation: 'm elevation',
     registrations: 'Registrations',
-    progressTowards: 'Progress towards 250 miles',
+    progressTowards: 'Progress towards 25,000 m elevation',
     completed: 'Completed',
     remaining: 'Remaining',
     history: 'Registration History',
-    units: 'Units',
     team: 'Team',
-    teams: 'Teams',
-    totalKm: 'total km',
-    totalMiles: 'total miles',
-    registrations: 'Registrations',
-    joinChallenge: 'Join COCODONA 250 by registering your team',
-    registerProgress: 'Register your daily progress to COCODONA 250',
-    viewProgress: 'View the progress of all teams in COCODONA 250',
+    joinChallenge: 'Join COCODONA 250 by registering your team of 4 people',
+    registerProgress: 'Register your team\'s daily positive elevation gain in COCODONA 250',
+    viewProgress: 'View the accumulated elevation of all teams in COCODONA 250',
     teamRegisteredSuccess: 'Team registered successfully!',
-    distanceRegisteredSuccess: 'Distance registered successfully!',
+    distanceRegisteredSuccess: 'Elevation registered successfully!',
+    teamCategoryInfo: 'Team of 4 people (RUN)',
     whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of COCODONA 250 where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
     whatsappGroupBenefit2: 'See updates from other participants',
@@ -422,13 +380,12 @@ const translations = {
     whatsappGroupBenefit4: "Participate in the challenge community",
     registerTeamButton: "Register Team",
     totalTeamsLabel: "Teams",
-    totalDistanceLabel: "Total km",
-    totalDistanceMiLabel: "Total miles",
+    totalDistanceLabel: "m elevation",
     totalRegistrationsLabel: "Entries",
-    registerProgressText: "Register your daily progress to COCODONA 250",
-    viewProgressText: "View the progress of all teams in COCODONA 250",
+    registerProgressText: "Register your team's daily positive elevation gain in COCODONA 250",
+    viewProgressText: "View the accumulated elevation of all teams in COCODONA 250",
     resultsTitle: "Challenge Results",
-    registerDistanceTitle: "Register Distance",
+    registerDistanceTitle: "Register Elevation",
     adminTitle: "Administration",
     adminSubtitle: "Team and challenge data management",
     adminLoginTitle: "Administrator Access",
@@ -438,7 +395,7 @@ const translations = {
     adminLogoutButton: "Logout",
     adminTotalTeams: "Total Teams",
     adminTotalRegistrations: "Total Registrations",
-    adminTotalDistance: "Total Distance",
+    adminTotalDistance: "Total Elevation",
     adminTeamsListTitle: "Registered Teams",
     adminDeleteButton: "Delete",
     adminExportButton: "Export Data",
@@ -459,25 +416,22 @@ const translations = {
     deleteRecord: 'Delete record',
     saveRecord: 'Save record',
     tabRegisterTeam: 'Register Team',
-    tabRegister: 'Register Distance',
+    tabRegister: 'Register Elevation',
     tabResults: 'View Results',
     tabAdmin: 'Admin',
-    cat1: '1 pax (RUN)',
-    cat2: '2 pax (RUN)',
-    cat3: '3 pax (RUN)',
     cat4: '4 pax (RUN)',
-    cat5: '5 pax (RUN)',
-    cat6: '6 pax (RUN)',
     selectYourTeam: 'Select your team',
-    distanceLabel: 'Distance *',
-    distancePlaceholder: 'Ex: 10.5',
-    unitKm: 'km',
-    unitMi: 'Miles',
-    registerDistanceButton: 'Register Distance',
+    distanceLabel: 'Positive elevation (m) *',
+    distancePlaceholder: 'Ex: 850',
+    elevationUnit: 'm',
+    registerDistanceButton: 'Register Elevation',
     selectTeamLabel: 'Select Team *',
     dateLabel: 'Date *',
     distanceErrorFields: 'Please complete all fields correctly.',
-    distanceErrorDate: 'The date must be between May 1 and 10, 2026.',
+    distanceErrorDate: 'The date must be between September 10 and 19, 2026.',
+    distanceErrorFormat: 'Enter a valid number for elevation.',
+    distanceRegisterError: 'Error registering elevation',
+    distanceRegisterUnexpected: 'Elevation was not registered. Check the console.',
     adminAccessGranted: 'Admin access granted',
     adminTeamUpdateError: 'Error updating team',
     adminTeamUpdated: 'Team updated successfully',
@@ -494,11 +448,11 @@ const translations = {
     adminRestricted: 'Access restricted to administrators only.',
     adminConfirmDeleteReg: 'Are you sure you want to delete this record?',
     viewHistoryButton: 'View history',
-    accumulatedMiles: 'Accumulated miles',
-    milesAxis: 'Miles',
-    resultsSubtitle: 'May 1 to 10',
-    mainSubtitle: 'May 1 to 10',
-    dateRangeSubtitle: 'May 1 to 10'
+    accumulatedElevation: 'Accumulated elevation',
+    elevationAxis: 'Meters',
+    resultsSubtitle: 'September 10 to 19',
+    mainSubtitle: 'September 10 to 19',
+    dateRangeSubtitle: 'September 10 to 19'
   },
   pt: {
     registerTeam: 'Registrar Equipa',
@@ -565,16 +519,21 @@ const translations = {
     viewHistoryButton: 'Ver histórico',
     accumulatedMiles: 'Milhas acumuladas',
     milesAxis: 'Milhas',
-    resultsSubtitle: 'de 1 a 10 de maio',
-    mainSubtitle: 'De 1 a 10 de maio',
-    dateRangeSubtitle: 'De 1 a 10 de maio'
+    resultsSubtitle: 'de 10 a 19 de setembro',
+    mainSubtitle: 'De 10 a 19 de setembro',
+    dateRangeSubtitle: 'De 10 a 19 de setembro'
   }
 };
 
-// Corrección de traducción en portugués para la pestaña de registro de distancia
-ttranslations = translations;
-translations.pt.registerDistanceTitle = 'Registrar Distância';
-translations.pt.registerProgressText = 'Registe o seu progresso diário no COCODONA 250';
+// Corrección de traducción en portugués para la pestaña de registro de desnivel
+translations.pt.registerDistanceTitle = 'Registrar Desnível';
+translations.pt.registerProgressText = 'Registe o desnível positivo diário da sua equipa no COCODONA 250';
+translations.pt.registerDistance = 'Registrar Desnível';
+translations.pt.tabRegister = 'Registrar Desnível';
+translations.pt.registerDistanceButton = 'Registrar Desnível';
+translations.pt.distanceLabel = 'Desnível positivo (m) *';
+translations.pt.distanceRegisteredSuccess = 'Desnível registado com sucesso';
+translations.pt.teamCategoryInfo = 'Equipa de 4 pessoas (RUN)';
 
 // Añadir claves de traducción si faltan
 Object.keys(translations).forEach(lang => {
@@ -603,10 +562,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Desar registre', es: 'Guardar registro', en: 'Save record', pt: 'Guardar registo'
   }[lang];
   translations[lang].teamCategoryInvalid = translations[lang].teamCategoryInvalid || {
-    ca: 'Només es permet modalitat RUN amb equips d\'1 a 6 persones.',
-    es: 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.',
-    en: 'Only RUN modality is allowed with teams from 1 to 6 people.',
-    pt: 'Só é permitida a modalidade RUN com equipas de 1 a 6 pessoas.'
+    ca: 'Només es permeten equips de 4 persones en modalitat RUN.',
+    es: 'Solo se permiten equipos de 4 personas en modalidad RUN.',
+    en: 'Only teams of 4 people in RUN modality are allowed.',
+    pt: 'Só são permitidas equipas de 4 pessoas na modalidade RUN.'
   }[lang];
 });
 
@@ -616,7 +575,7 @@ Object.keys(translations).forEach(lang => {
     ca: 'Registrar Equip', es: 'Registrar Equipo', en: 'Register Team', pt: 'Registrar Equipa'
   }[lang];
   translations[lang].tabRegister = translations[lang].tabRegister || {
-    ca: 'Registrar Distància', es: 'Registrar Distancia', en: 'Register Distance', pt: 'Registrar Distância'
+    ca: 'Registrar Desnivell', es: 'Registrar Desnivel', en: 'Register Elevation', pt: 'Registrar Desnível'
   }[lang];
   translations[lang].tabResults = translations[lang].tabResults || {
     ca: 'Veure Resultats', es: 'Ver Resultados', en: 'View Results', pt: 'Ver Resultados'
@@ -624,45 +583,30 @@ Object.keys(translations).forEach(lang => {
   translations[lang].tabAdmin = translations[lang].tabAdmin || {
     ca: 'Admin', es: 'Admin', en: 'Admin', pt: 'Admin'
   }[lang];
-  translations[lang].cat1 = translations[lang].cat1 || {
-    ca: '1 pax (RUN)', es: '1 pax (RUN)', en: '1 pax (RUN)', pt: '1 pax (RUN)'
-  }[lang];
-  translations[lang].cat2 = translations[lang].cat2 || {
-    ca: '2 pax (RUN)', es: '2 pax (RUN)', en: '2 pax (RUN)', pt: '2 pax (RUN)'
-  }[lang];
-  translations[lang].cat3 = translations[lang].cat3 || {
-    ca: '3 pax (RUN)', es: '3 pax (RUN)', en: '3 pax (RUN)', pt: '3 pax (RUN)'
-  }[lang];
   translations[lang].cat4 = translations[lang].cat4 || {
     ca: '4 pax (RUN)', es: '4 pax (RUN)', en: '4 pax (RUN)', pt: '4 pax (RUN)'
   }[lang];
-  translations[lang].cat5 = translations[lang].cat5 || {
-    ca: '5 pax (RUN)', es: '5 pax (RUN)', en: '5 pax (RUN)', pt: '5 pax (RUN)'
-  }[lang];
-  translations[lang].cat6 = translations[lang].cat6 || {
-    ca: '6 pax (RUN)', es: '6 pax (RUN)', en: '6 pax (RUN)', pt: '6 pax (RUN)'
+  translations[lang].teamCategoryInfo = translations[lang].teamCategoryInfo || {
+    ca: 'Equip de 4 persones (RUN)', es: 'Equipo de 4 personas (RUN)', en: 'Team of 4 people (RUN)', pt: 'Equipa de 4 pessoas (RUN)'
   }[lang];
 });
 
-// Añadir claves de traducción para la pestaña de distancia
+// Añadir claves de traducción para la pestaña de desnivel
 Object.keys(translations).forEach(lang => {
   translations[lang].selectYourTeam = translations[lang].selectYourTeam || {
     ca: 'Selecciona el teu equip', es: 'Selecciona tu equipo', en: 'Select your team', pt: 'Seleciona a tua equipa'
   }[lang];
   translations[lang].distanceLabel = translations[lang].distanceLabel || {
-    ca: 'Distància *', es: 'Distancia *', en: 'Distance *', pt: 'Distância *'
+    ca: 'Desnivell positiu (m) *', es: 'Desnivel positivo (m) *', en: 'Positive elevation (m) *', pt: 'Desnível positivo (m) *'
   }[lang];
   translations[lang].distancePlaceholder = translations[lang].distancePlaceholder || {
-    ca: 'Ex: 10.5', es: 'Ej: 10.5', en: 'Ex: 10.5', pt: 'Ex: 10.5'
+    ca: 'Ex: 850', es: 'Ej: 850', en: 'Ex: 850', pt: 'Ex: 850'
   }[lang];
-  translations[lang].unitKm = translations[lang].unitKm || {
-    ca: 'km', es: 'km', en: 'km', pt: 'km'
-  }[lang];
-  translations[lang].unitMi = translations[lang].unitMi || {
-    ca: 'Milles', es: 'Millas', en: 'Miles', pt: 'Milhas'
+  translations[lang].elevationUnit = translations[lang].elevationUnit || {
+    ca: 'm', es: 'm', en: 'm', pt: 'm'
   }[lang];
   translations[lang].registerDistanceButton = translations[lang].registerDistanceButton || {
-    ca: 'Registrar Distància', es: 'Registrar Distancia', en: 'Register Distance', pt: 'Registrar Distância'
+    ca: 'Registrar Desnivell', es: 'Registrar Desnivel', en: 'Register Elevation', pt: 'Registrar Desnível'
   }[lang];
 });
 
@@ -675,84 +619,66 @@ Object.keys(translations).forEach(lang => {
     ca: 'Data *', es: 'Fecha *', en: 'Date *', pt: 'Data *'
   }[lang];
   translations[lang].distanceLabel = translations[lang].distanceLabel || {
-    ca: 'Distància *', es: 'Distancia *', en: 'Distance *', pt: 'Distância *'
+    ca: 'Desnivell positiu (m) *', es: 'Desnivel positivo (m) *', en: 'Positive elevation (m) *', pt: 'Desnível positivo (m) *'
   }[lang];
   translations[lang].distanceErrorFields = translations[lang].distanceErrorFields || {
     ca: 'Si us plau completa tots els camps correctament.', es: 'Por favor completa todos los campos correctamente.', en: 'Please complete all fields correctly.', pt: 'Por favor preencha todos os campos corretamente.'
   }[lang];
   translations[lang].distanceErrorDate = translations[lang].distanceErrorDate || {
-    ca: 'La data ha d\'estar entre l\'1 i el 10 de maig de 2026.',
-    es: 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.',
-    en: 'The date must be between May 1 and 10, 2026.',
-    pt: 'A data deve estar entre 1 e 10 de maio de 2026.'
+    ca: 'La data ha d\'estar entre el 10 i el 19 de setembre de 2026.',
+    es: 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.',
+    en: 'The date must be between September 10 and 19, 2026.',
+    pt: 'A data deve estar entre 10 e 19 de setembro de 2026.'
   }[lang];
 });
 
 function updateDistanceTabTexts() {
   const t = translations[currentLanguage] || translations['ca'];
-  // Label de equipo
   const teamLabel = document.getElementById('distanceTeamLabel');
   if (teamLabel) teamLabel.textContent = t.selectTeamLabel;
-  // Select de equipo
   const teamSelectOption = document.getElementById('distanceTeamSelectOption');
   if (teamSelectOption) teamSelectOption.textContent = t.selectYourTeam;
-  // Label de fecha
   const dateLabel = document.getElementById('distanceDateLabel');
   if (dateLabel) dateLabel.textContent = t.dateLabel;
-  // Label y placeholder de distancia
   const distanceLabel = document.getElementById('distanceLabel');
   if (distanceLabel) distanceLabel.textContent = t.distanceLabel;
   const distanceInput = document.getElementById('distanceInput');
   if (distanceInput) distanceInput.placeholder = t.distancePlaceholder;
-  // Opciones de unidad (forzar actualización del texto y valor)
-  const unitKmOption = document.getElementById('distanceUnitKmOption');
-  if (unitKmOption) {
-    unitKmOption.textContent = t.unitKm;
-    unitKmOption.value = 'km';
-  }
-  const unitMiOption = document.getElementById('distanceUnitMiOption');
-  if (unitMiOption) {
-    unitMiOption.textContent = t.unitMi;
-    unitMiOption.value = 'mi';
-  }
-  // Botón de registrar distancia
+  const elevationUnitLabel = document.getElementById('elevationUnitLabel');
+  if (elevationUnitLabel) elevationUnitLabel.textContent = t.elevationUnit || 'm';
   const btn = document.getElementById('distanceRegisterButton');
   if (btn) btn.textContent = t.registerDistanceButton;
-  // Forzar actualización del select de equipos si existe
   const teamSelect = document.getElementById('teamSelect');
   if (teamSelect && teamSelect.options.length > 0) {
     teamSelect.options[0].text = t.selectYourTeam;
   }
-  // Mostrar la categoría del equipo seleccionado al lado del select
   const categoryText = document.getElementById('selectedTeamCategory');
   if (categoryText) categoryText.remove();
-  teamSelect.insertAdjacentHTML('afterend', '<span id="selectedTeamCategory" style="margin-left:12px;font-size:0.95em;color:#555;"></span>');
-  teamSelect.addEventListener('change', function() {
-    const selected = data.find(t => t.id == teamSelect.value);
-    document.getElementById('selectedTeamCategory').textContent = selected ? selected.category : '';
-  });
-  // Subtítulo de rango de fechas junto a Data*
+  if (teamSelect) {
+    teamSelect.insertAdjacentHTML('afterend', '<span id="selectedTeamCategory" style="margin-left:12px;font-size:0.95em;color:#555;"></span>');
+  }
   const dateRangeSubtitle = document.getElementById('dateRangeSubtitle');
   if (dateRangeSubtitle && t.dateRangeSubtitle) dateRangeSubtitle.textContent = t.dateRangeSubtitle;
+  const teamCategoryInfo = document.getElementById('teamCategoryInfo');
+  if (teamCategoryInfo && t.teamCategoryInfo) teamCategoryInfo.textContent = t.teamCategoryInfo;
+  const resultsCategoryTitle = document.getElementById('resultsCategoryTitle');
+  if (resultsCategoryTitle && t.cat4) resultsCategoryTitle.textContent = t.cat4;
 }
 
 // Modificar los mensajes de error/éxito en handleDistanceSubmit
-const originalHandleDistanceSubmit = handleDistanceSubmit;
 async function handleDistanceSubmit(e) {
   e.preventDefault();
   const t = getTranslations();
   const teamId = document.getElementById('teamSelect').value;
   const date = document.getElementById('dateInput').value;
-  let distanceValue = document.getElementById('distanceInput').value;
-  // Aceptar punto, coma o apóstrofe como separador decimal
-  distanceValue = distanceValue.replace(/['’,]/g, '.');
-  const distance = parseFloat(distanceValue);
-  if (isNaN(distance) || !isFinite(distance)) {
-    showNotification(t.distanceErrorFormat || 'Introduce un número válido para la distancia.', 'error');
+  let elevationValue = document.getElementById('distanceInput').value;
+  elevationValue = elevationValue.replace(/['',]/g, '.');
+  const elevation = parseFloat(elevationValue);
+  if (isNaN(elevation) || !isFinite(elevation)) {
+    showNotification(t.distanceErrorFormat || 'Introduce un número válido para el desnivel.', 'error');
     return;
   }
-  const unit = document.getElementById('unitSelect').value;
-  if (!teamId || !date || !distance || distance <= 0) {
+  if (!teamId || !date || !elevation || elevation <= 0) {
     showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
     return;
   }
@@ -760,27 +686,27 @@ async function handleDistanceSubmit(e) {
   const startDate = new Date('2026-05-01');
   const endDate = new Date('2026-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.', 'error');
     return;
   }
-  const newDistance = {
+  const newRecord = {
     team_id: parseInt(teamId),
     date: date,
-    distance: distance,
-    unit: unit,
+    distance: elevation,
+    unit: 'm',
     timestamp: new Date().toISOString()
   };
-  const { error, data } = await window.supabase.from('distance').insert([newDistance]).select();
+  const { error, data } = await window.supabase.from('distance').insert([newRecord]).select();
   if (error) {
-    showNotification(t.distanceRegisterError || 'Error al registrar la distancia', 'error');
+    showNotification(t.distanceRegisterError || 'Error al registrar el desnivel', 'error');
     return;
   }
   if (!data || (Array.isArray(data) && data.length === 0)) {
-    showNotification(t.distanceRegisterUnexpected || 'No se insertó la distancia. Revisa la consola.', 'error');
+    showNotification(t.distanceRegisterUnexpected || 'No se insertó el desnivel. Revisa la consola.', 'error');
     return;
   }
   document.getElementById('distanceForm').reset();
-  showNotification(t.distanceRegisteredSuccess || '¡Distancia registrada con éxito!', 'success');
+  showNotification(t.distanceRegisteredSuccess || '¡Desnivel registrado con éxito!', 'success');
   if (document.getElementById('results-tab').classList.contains('active')) {
     await loadResults();
   }
@@ -960,7 +886,7 @@ async function handleTeamSubmit(e) {
       return;
     }
     if (!ALLOWED_CATEGORIES.includes(teamCategory)) {
-      showNotification(t.teamCategoryInvalid || 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.', 'error');
+      showNotification(t.teamCategoryInvalid || 'Solo se permiten equipos de 4 personas en modalidad RUN.', 'error');
       return;
     }
     // Verificar que no exista un equipo con el mismo nombre
@@ -999,55 +925,6 @@ async function handleTeamSubmit(e) {
 }
 window.handleTeamSubmit = handleTeamSubmit;
 
-async function handleDistanceSubmit(e) {
-  e.preventDefault();
-  const t = getTranslations();
-  const teamId = document.getElementById('teamSelect').value;
-  const date = document.getElementById('dateInput').value;
-  let distanceValue = document.getElementById('distanceInput').value;
-  // Aceptar punto, coma o apóstrofe como separador decimal
-  distanceValue = distanceValue.replace(/['’,]/g, '.');
-  const distance = parseFloat(distanceValue);
-  if (isNaN(distance) || !isFinite(distance)) {
-    showNotification(t.distanceErrorFormat || 'Introduce un número válido para la distancia.', 'error');
-    return;
-  }
-  const unit = document.getElementById('unitSelect').value;
-  if (!teamId || !date || !distance || distance <= 0) {
-    showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
-    return;
-  }
-  const selectedDate = new Date(date);
-  const startDate = new Date('2026-05-01');
-  const endDate = new Date('2026-05-10');
-  if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
-    return;
-  }
-  const newDistance = {
-    team_id: parseInt(teamId),
-    date: date,
-    distance: distance,
-    unit: unit,
-    timestamp: new Date().toISOString()
-  };
-  const { error, data } = await window.supabase.from('distance').insert([newDistance]).select();
-  if (error) {
-    showNotification(t.distanceRegisterError || 'Error al registrar la distancia', 'error');
-    return;
-  }
-  if (!data || (Array.isArray(data) && data.length === 0)) {
-    showNotification(t.distanceRegisterUnexpected || 'No se insertó la distancia. Revisa la consola.', 'error');
-    return;
-  }
-  document.getElementById('distanceForm').reset();
-  showNotification(t.distanceRegisteredSuccess || '¡Distancia registrada con éxito!', 'success');
-  if (document.getElementById('results-tab').classList.contains('active')) {
-    await loadResults();
-  }
-}
-window.handleDistanceSubmit = handleDistanceSubmit;
-
 async function loadResults() {
   console.log('[loadResults] llamada');
   const { data: teams } = await window.supabase.from('registrations').select('*');
@@ -1059,21 +936,17 @@ async function loadResults() {
   teams.forEach(team => {
     teamStats[team.id] = {
       team: team,
-      totalDistanceKm: 0,
-      totalDistanceMi: 0,
+      totalElevationM: 0,
       registrations: 0,
       lastRegistration: null
     };
   });
-  distances.forEach(distance => {
-    const teamStat = teamStats[distance.team_id];
+  distances.forEach(record => {
+    const teamStat = teamStats[record.team_id];
     if (teamStat) {
-      const distanceKm = distance.unit === 'mi' ? distance.distance * 1.60934 : distance.distance;
-      const distanceMi = distance.unit === 'km' ? distance.distance / 1.60934 : distance.distance;
-      teamStat.totalDistanceKm += distanceKm;
-      teamStat.totalDistanceMi += distanceMi;
+      teamStat.totalElevationM += getElevationMeters(record);
       teamStat.registrations++;
-      teamStat.lastRegistration = distance.timestamp;
+      teamStat.lastRegistration = record.timestamp;
     }
   });
   lastTeamStats = teamStats;
@@ -1096,49 +969,36 @@ async function loadResults() {
 
 function updateGeneralStats(teams, distances) {
   const totalTeams = teams.length;
-  const totalDistanceKm = distances.reduce((sum, d) => {
-    return sum + (d.unit === 'mi' ? d.distance * 1.60934 : d.distance);
-  }, 0);
-  const totalDistanceMi = totalDistanceKm / 1.60934;
+  const totalElevationM = distances.reduce((sum, d) => sum + getElevationMeters(d), 0);
   const totalRegistrations = distances.length;
-  
+
   const totalTeamsEl = document.getElementById('totalTeams');
   const totalDistanceEl = document.getElementById('totalDistance');
-  const totalDistanceMiEl = document.getElementById('totalDistanceMi');
   const totalRegistrationsEl = document.getElementById('totalRegistrations');
-  
+
   if (totalTeamsEl) totalTeamsEl.textContent = totalTeams;
-  if (totalDistanceEl) totalDistanceEl.textContent = totalDistanceKm.toFixed(1);
-  if (totalDistanceMiEl) totalDistanceMiEl.textContent = totalDistanceMi.toFixed(1);
+  if (totalDistanceEl) totalDistanceEl.textContent = Math.round(totalElevationM).toLocaleString();
   if (totalRegistrationsEl) totalRegistrationsEl.textContent = totalRegistrations;
-  
-  // Actualizar etiquetas con traducciones
+
   const t = translations[currentLanguage] || translations['ca'];
   const statsLabels = document.querySelectorAll('.stats-label');
-  if (statsLabels.length >= 4) {
+  if (statsLabels.length >= 3) {
     statsLabels[0].textContent = t.teams;
-    statsLabels[1].textContent = t.totalKm;
-    statsLabels[2].textContent = t.totalMiles;
-    statsLabels[3].textContent = t.registrations;
+    statsLabels[1].textContent = t.totalElevation || t.totalDistanceLabel;
+    statsLabels[2].textContent = t.registrations;
   }
-  
-  console.log('Estadísticas actualizadas:', { totalTeams, totalDistanceKm, totalDistanceMi, totalRegistrations });
+
+  console.log('Estadísticas actualizadas:', { totalTeams, totalElevationM, totalRegistrations });
 }
 
 function updateCategoryResults(teamStats) {
   const t = getTranslations();
   const categories = {
-    '1 pax (RUN)': 'category-1',
-    '2 pax (RUN)': 'category-2',
-    '3 pax (RUN)': 'category-3',
-    '4 pax (RUN)': 'category-4',
-    '5 pax (RUN)': 'category-5',
-    '6 pax (RUN)': 'category-6'
+    [TEAM_CATEGORY]: 'category-4'
   };
-  
-  // Agrupar equipos por categoría
+
   const teamsByCategory = {};
-  
+
   Object.values(teamStats).forEach(stat => {
     const category = stat.team.category;
     if (!teamsByCategory[category]) {
@@ -1146,13 +1006,11 @@ function updateCategoryResults(teamStats) {
     }
     teamsByCategory[category].push(stat);
   });
-  
-  // Ordenar equipos por distancia total en millas en cada categoría
+
   Object.keys(teamsByCategory).forEach(category => {
-    teamsByCategory[category].sort((a, b) => b.totalDistanceMi - a.totalDistanceMi);
+    teamsByCategory[category].sort((a, b) => b.totalElevationM - a.totalElevationM);
   });
-  
-  // Actualizar cada categoría
+
   Object.entries(categories).forEach(([categoryName, elementId]) => {
     const container = document.getElementById(elementId);
     if (container) {
@@ -1160,21 +1018,18 @@ function updateCategoryResults(teamStats) {
       if (teams.length === 0) {
         container.innerHTML = '<p class="text-gray-500 text-center py-4">' + t.noTeamsRegistered + '</p>';
       } else {
-        // El grid es el contenedor principal, sin fondo ni padding extra
         container.innerHTML = `
           ${teams.map((stat, index) => {
             const rankClass = index < 3 ? `rank-${index + 1}` : '';
             const rankIcon = index < 3 ? ['🥇', '🥈', '🥉'][index] : '';
-            const progressPercent = Math.min((stat.totalDistanceMi / TARGET_MILES) * 100, 100);
+            const progressPercent = Math.min((stat.totalElevationM / TARGET_ELEVATION_M) * 100, 100);
             const teamId = stat.team.id;
-            const historyId = `team-history-${teamId}`;
             return `
               <div class="stats-mini-square ${rankClass}">
                 <span class="medal-emoji mb-1">${rankIcon}</span>
                 <div class="font-semibold text-base text-center truncate">${stat.team.name}</div>
                 <div class="text-xs text-gray-500 text-center mb-1">${stat.registrations} ${t.registrations}</div>
-                <div class="text-lg font-bold text-blue-600 text-center">${stat.totalDistanceMi.toFixed(1)} mi</div>
-                <div class="text-xs text-gray-500 text-center">${stat.totalDistanceKm.toFixed(1)} km</div>
+                <div class="text-lg font-bold text-blue-600 text-center">${Math.round(stat.totalElevationM).toLocaleString()} m</div>
                 <div class="w-full bg-gray-200 rounded-full h-1 mt-1 mb-1">
                   <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-1 rounded-full" style="width: ${progressPercent}%"></div>
                 </div>
@@ -1222,7 +1077,7 @@ function showTeamHistory(teamId) {
           <button onclick="document.getElementById('team-history-modal').remove()" style="position:absolute;top:12px;right:12px;font-size:1.5em;background:none;border:none;cursor:pointer;color:#111;">&times;</button>
           <h2 style="font-size:1.3em;font-weight:bold;margin-bottom:12px;color:#111;">${t.historyTitle || 'Historial de'} ${team.name}</h2>
           <ul style="max-height:300px;overflow-y:auto;padding:0;list-style:none;color:#111;">
-            ${distances && distances.length > 0 ? distances.map(d => `<li style='margin-bottom:8px;color:#111;'>${d.date}: <b>${d.distance} ${d.unit}</b></li>`).join('') : `<li style="color:#111;">${t.noRegistrationsForTeam || 'No hay registros'}</li>`}
+            ${distances && distances.length > 0 ? distances.map(d => `<li style='margin-bottom:8px;color:#111;'>${d.date}: <b>${Math.round(getElevationMeters(d)).toLocaleString()} m</b></li>`).join('') : `<li style="color:#111;">${t.noRegistrationsForTeam || 'No hay registros'}</li>`}
           </ul>
         </div>
       `;
@@ -1236,18 +1091,13 @@ window.showTeamHistory = showTeamHistory;
 function generateCharts(teamStats) {
   const t = getTranslations();
   const categories = {
-    '1 pax (RUN)': 'chart-1',
-    '2 pax (RUN)': 'chart-2',
-    '3 pax (RUN)': 'chart-3',
-    '4 pax (RUN)': 'chart-4',
-    '5 pax (RUN)': 'chart-5',
-    '6 pax (RUN)': 'chart-6'
+    [TEAM_CATEGORY]: 'chart-4'
   };
 
   Object.entries(categories).forEach(([cat, canvasId]) => {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
-    
+
     if (canvas.chartInstance) {
       canvas.chartInstance.destroy();
     }
@@ -1257,22 +1107,28 @@ function generateCharts(teamStats) {
       canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       return;
     }
-    
-    teams.sort((a, b) => b.totalDistanceMi - a.totalDistanceMi);
+
+    teams.sort((a, b) => b.totalElevationM - a.totalElevationM);
     const labels = teams.map(stat => stat.team.name);
-    const data = teams.map(stat => stat.totalDistanceMi);
+    const data = teams.map(stat => stat.totalElevationM);
 
     const ctx = canvas.getContext('2d');
-    const gradient = ctx.createLinearGradient(0, 0, 0, 400); // Gradiente vertical
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(54, 162, 235, 0.7)');
     gradient.addColorStop(1, 'rgba(153, 102, 255, 0.7)');
+
+    const targetLabel = currentLanguage === 'ca'
+      ? `Objectiu ${TARGET_ELEVATION_M.toLocaleString()} m`
+      : currentLanguage === 'es'
+        ? `Objetivo ${TARGET_ELEVATION_M.toLocaleString()} m`
+        : `Target ${TARGET_ELEVATION_M.toLocaleString()} m`;
 
     const chart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [{
-          label: t.accumulatedMiles,
+          label: t.accumulatedElevation || 'Desnivel acumulado',
           data: data,
           backgroundColor: gradient,
           borderColor: 'rgba(153, 102, 255, 1)',
@@ -1280,7 +1136,7 @@ function generateCharts(teamStats) {
         }]
       },
       options: {
-        indexAxis: 'y', // <-- Gráfica horizontal
+        indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -1290,12 +1146,12 @@ function generateCharts(teamStats) {
             annotations: {
               line1: {
                 type: 'line',
-                xMin: TARGET_MILES, // Eje X para el objetivo
-                xMax: TARGET_MILES,
+                xMin: TARGET_ELEVATION_M,
+                xMax: TARGET_ELEVATION_M,
                 borderColor: 'rgb(255, 99, 132)',
                 borderWidth: 2,
                 label: {
-                  content: `Objectiu ${TARGET_MILES} milles`,
+                  content: targetLabel,
                   enabled: true,
                   position: 'end'
                 }
@@ -1311,10 +1167,10 @@ function generateCharts(teamStats) {
             beginAtZero: true,
             title: {
               display: true,
-              text: t.milesAxis || 'Millas'
+              text: t.elevationAxis || 'Metres'
             },
             ticks: {
-              stepSize: 25
+              stepSize: 2500
             }
           }
         }
@@ -1387,14 +1243,8 @@ async function loadAdminPanel() {
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <div>
             <input type="text" value="${team.name}" id="edit-team-name-${team.id}" style="font-weight:bold;font-size:1.1em;width:160px;" />
-            <select id="edit-team-category-${team.id}" style="margin-left:8px;">
-              <option${team.category==='1 pax (RUN)'?' selected':''}>1 pax (RUN)</option>
-              <option${team.category==='2 pax (RUN)'?' selected':''}>2 pax (RUN)</option>
-              <option${team.category==='3 pax (RUN)'?' selected':''}>3 pax (RUN)</option>
-              <option${team.category==='4 pax (RUN)'?' selected':''}>4 pax (RUN)</option>
-              <option${team.category==='5 pax (RUN)'?' selected':''}>5 pax (RUN)</option>
-              <option${team.category==='6 pax (RUN)'?' selected':''}>6 pax (RUN)</option>
-            </select>
+            <input type="hidden" id="edit-team-category-${team.id}" value="${TEAM_CATEGORY}" />
+            <span style="margin-left:8px;font-size:0.9em;color:#555;">${TEAM_CATEGORY}</span>
             <button onclick="updateTeam(${team.id})" style="margin-left:8px;">💾</button>
             <button onclick="deleteTeam(${team.id})" style="margin-left:4px;color:#b91c1c;">🗑️</button>
           </div>
@@ -1405,11 +1255,8 @@ async function loadAdminPanel() {
             ${teamDistances.map(reg => `
               <li style='margin-bottom:6px;'>
                 <input type="date" value="${reg.date}" id="edit-reg-date-${reg.id}" style="width:120px;" />
-                <input type="number" value="${reg.distance}" id="edit-reg-distance-${reg.id}" style="width:70px;" step="0.1" min="0" />
-                <select id="edit-reg-unit-${reg.id}">
-                  <option value="km"${reg.unit==='km'?' selected':''}>km</option>
-                  <option value="mi"${reg.unit==='mi'?' selected':''}>mi</option>
-                </select>
+                <input type="number" value="${Math.round(getElevationMeters(reg))}" id="edit-reg-distance-${reg.id}" style="width:90px;" step="1" min="0" />
+                <span style="margin-left:4px;">m</span>
                 <button onclick="updateRegistration(${reg.id})">💾</button>
                 <button onclick="deleteRegistration(${reg.id})" style="color:#b91c1c;">🗑️</button>
               </li>
@@ -1435,10 +1282,10 @@ async function updateTeam(teamId) {
     return;
   }
   if (!ALLOWED_CATEGORIES.includes(teamCategory)) {
-    showNotification(t.teamCategoryInvalid || 'Solo se permite modalidad RUN con equipos de 1 a 6 personas.', 'error');
+    showNotification(t.teamCategoryInvalid || 'Solo se permiten equipos de 4 personas en modalidad RUN.', 'error');
     return;
   }
-  const { error } = await window.supabase.from('registrations').update({ name: teamName, category: teamCategory }).eq('id', teamId);
+  const { error } = await window.supabase.from('registrations').update({ name: teamName, category: TEAM_CATEGORY }).eq('id', teamId);
   if (error) {
     showNotification(t.adminTeamUpdateError || 'Error al actualizar el equipo', 'error');
     return;
@@ -1474,11 +1321,10 @@ window.deleteTeam = deleteTeam;
 async function updateRegistration(regId) {
   const t = getTranslations();
   const date = document.getElementById(`edit-reg-date-${regId}`).value;
-  let distanceValue = document.getElementById(`edit-reg-distance-${regId}`).value;
-  distanceValue = distanceValue.replace(',', '.');
-  const distance = parseFloat(distanceValue);
-  const unit = document.getElementById(`edit-reg-unit-${regId}`).value;
-  if (!date || !distance || distance <= 0) {
+  let elevationValue = document.getElementById(`edit-reg-distance-${regId}`).value;
+  elevationValue = elevationValue.replace(',', '.');
+  const elevation = parseFloat(elevationValue);
+  if (!date || !elevation || elevation <= 0) {
     showNotification(t.distanceErrorFields || 'Por favor completa todos los campos correctamente.', 'error');
     return;
   }
@@ -1486,10 +1332,10 @@ async function updateRegistration(regId) {
   const startDate = new Date('2026-05-01');
   const endDate = new Date('2026-05-10');
   if (selectedDate < startDate || selectedDate > endDate) {
-    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 1 y el 10 de mayo de 2026.', 'error');
+    showNotification(t.distanceErrorDate || 'La fecha debe estar entre el 10 y el 19 de septiembre de 2026.', 'error');
     return;
   }
-  const { error } = await window.supabase.from('distance').update({ date: date, distance: distance, unit: unit }).eq('id', regId);
+  const { error } = await window.supabase.from('distance').update({ date: date, distance: elevation, unit: 'm' }).eq('id', regId);
   if (error) {
     showNotification(t.adminRegUpdateError || 'Error al actualizar el registro', 'error');
     return;
@@ -1548,13 +1394,13 @@ async function exportData() {
     showNotification(t.adminDataExportError || 'Error al exportar los datos', 'error');
     return;
   }
-  let csv = 'Tipo,ID,Equipo,Fecha,Distancia,Unidad,Categoría\n';
+  let csv = 'Tipo,ID,Equipo,Fecha,Desnivel (m),Categoría\n';
   teams.forEach(team => {
     csv += `Equipo,${team.id},${team.name},,,,'${team.category}'\n`;
   });
   distances.forEach(reg => {
     const team = teams.find(t => t.id === reg.team_id);
-    csv += `Registro,${reg.id},${team ? team.name : ''},${reg.date},${reg.distance},${reg.unit},${team ? team.category : ''}\n`;
+    csv += `Registro,${reg.id},${team ? team.name : ''},${reg.date},${Math.round(getElevationMeters(reg))},${team ? team.category : ''}\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
@@ -1594,6 +1440,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.updateTabAndCategoryTexts) window.updateTabAndCategoryTexts();
     };
   }
+  if (window.updateLanguage) window.updateLanguage();
 });
 
 function updateTabAndCategoryTexts() {
@@ -1622,6 +1469,7 @@ function updateTabAndCategoryTexts() {
     ['whatsappGroupBenefit2', 'whatsappGroupBenefit2'],
     ['whatsappGroupBenefit3', 'whatsappGroupBenefit3'],
     ['whatsappGroupBenefit4', 'whatsappGroupBenefit4'],
+    ['teamCategoryInfo', 'teamCategoryInfo'],
     ['registerTeamButton', 'registerTeamButton'],
     ['registerDistanceTitle', 'registerDistanceTitle'],
     ['registerProgressText', 'registerProgressText'],
@@ -1629,14 +1477,13 @@ function updateTabAndCategoryTexts() {
     ['distanceTeamSelectOption', 'selectYourTeam'],
     ['distanceDateLabel', 'dateLabel'],
     ['distanceLabel', 'distanceLabel'],
-    ['distanceUnitKmOption', 'unitKm'],
-    ['distanceUnitMiOption', 'unitMi'],
+    ['elevationUnitLabel', 'elevationUnit'],
     ['distanceRegisterButton', 'registerDistanceButton'],
     ['resultsTitle', 'resultsTitle'],
+    ['resultsCategoryTitle', 'cat4'],
     ['viewProgressText', 'viewProgressText'],
     ['totalTeamsLabel', 'totalTeamsLabel'],
     ['totalDistanceLabel', 'totalDistanceLabel'],
-    ['totalDistanceMiLabel', 'totalDistanceMiLabel'],
     ['totalRegistrationsLabel', 'totalRegistrationsLabel'],
     ['admin-title', 'adminTitle'],
     ['admin-subtitle', 'adminSubtitle'],
