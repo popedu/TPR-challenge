@@ -45,12 +45,12 @@ Una aplicación web moderna para gestionar el reto Tor des Géants Challenge, do
 
 ## 📋 Categorías
 
-1. **1 pax (RUN)** - 1 participante (solo Correr/Caminar)
-2. **2 pax (RUN)** - 2 participantes (solo Correr/Caminar)
-3. **3 pax (RUN)** - 3 participantes (solo Correr/Caminar)
-4. **4 pax (RUN)** - 4 participantes (solo Correr/Caminar)
-5. **5 pax (RUN)** - 5 participantes (solo Correr/Caminar)
-6. **6 pax (RUN)** - 6 participantes (solo Correr/Caminar)
+1. **1 pax** - 1 participante (solo Correr/Caminar)
+2. **2 pax** - 2 participantes (solo Correr/Caminar)
+3. **3 pax** - 3 participantes (solo Correr/Caminar)
+4. **4 pax** - 4 participantes (solo Correr/Caminar)
+5. **5 pax** - 5 participantes (solo Correr/Caminar)
+6. **6 pax** - 6 participantes (solo Correr/Caminar)
 
 ## 🛠️ Tecnologías Utilizadas
 

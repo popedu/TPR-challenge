@@ -4,7 +4,7 @@ const DISTANCES_KEY = 'bigfoot_distances';
 
 // Objetivo del reto: desnivel positivo acumulado del equipo (metros)
 const TARGET_ELEVATION_M = 25000;
-const TEAM_CATEGORY = '4 pax (RUN)';
+const TEAM_CATEGORY = '4 pax';
 const ALLOWED_CATEGORIES = [TEAM_CATEGORY];
 
 // Variables globales
@@ -104,7 +104,7 @@ const translations = {
     viewProgress: 'Visualitza el desnivell acumulat de tots els equips al Tor des Géants Challenge',
     teamRegisteredSuccess: 'Equip registrat amb èxit!',
     distanceRegisteredSuccess: 'Desnivell registrat amb èxit!',
-    teamCategoryInfo: 'Equip de 4 persones (RUN)',
+    teamCategoryInfo: 'Equip de 4 persones',
     whatsappGroupInfo: 'Al registrar-te, rebràs l\'enllaç per unir-te al grup oficial de WhatsApp del Tor des Géants Challenge on podràs:',
     whatsappGroupBenefit1: 'Compartir el teu progrés diari',
     whatsappGroupBenefit2: 'Veure les actualitzacions d\'altres participants',
@@ -169,7 +169,7 @@ const translations = {
     tabRegister: 'Registrar Desnivell',
     tabResults: 'Veure Resultats',
     tabAdmin: 'Admin',
-    cat4: '4 pax (RUN)',
+    cat4: '4 pax',
     selectYourTeam: 'Selecciona el teu equip',
     distanceLabel: 'Desnivell positiu (m) *',
     distancePlaceholder: 'Ex: 850',
@@ -229,7 +229,7 @@ const translations = {
     viewProgress: 'Visualiza el desnivel acumulado de todos los equipos en el Tor des Géants Challenge',
     teamRegisteredSuccess: '¡Equipo registrado con éxito!',
     distanceRegisteredSuccess: '¡Desnivel registrado con éxito!',
-    teamCategoryInfo: 'Equipo de 4 personas (RUN)',
+    teamCategoryInfo: 'Equipo de 4 personas',
     whatsappGroupInfo: 'Al registrarte, recibirás el enlace para unirte al grupo oficial de WhatsApp del Tor des Géants Challenge donde podrás:',
     whatsappGroupBenefit1: 'Compartir tu progreso diario',
     whatsappGroupBenefit2: 'Ver las actualizaciones de otros participantes',
@@ -294,7 +294,7 @@ const translations = {
     tabRegister: 'Registrar Desnivel',
     tabResults: 'Ver Resultados',
     tabAdmin: 'Admin',
-    cat4: '4 pax (RUN)',
+    cat4: '4 pax',
     selectYourTeam: 'Selecciona tu equipo',
     distanceLabel: 'Desnivel positivo (m) *',
     distancePlaceholder: 'Ej: 850',
@@ -354,7 +354,7 @@ const translations = {
     viewProgress: 'View the accumulated elevation of all teams in Tor des Géants Challenge',
     teamRegisteredSuccess: 'Team registered successfully!',
     distanceRegisteredSuccess: 'Elevation registered successfully!',
-    teamCategoryInfo: 'Team of 4 people (RUN)',
+    teamCategoryInfo: 'Team of 4 people',
     whatsappGroupInfo: 'When you register, you will receive the link to join the official WhatsApp group of Tor des Géants Challenge where you can:',
     whatsappGroupBenefit1: 'Share your daily progress',
     whatsappGroupBenefit2: 'See updates from other participants',
@@ -419,7 +419,7 @@ const translations = {
     tabRegister: 'Register Elevation',
     tabResults: 'View Results',
     tabAdmin: 'Admin',
-    cat4: '4 pax (RUN)',
+    cat4: '4 pax',
     selectYourTeam: 'Select your team',
     distanceLabel: 'Positive elevation (m) *',
     distancePlaceholder: 'Ex: 850',
@@ -533,7 +533,7 @@ translations.pt.tabRegister = 'Registrar Desnível';
 translations.pt.registerDistanceButton = 'Registrar Desnível';
 translations.pt.distanceLabel = 'Desnível positivo (m) *';
 translations.pt.distanceRegisteredSuccess = 'Desnível registado com sucesso';
-translations.pt.teamCategoryInfo = 'Equipa de 4 pessoas (RUN)';
+translations.pt.teamCategoryInfo = 'Equipa de 4 pessoas';
 
 // Añadir claves de traducción si faltan
 Object.keys(translations).forEach(lang => {
@@ -584,10 +584,10 @@ Object.keys(translations).forEach(lang => {
     ca: 'Admin', es: 'Admin', en: 'Admin', pt: 'Admin'
   }[lang];
   translations[lang].cat4 = translations[lang].cat4 || {
-    ca: '4 pax (RUN)', es: '4 pax (RUN)', en: '4 pax (RUN)', pt: '4 pax (RUN)'
+    ca: '4 pax', es: '4 pax', en: '4 pax', pt: '4 pax'
   }[lang];
   translations[lang].teamCategoryInfo = translations[lang].teamCategoryInfo || {
-    ca: 'Equip de 4 persones (RUN)', es: 'Equipo de 4 personas (RUN)', en: 'Team of 4 people (RUN)', pt: 'Equipa de 4 pessoas (RUN)'
+    ca: 'Equip de 4 persones', es: 'Equipo de 4 personas', en: 'Team of 4 people', pt: 'Equipa de 4 pessoas'
   }[lang];
 });
 
